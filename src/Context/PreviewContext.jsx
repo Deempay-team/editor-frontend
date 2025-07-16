@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState } from "react";
 const PreviewContext = createContext();
 
 export const PreviewProvider = ({ children }) => {
-  const [isPreview, setIsPreview] = useState(true); 
+  const [isPreview, setIsPreview] = useState(false);
 
   return (
     <PreviewContext.Provider value={{ isPreview, setIsPreview }}>
@@ -13,7 +13,6 @@ export const PreviewProvider = ({ children }) => {
 };
 
 export const usePreview = () => useContext(PreviewContext);
-
 
 // //Hook to use the context
 // export const useViewport = () => {
