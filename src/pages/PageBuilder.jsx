@@ -81,6 +81,7 @@ export default function PageBuilder() {
               </AnimatePresence>
 
               {/* Main Content */}
+
               <motion.div
                 className="w-full min-h-screen overflow-auto"
                 animate={{
@@ -99,6 +100,7 @@ export default function PageBuilder() {
               >
                 <ContentSectionSect />
               </motion.div>
+
 
               {/* Sidebar Right */}
               <AnimatePresence mode="wait">
