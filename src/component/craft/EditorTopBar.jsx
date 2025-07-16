@@ -1,378 +1,415 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
-import { Box, FormControlLabel, Grid, Switch as Kswitch, Button as MaterialButton, TextField, Snackbar } from "@mui/material";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
+import Exit from "../../assets/icons/Exit";
+import Undo from "../../assets/icons/Undo";
+import Redo from "../../assets/icons/Redo";
+import Mobile from "../../assets/icons/Mobile";
+import Desktop from "../../assets/icons/Desktop";
+import Preview from "../../assets/icons/Preview";
+
 import { useEditor } from "@craftjs/core";
 import lz from "lzutf8";
+import copy from "copy-to-clipboard";
+import { Textarea } from "@/components/ui/textarea";
 
-import copy from 'copy-to-clipboard';
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
+import { set, useForm } from "react-hook-form";
+import { useViewport } from "../../Context/ViewportContext";
+import { usePreview } from "../../Context/PreviewContext";
+import { useSection } from "../../Context/SectionContext";
+import { pasteNodeTree } from "@/utils/craftUtils";
 
-//import ChevronLeftIcon from "../../assets/icons/chevron-left.svg?react"
-import ChevronDownIcon from "../../assets/icons/chevron-down.svg?react"
-import EyeIcon from "../../assets/icons/eye.svg?react"
-import DeviceDesktopIcon from "../../assets/icons/device-desktop.svg?react"
-import DeviceMobileRotatedIcon from "../../assets/icons/device-mobile-rotated.svg?react"
-import DeviceMobileIcon from "../../assets/icons/device-mobile.svg?react"
-import DeviceTabletIcon from "../../assets/icons/device-tablet.svg?react"
-import PackageIcon from "../../assets/icons/package.svg?react"
-import Logo from "../../assets/icons/logo.svg?react"
-import UsersIcon from "../../assets/icons/users.svg?react"
+const EditorTopBar = ({ zoom, setZoom }) => {
+  //   const [page, setPage] = useState("home");
+  const [checked, setChecked] = useState(true);
+  const { viewport, setViewport } = useViewport();
+  const { isPreview, setIsPreview } = usePreview();
+  const { isSection, setIsSection } = useSection();
 
+  const { actions, query } = useEditor();
 
+  //   const emptyPageJson = JSON.stringify({
+  //     ROOT: {
+  //       type: {
+  //         resolvedName: "Container",
+  //       },
+  //       isCanvas: true,
+  //       props: {
+  //         background: "#ffffff",
+  //         paddingX: 10,
+  //         paddingY: 10,
+  //         width: "100%",
+  //         height: "auto",
+  //         flexDirection: "column",
+  //         fillSpace: false,
+  //         alignItems: "flex-start",
+  //         justifyContent: "flex-start",
+  //         margin: { top: 0, right: 0, bottom: 0, left: 0 },
+  //       },
+  //       displayName: "Container",
+  //       custom: {},
+  //       hidden: false,
+  //       nodes: [],
+  //       linkedNodes: {},
+  //     },
+  //   });
 
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
+  const json = query.serialize();
+  //   console.log("json", json);
 
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-
-import { toast } from "sonner"
-import { Toaster } from "@/components/ui/sonner"
-
-
-
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-  } from "@/components/ui/form"
-  import { useForm } from "react-hook-form"
-
-  import { useViewport } from "../../Context/ViewportContext";
-  import { usePreview } from "../../Context/PreviewContext";
-  import { useSection } from "../../Context/SectionContext";
-  
-
-
-  import { ChevronRightIcon, ChevronLeftIcon, } from "@radix-ui/react-icons"
-  import { pasteNodeTree } from "@/utils/craftUtils";
-  
-  
-
-
-function EditorTopBar(){
-    const [ checked, setChecked ] = useState(true);
-    const { viewport, setViewport } = useViewport();
-    const { isPreview, setIsPreview } = usePreview();
-    const { isSection, setIsSection } = useSection();
-
-    const { actions, query, enabled } = useEditor((state) => ({
-        enabled: state.options.enabled
-      }));
-    
-      const [dialogOpen, setDialogOpen] = useState(false);
-      const [snackbarMessage, setSnackbarMessage] = useState();
-      const [stateToLoad, setStateToLoad] = useState(null);
-
-    function handleChange() {
-        setChecked(!checked);
+  const savedPages = JSON.parse(localStorage.getItem("pages"));
+  const [pages, setPages] = useState(
+    savedPages || {
+      home: json,
+      about: json,
+      contact: json,
     }
+  );
+  const [currentPage, setCurrentPage] = useState("home");
 
-    useEffect(() => {
-        actions.setOptions(options => options.enabled = checked);
-        //console.log(checked);
-    }, [checked]);
+  const switchPage = (newPage) => {
+    const pageJson = pages[newPage];
 
-    function handleImport (data) {
+    if (!pageJson) return;
 
-      //const compressedJson = `eyJST09UIjp7InR5cGXECHJlc29sdmVkTmFtZSI6IkNvbnRhaW5lciJ9LCJpc0NhbnZhcyI6dHJ1ZSwicHJvcHPENWJhY2tncm91bmQiOiIjZWVlIiwicGFkZGluZyI6NckMWCI6MMkNWcUNbWFyZ2luxER0b3DFEnJpZ2h0xQpib3R0b23FC2xlZsQUfcQVcmRlclJhZGl1c8cmxBFXaWR0aMsQQ29sb3LkAI0wxQEixBh4U2hhZG93Ijoibm9u5ACjbWluSGXGbyIxMDBweMQUYXjHTMYmfSwiZGlzcGxhefEBEiwiY3Vz5QCie30sImhpZGRlbiI6ZmFsc2UsIm5vZGVzIjpbIlhUSzgzZDduZi0iXSwibGlua2VkTsYde319LMwg/wGH/wGH8QGHYTllOe0BijLqAX5YIjoy6gGZWSI6Mjn/AY3/AY3/AY3/AY3vAY1hdXRv/wGM/QGMcGFyZW7ESeUC3voBnE1oQTR2MGYyQnT2AZzLIPoBnEJ1dHRvbu4Bmcdp6QGac2l6xCtzbWFsbCIsInZhcmlh5QChY+cAwmTkAMLnASdwcmltYXJ5xBJoaWxkcuQAuiJUaGFuayB5b3Ui5gCpIjoiIiwib3BlbkluTmV3VGFiyXZmb250U8VxMTbGDlfoAVlub3JtYeQAgmxpbmXoAW/kAhd0ZXh0QWxpZ8RrY2VudOUBU8QVRGVjb3JhdGlvxBrnAavFYXR5bOQA08lS6gJ96wHvN2JmZuwCgjHpAhToAjU1yBHKX2HkAIht5gHBZmnlATHkAIrkAfBsaWNrIG3zAgrnAYX3AgfrA2T5Ag3zAgF9`
-      //const json = lz.decompress(lz.decodeBase64(compressedJson));
-      //console.log(json);
+    try {
+      const currentJson = query.serialize();
+      setPages((prev) => ({
+        ...prev,
+        [currentPage]: currentJson,
+      }));
 
-      //parse the JSON string into an object
-      // const json = JSON.parse(jsonString);
-      //const parsed = JSON.parse(json);
-      console.log("++++++++++++++++++++++");
-      console.log("++++++++++++++++++++++");
-      console.log("++++++++++++++++++++++");
-      //console.log(parsed);      
-      console.log("++++++++++++++++++++++");
-      console.log("++++++++++++++++++++++");
-  
-      const json = " ";
-      const targetNodeId = 'ROOT'; // e.g., a div section you want to insert into
-      try {
-        // const parsede = JSON.parse(json);
+      actions.deserialize(pageJson);
+      setCurrentPage(newPage);
+    } catch (err) {
+      console.error("Failed to switch page:", err);
+    }
+  };
 
-        // const allNodes = query.getSerializedNodes();
-        // console.log("all nodes",  allNodes);
+  // Save all pages to localStorage
+  localStorage.setItem("pages", JSON.stringify(pages));
 
-        // const canvasNode = query.node("9lZNA6IVjJ").get();
+  // Load pages from localStorage on app load
+  //   const savedPages = JSON.parse(localStorage.getItem("pages"));
+  //   setPages(savedPages);
 
-        // if (!canvasNode || !canvasNode.data.isCanvas) {
-        //   console.error(`Target node "${targetNodeId}" does not exist or is not a canvas.`);
-        //   return;
-        // }
-  
-      
-        // console.log("canvasNode", canvasNode);
-        // console.log("canvasNode", canvasNode.data.isCanvas);
+  //   const { actions, query, enabled } = useEditor((state) => ({
+  //     enabled: state.options.enabled,
+  //   }));
 
-        
-        pasteNodeTree(targetNodeId, query, actions, null, data);
-        console.log("json", json);
-       
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState();
+  const [stateToLoad, setStateToLoad] = useState(null);
 
-        //actions.add(parsede, targetNodeId);
-      } catch (e) {
-        console.error('Failed to import:', e);
-      }
-      
-    };
+  function handleChange() {
+    setChecked(!checked);
+  }
 
-    return(
-        <>
-        <div className="">
-                <header className="flex h-18 items-cwenter justify-between ww-full bg-white gap-x-6  border-b border-gray-200 bg-whjite pkx-8">
-                    {/* <button className="flex items-center justify-center rounded-xl bg-gray-100 p-2">
-                        <ChevronLeftIcon className="h-6 w-6 stroke-current text-gray-400" />
-                    </button> */}
+  useEffect(() => {
+    actions.setOptions((options) => (options.enabled = checked));
+    //console.log(checked);
+  }, [checked]);
 
-                    <div className="flex h-18 items-center w-18 border-r border-gray-200 ">
-                       <div className='flex h-full w-full  items-center justify-center '>
-                            <Logo />
-                       </div>
-                    </div>
-                    
+  function handleImport(data) {
+    //const compressedJson = `eyJST09UIjp7InR5cGXECHJlc29sdmVkTmFtZSI6IkNvbnRhaW5lciJ9LCJpc0NhbnZhcyI6dHJ1ZSwicHJvcHPENWJhY2tncm91bmQiOiIjZWVlIiwicGFkZGluZyI6NckMWCI6MMkNWcUNbWFyZ2luxER0b3DFEnJpZ2h0xQpib3R0b23FC2xlZsQUfcQVcmRlclJhZGl1c8cmxBFXaWR0aMsQQ29sb3LkAI0wxQEixBh4U2hhZG93Ijoibm9u5ACjbWluSGXGbyIxMDBweMQUYXjHTMYmfSwiZGlzcGxhefEBEiwiY3Vz5QCie30sImhpZGRlbiI6ZmFsc2UsIm5vZGVzIjpbIlhUSzgzZDduZi0iXSwibGlua2VkTsYde319LMwg/wGH/wGH8QGHYTllOe0BijLqAX5YIjoy6gGZWSI6Mjn/AY3/AY3/AY3/AY3vAY1hdXRv/wGM/QGMcGFyZW7ESeUC3voBnE1oQTR2MGYyQnT2AZzLIPoBnEJ1dHRvbu4Bmcdp6QGac2l6xCtzbWFsbCIsInZhcmlh5QChY+cAwmTkAMLnASdwcmltYXJ5xBJoaWxkcuQAuiJUaGFuayB5b3Ui5gCpIjoiIiwib3BlbkluTmV3VGFiyXZmb250U8VxMTbGDlfoAVlub3JtYeQAgmxpbmXoAW/kAhd0ZXh0QWxpZ8RrY2VudOUBU8QVRGVjb3JhdGlvxBrnAavFYXR5bOQA08lS6gJ96wHvN2JmZuwCgjHpAhToAjU1yBHKX2HkAIht5gHBZmnlATHkAIrkAfBsaWNrIG3zAgrnAYX3AgfrA2T5Ag3zAgF9`
+    //const json = lz.decompress(lz.decodeBase64(compressedJson));
+    //console.log(json);
 
-                    <div className=" flex h-full items-center gap-x-4 font-semibold ">
-                    <button className="flex items-center justify-center gap-x-2 rounded-xl bg-gray-100 p-2 cursor-pointer" onClick={() => {actions.history.undo(); console.log('redo')}} disabled={!query.history.canUndo()}>
-                        <ChevronLeftIcon className="h-6 w-6 stroke-current text-gray-400" />
-                        {/* <span className=" text-sm font-semibold leading-6"> Undo </span> */}
-                    </button>
-                    <button className="flex items-center justify-center gap-x-2 rounded-xl bg-gray-100 p-2 cursor-pointer" onClick={() => { actions.history.redo()} } disabled={!query.history.canRedo()}>
-                       {/* <span className=" text-sm font-semibold leading-6"> Redo </span> */}
-                        <ChevronRightIcon className="h-6 w-6 stroke-current text-gray-400" />
-                        
-                    </button>
-                    <button className="flex flex-col  items-start border-gray-200 rounded-xl px-6 py-2 bg-gray-100">
-                        <div className=" flex items-center gap-x-2">
-                            <span className=" text-sm font-semibold"> Page: Homepage - Dipa </span>
-                            <ChevronDownIcon className="h-5 w-5 stroke-current text-gray-400" />
-                        </div>
-                        <div className="text-xs text-gray-400">
-                            https://dipaihouse.com/
-                        </div>
-                    </button>
-                    <button className="flex items-center justify-center gap-x-2 rounded-xl bg-gray-100 px-4 py-2 cursor-pointer" onClick={() => setIsPreview(!isPreview)}>
-                        <EyeIcon className="w-6 h-6 stroke-current text-gray-400" />
-                        <span className=" text-sm font-semibold leading-6"> {isPreview ? "Design Mode" : "Preview"} </span>
-                    </button>
+    //parse the JSON string into an object
+    // const json = JSON.parse(jsonString);
+    //const parsed = JSON.parse(json);
+    console.log("++++++++++++++++++++++");
+    console.log("++++++++++++++++++++++");
+    console.log("++++++++++++++++++++++");
+    //console.log(parsed);
+    console.log("++++++++++++++++++++++");
+    console.log("++++++++++++++++++++++");
 
-                    <div className="h-full w-px bg-gray-200 " />
+    const json = " ";
+    const targetNodeId = "ROOT"; // e.g., a div section you want to insert into
+    try {
+      // const parsede = JSON.parse(json);
 
-                    <div className="flex items-center gap-x-3 ">
-                        <button className={`cursor-pointer rounded-xl p-2 ${viewport == "desktop" ? 'text-blue-600' : 'text-gray-400'} hover:bg-gray-100`} onClick={
-                            () => {
-                                 setViewport("desktop")
-                                 //console.log("desktop") 
-                            }}>
-                            <DeviceDesktopIcon className="h-6 w-6 stroke-current" />
-                        </button>
-                        <button className={`cursor-pointer rounded-xl p-2 ${viewport == "mobile" ? 'text-blue-600' : 'text-gray-400'} hover:bg-gray-100`}  onClick={
-                            () => {
-                                setViewport("mobile")
-                                //console.log("mobile") 
+      // const allNodes = query.getSerializedNodes();
+      // console.log("all nodes",  allNodes);
 
-                            }}>
-                            
-                            <DeviceMobileIcon className="h-6 w-6 stroke-current" />
-                        </button>
-                    </div>
+      // const canvasNode = query.node("9lZNA6IVjJ").get();
 
-                    <div className="h-full w-px bg-gray-200 " />
+      // if (!canvasNode || !canvasNode.data.isCanvas) {
+      //   console.error(`Target node "${targetNodeId}" does not exist or is not a canvas.`);
+      //   return;
+      // }
 
-                    {/* <button className="flex items-center justify-center gap-x-3 rounded-xl bg-gray-100 px-4  py-2">
-                        <span className="font-semibold text-sm leading-6">  960 PX / 100% </span>
-                        <ChevronDownIcon className="h-6 w-6 stroke-current text-gray-400" />
-                    </button> */}
+      // console.log("canvasNode", canvasNode);
+      // console.log("canvasNode", canvasNode.data.isCanvas);
 
-                    {/* <button className="flex items-start justify-center rounded-xl bg-gray-100 p-2 ">
-                            <PackageIcon className="h-6 w-6 stroke-current text-gray-400" />
-                    </button> */}
-                    
-                    
-                    {/* <div className="flex items-center space-x-2">
-                      <Switch id="airplane-mode" checked={enabled}
-                      onCheckedChange={(_, value) => actions.setOptions(options => options.enabled = value)} />
-                      <Label htmlFor="airplane-mode">Enable</Label>
-                    </div> */}
+      pasteNodeTree(targetNodeId, query, actions, null, data);
+      console.log("json", json);
 
-                    <div className="flex items-center space-x-2 ">
-                      <Switch id="airplane-mode" checked={checked} className="cursor-pointer"
-                      onCheckedChange={ handleChange } />
-                      <Label htmlFor="airplane-mode">Enable</Label>
-                    </div>
+      //actions.add(parsede, targetNodeId);
+    } catch (e) {
+      console.error("Failed to import:", e);
+    }
+  }
 
+  return (
+    <div
+      className="flex justify-between h-[70px] pr-4 border-b bg-white border-[#F1F1F1] w-full
+    z-20 sticky top-0 text-[#464646]"
+    >
+      {/* Page Selector and URL */}
+      <div className="flex gap-2 min-w-0 flex-1">
+        {/* Exit Button */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="flex border-r items-center justify-center border-[#F1F1F1] w-[52px] cursor-pointer">
+              <span className="text-[#464646] hover:text-primary transition-colors duration-300">
+                <Exit className="w-[18px] h-[18px]" />
+              </span>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Exit</p>
+          </TooltipContent>
+        </Tooltip>
 
-                    {/* button to copy state */}
-                    <button className="flex items-center justify-center gap-x-2 rounded-xl bg-gray-100 p-2 cursor-pointer" onClick={() => {
-                                  const json = query.serialize();
-                                  copy(lz.encodeBase64(lz.compress(json)));
-                                    toast.message('', {
-                                        description: 'State copied to clipboard',
-                                      })
-                                }}>
-                        {/* <ChevronLeftIcon className="h-6 w-6 stroke-current text-gray-400" /> */}
-                        <span className=" text-sm font-semibold leading-6"> Copy state </span>
-                    </button>
-                    {/* <button className="flex items-center justify-center gap-x-2 rounded-xl bg-gray-100 p-2 cursor-pointer" onClick="">
-                        {/* <ChevronLeftIcon className="h-6 w-6 stroke-current text-gray-400" /> */}
-                        {/* <span className=" text-sm font-semibold leading-6"> add state </span>
-                    </button> */}
+        <div className="flex items-center gap-4 min-w-0 flex-1 ml-8 text_12_light text-[#464646]">
+          <Select value={currentPage} onValueChange={switchPage}>
+            <SelectTrigger className="max-w-[130px] bg-[#F6F6F6] rounded-[8px] border-none">
+              <p className="text_12_400 text-[#464646]">Page:</p>
+              <p className="text_12_400 text-[#464646] capitalize truncate">
+                {currentPage}
+              </p>
+              {/* <SelectValue placeholder="Page" className="truncate" /> */}
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="home">Home</SelectItem>
+              <SelectItem value="about">About</SelectItem>
+              <SelectItem value="contact">Contact</SelectItem>
+            </SelectContent>
+          </Select>
 
-                    
-                    {/* <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} fullWidth maxWidth="md"> */}
-                      <Dialog >
-                      <DialogTrigger asChild>
-                      <button className="flex items-center justify-center gap-x-2 rounded-xl bg-gray-100 p-2 cursor-pointer " >
-                        {/* <ChevronLeftIcon className="h-6 w-6 stroke-current text-gray-400" /> */}
-                        {/* <span className=" text-sm font-semibold leading-6  "> Load state </span> */}
-                        <span className=" text-sm font-semibold leading-6  "> Paste component  </span>
-                      </button>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-md">
-                        <DialogHeader>
-                          <DialogTitle>Paste component</DialogTitle>
-                          <DialogDescription>
-                            Paste your copied component or section to import it to the editor
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="flex items-center space-x-2">
-                          <div className="grid flex-1 gap-2">
-                            <Label htmlFor="link" className="sr-only">
-                              state
-                            </Label>
-                            <div className="grid w-full gap-1.5">
-                            <Textarea 
-                               placeholder="Paste the contents that was copied from the 'Copy Current State' button" 
-                               value={stateToLoad || ""}
-                               onChange={e => setStateToLoad(e.target.value)}
-                               className="resize-none w-full max-h-40"
-                            />
-                            </div>
-                            
-                          </div>
-                        </div>
-                        <DialogFooter className="">  
-                            <DialogClose asChild>
-                              <Button type="button" variant="secondary">
-                                Close
-                              </Button>
-                            </DialogClose>  
-                            <DialogClose asChild>
-                            <Button  onClick={() => {
-                                setDialogOpen(false);
-                                // const json = lz.decompress(lz.decodeBase64(stateToLoad));
-                                // actions.deserialize(json);
-                                handleImport(stateToLoad);
-                                setSnackbarMessage("State loaded")
-                            }}>
-                                Load
-                            </Button>
-                            </DialogClose>
-                        </DialogFooter>
-                      </DialogContent>
-                    </Dialog>
-                    <Toaster 
-                        position="bottom-right"
-                        expand={false}
-                    />
+          {/* <Select value={currentPage} onValueChange={switchPage}>
+            <SelectItem value="home">Home</SelectItem>
+            <SelectItem value="about">About</SelectItem>
+            <SelectItem value="contact">Contact</SelectItem>
+          </Select> */}
 
-                    <Dialog >
-                      <DialogTrigger asChild>
-                      <button className="flex items-center justify-center gap-x-2 rounded-xl bg-gray-100 p-2 cursor-pointer " >
-                        {/* <ChevronLeftIcon className="h-6 w-6 stroke-current text-gray-400" /> */}
-                        <span className=" text-sm font-semibold leading-6  "> Load state </span>
-                      </button>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-md">
-                        <DialogHeader>
-                          <DialogTitle>Load state</DialogTitle>
-                          <DialogDescription>
-                            Paste your copied component or section to import it to the editor
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="flex items-center space-x-2">
-                          <div className="grid flex-1 gap-2">
-                            <Label htmlFor="link" className="sr-only">
-                              state
-                            </Label>
-                            <div className="grid w-full gap-1.5">
-                            <Textarea 
-                               placeholder="Paste the contents that was copied from the 'Copy Current State' button" 
-                               value={stateToLoad || ""}
-                               onChange={e => setStateToLoad(e.target.value)}
-                               className="resize-none w-full max-h-40"
-                            />
-                            </div>
-                            
-                          </div>
-                        </div>
-                        <DialogFooter className="">  
-                            <DialogClose asChild>
-                              <Button type="button" variant="secondary">
-                                Close
-                              </Button>
-                            </DialogClose>  
-                            <DialogClose asChild>
-                            <Button  onClick={() => {
-                                setDialogOpen(false);
-                                const json = lz.decompress(lz.decodeBase64(stateToLoad));
-                                actions.deserialize(json);
-                                // handleImport(stateToLoad);
-                                setSnackbarMessage("State loaded")
-                            }}>
-                                Load
-                            </Button>
-                            </DialogClose>
-                        </DialogFooter>
-                      </DialogContent>
-                    </Dialog>
-                    <Toaster 
-                        position="bottom-right"
-                        expand={false}
-                    />
-                    </div>
-                    
-                
-                
-
-                    <div className=" h-18 w-[300px]  border-l border-gray-200">
-                        
-                        <div className="flex h-18 items-center gap-x-4 font-semibold border-b border-gray-200 px-6">
-                           {/* <div className="h-full w-px bg-gray-200 " /> */}
-                                    <button className="flex items-center justify-center gap-x-2 rounded-xl bg-gray-100 px-4 py-2 ">
-                                         <UsersIcon className="h-5 w-5 stroke-current text-gray-400 " />
-                                         <span className="text-sm leading-6">Invite</span> 
-                                    </button>
-                                    <button className={`flex flex-1 items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-sm leading-6 text-white ${isSection ? 'hidden' : ''}`} >
-                                        Publish
-                                    </button>
-
-                                    <button className={`flex flex-1 items-center justify-center rounded-xl bg-blue-600 hover:bg-blue-700 px-4 py-2 text-sm leading-6 cursor-pointer  text-white ${isSection ? '' : 'hidden'}`} >
-                                        Save Section
-                                    </button>
-                        </div>
-                    </div>
-                </header>
+          <Input
+            readOnly
+            value={`https://www.tadra.com/${currentPage}`}
+            className="max-w-[200px] md:max-w-[200px] lg:max-w-[300px] xl:max-w-[550px]  bg-[#F6F6F6] rounded-[8px] border-none
+             flex-1"
+          />
         </div>
-        </>
-    );
-}
+      </div>
 
+      {/* Controls */}
+      <div className="flex gap-4 flex-shrink-0">
+        <div className="flex items-center gap-4 text_12_light text-[#464646]">
+          {/* Zoom Selector */}
+          <Select
+            value={zoom}
+            onValueChange={viewport === "desktop" ? setZoom : null}
+          >
+            <SelectTrigger className="w-[85px] bg-[#F6F6F6] rounded-[8px] border-none text_12_light text-[#464646] cursor-pointer">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {["50%", "100%"].map((value) => (
+                <SelectItem
+                  key={value}
+                  value={value}
+                  className="text_12_light text-[#464646]"
+                >
+                  {value}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          {/* Zooming Button */}
+          {/* <Button
+            onClick={() => setZoom(zoom === "100%" ? "50%" : "100%")}
+            className="w-[85px] bg-[#F6F6F6] rounded-[8px] border-none text_12_light text-[#464646] cursor-pointer"
+          >
+            {zoom === "100%" ? "50%" : "100%"}
+          </Button> */}
+
+          <div className="flex items-center justify-between gap-2 w-[90px] bg-[#F6F6F6] rounded-[8px] border-none">
+            {/* Undo Button */}
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="cursor-pointer"
+                  onClick={() => {
+                    actions.history.undo();
+                    console.log("redo");
+                  }}
+                  disabled={!query.history.canUndo()}
+                >
+                  <span className=" text-[#DBDBDB] hover:text-primary transition-colors duration-300">
+                    <Undo className="w-[13.62px] h-[12.27px]" />
+                  </span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Undo</TooltipContent>
+            </Tooltip>
+            <div className="w-[0.5px] h-[18px] bg-[#DBDBDB]" />
+
+            {/* Redo Button */}
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="cursor-pointer"
+                  onClick={() => {
+                    actions.history.redo();
+                  }}
+                  disabled={!query.history.canRedo()}
+                >
+                  <span className=" text-[#DBDBDB] hover:text-primary transition-colors duration-300">
+                    <Redo className="w-[13.62px] h-[12.27px]" />
+                  </span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Redo</TooltipContent>
+            </Tooltip>
+          </div>
+
+          <div className="flex items-center justify-between gap-2 w-[90px] bg-[#F6F6F6] h-[35px] rounded-[8px] border-none">
+            {/* Device Toggle  */}
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={() => {
+                    setZoom("100%");
+                    setViewport("mobile");
+                  }}
+                  className={`cursor-pointer w-6 h-6 ml-2 ${
+                    viewport === "mobile" && "bg-[#e7f0ff]"
+                  } `}
+                >
+                  <span
+                    className={`"text-[#DBDBDB] hover:text-primary transition-colors duration-300 ${
+                      viewport === "mobile" && "text-primary"
+                    } `}
+                  >
+                    <Mobile className="w-[12.4px] h-[19.39px] " />
+                  </span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Mobile View</TooltipContent>
+            </Tooltip>
+            <div className="w-[0.5px] h-[18px] bg-[#DBDBDB]" />
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={() => setViewport("desktop")}
+                  className={`cursor-pointer w-6 h-6 mr-2 ${
+                    viewport === "desktop" && "bg-[#e7f0ff]"
+                  } `}
+                >
+                  <span
+                    className={`text-[#000000] hover:text-primary transition-colors duration-300 ${
+                      viewport === "desktop" && "text-primary"
+                    }`}
+                  >
+                    <Desktop className="w-[14px] h-[12.39px]" />
+                  </span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Desktop View</TooltipContent>
+            </Tooltip>
+          </div>
+        </div>
+
+        <div className=" w-[0.5px]  bg-[#F1F1F1]" />
+        <div className="flex items-center justify-end w-[137px] gap-2 pl-0 -ml-4">
+          {/* Preview Button */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                variant="ghost"
+                onClick={() => setIsPreview((prev) => !prev)}
+                className={`bg-[#F6F6F6] rounded-[8px] border-none cursor-pointer ${
+                  isPreview && "bg-[#e7f0ff]"
+                }`}
+              >
+                <span
+                  className={`text-[#E3E3E3] hover:text-primary transition-colors duration-300 ${
+                    isPreview && "text-primary"
+                  }`}
+                >
+                  <Preview className="w-[9.38px] h-[10.73px]" />
+                </span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              {isPreview ? "Design Mode" : "Preview"}
+            </TooltipContent>
+          </Tooltip>
+
+          {/* Publish Button */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                className={`text_12_light w-[81px] bg-primary text-primary-foreground rounded-[8px] border-none cursor-pointer hover:bg-primary/70
+             hover:text-primary-foreground transition-colors duration-300 ${
+               isSection ? "hidden" : ""
+             }`}
+                onClick={() => setIsSection(true)}
+              >
+                Publish
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Publish</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                onClick={() => setIsSection(false)}
+                className={`text_12_light w-[81px] bg-primary text-primary-foreground rounded-[8px] border-none cursor-pointer hover:bg-primary/70
+             hover:text-primary-foreground transition-colors duration-300 ${
+               isSection ? "" : "hidden"
+             }`}
+              >
+                Save
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent> Save Section</TooltipContent>
+          </Tooltip>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default EditorTopBar;
