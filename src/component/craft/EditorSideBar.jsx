@@ -26,7 +26,7 @@ const EditorSideBar = ({ hidden }) => {
   return (
     <div className={`flex ${hidden === "true" ? "hidden" : ""}`}>
       <aside>
-        <div className="flex flex-col items-center w-14 h-[calc(100vh-4.5em)] bg-white shadow-xl/30 border-r border-[#F1F1F1]">
+        <div className="flex flex-col items-center w-[52px] h-[calc(100vh-4.5em)] bg-white shadow-xl/30 border-r border-[#F1F1F1]">
           <nav className="flex flex-1 flex-col gap-7 mt-[16px]">
             <Tooltip text="Add Section">
               <button
@@ -46,7 +46,7 @@ const EditorSideBar = ({ hidden }) => {
                 className={`group relative rounded-xl p-2 transition-colors ${
                   showRightSidebar === "element"
                     ? "bg-blue-50 text-blue-500"
-                    : "text-black hover:bg-blue-50" 
+                    : "text-black hover:bg-blue-50"
                 }`}
                 onClick={() => handleToggle("element")}
               >
@@ -58,8 +58,8 @@ const EditorSideBar = ({ hidden }) => {
               <button
                 className={`group relative rounded-xl p-2 transition-colors ${
                   showRightSidebar === "page"
-                    ? "bg-blue-50 text-blue-500" 
-                    : "text-black hover:bg-blue-50" 
+                    ? "bg-blue-50 text-blue-500"
+                    : "text-black hover:bg-blue-50"
                 }`}
                 onClick={() => handleToggle("page")}
               >
@@ -71,8 +71,8 @@ const EditorSideBar = ({ hidden }) => {
               <button
                 className={`group relative rounded-xl p-2 transition-colors ${
                   showRightSidebar === "media"
-                    ? "bg-blue-50 text-blue-500" 
-                    : "text-black hover:bg-blue-50" 
+                    ? "bg-blue-50 text-blue-500"
+                    : "text-black hover:bg-blue-50"
                 }`}
                 onClick={() => handleToggle("media")}
               >
@@ -84,8 +84,8 @@ const EditorSideBar = ({ hidden }) => {
               <button
                 className={`group relative rounded-xl p-1 transition-colors ${
                   showRightSidebar === "theme"
-                    ? "bg-blue-50 text-blue-500" 
-                    : "text-black hover:bg-blue-50" 
+                    ? "bg-blue-50 text-primary"
+                    : "text-black hover:bg-blue-50"
                 }`}
                 onClick={() => handleToggle("theme")}
               >
