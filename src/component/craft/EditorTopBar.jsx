@@ -309,7 +309,7 @@ const EditorTopBar = ({ zoom, setZoom }) => {
                     setViewport("mobile");
                   }}
                   className={`cursor-pointer w-6 h-6 ml-2 ${
-                    viewport === "mobile" && "bg-[#e7f0ff]"
+                    viewport === "mobile" && "bg-primary-foreground"
                   } `}
                 >
                   <span
@@ -331,7 +331,7 @@ const EditorTopBar = ({ zoom, setZoom }) => {
                   variant="ghost"
                   onClick={() => setViewport("desktop")}
                   className={`cursor-pointer w-6 h-6 mr-2 ${
-                    viewport === "desktop" && "bg-[#e7f0ff]"
+                    viewport === "desktop" && "bg-primary-foreground"
                   } `}
                 >
                   <span
@@ -358,7 +358,7 @@ const EditorTopBar = ({ zoom, setZoom }) => {
                 variant="ghost"
                 onClick={() => setIsPreview((prev) => !prev)}
                 className={`bg-[#F6F6F6] rounded-[8px] border-none cursor-pointer ${
-                  isPreview && "bg-[#e7f0ff]"
+                  isPreview && "bg-primary-foreground"
                 }`}
               >
                 <span
