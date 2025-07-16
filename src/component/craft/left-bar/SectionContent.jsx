@@ -86,7 +86,7 @@ const SectionContent = ({ showRightSidebar }) => {
             Add Section
           </button>
         </div>
-        <ScrollArea className="p-6 h-full overflow-y-auto">
+        <ScrollArea className="p-4 h-full overflow-y-auto">
           <div className="grid grid-cols-1 gap-4">{renderContent()}</div>
         </ScrollArea>
       </div>
