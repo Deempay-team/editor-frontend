@@ -56,9 +56,9 @@ export default function PageBuilder() {
               <EditorSideBar />
 
               {/* Main Content */}
-              <div className="w-full">
+              {/* <div className="w-full"> */}
                 <ContentSectionSect />
-              </div>
+              {/* </div> */}
 
               {/* Sidebar Right */}
               <div className="">

@@ -146,7 +146,7 @@ function EditorRightBar({ hidden }) {
     
   return (
     <div className={`flex ${hidden === "true" ? 'hidden' : ''}`}>
-      <aside className="h-[calc(100vh-4.5em)] w-[300px] fflex-col border-l border-gray-200 bg-white">
+      <aside className="h-[calc(100vh-4.5em)] flex-col border-l border-gray-200 bg-white">
 
         {/* topbbar */}
         {/* <div className="flex h-18 items-center gap-x-4 font-semibold border-b border-gray-200 px-6">

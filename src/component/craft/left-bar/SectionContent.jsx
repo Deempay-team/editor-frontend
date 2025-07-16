@@ -1,128 +1,97 @@
-import React from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Element, useEditor } from "@craftjs/core";
-import { Text } from "../user/Text";
-import { TextIcon, ButtonIcon, ContainerIcon, ImageIcon, SunIcon, SectionIcon, PlusCircledIcon, LayersIcon, StackIcon, BlendingModeIcon, FilePlusIcon } from "@radix-ui/react-icons"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Container } from "../user/Container";
-import { Button } from "../user/Button";
-import { Image } from '../user/Image';
-import { Grid } from '../user/Grid';
+import React, { useState } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import HeaderSection from "@/section/HeaderSection";
+import HeroSection from "@/section/HeroSection";
+import ProductionsSection from "@/section/ProductionsSection";
+import CollectionsSection from "@/section/CollectionsSection";
+import FormSection from "@/section/FormSection";
+import LayoutSection from "@/section/LayoutSection";
+import StorytellingSection from "@/section/StorytellingSection";
 
-import { Button as ShardButton } from "@/components/ui/button"
+const SectionContent = ({ showRightSidebar }) => {
+  const [activeTab, setActiveTab] = useState("Header");
 
-import { AnnouncementBar } from "../ui-blocks/AnnouncementBar"
-import { Card } from "../user/Card";
-import { NavigationBar } from "../ui-blocks/NavigationBar"
+  const sections = [
+    "Header",
+    "Hero",
+    "Productions",
+    "Collections",
+    "Form",
+    "Layout",
+    "Storytelling",
+  ];
 
-import { useSection } from "../../../Context/SectionContext";
+  const renderContent = () => {
+    switch (activeTab) {
+      case "Header":
+        return <HeaderSection />;
+      case "Hero":
+        return <HeroSection />;
+      case "Productions":
+        return <ProductionsSection />;
+      case "Collections":
+        return <CollectionsSection />;
+      case "Form":
+        return <FormSection />;
+      case "Layout":
+        return <LayoutSection />;
+      case "Storytelling":
+        return <StorytellingSection />;
+      default:
+        return null;
+    }
+  };
 
+  if (showRightSidebar !== "section") return null;
 
-const ElementContent = ({ showRightSidebar }) => {
-    const { connectors } = useEditor();
-    const { isSection, setIsSection } = useSection();
-    return (
-        <aside
-            className={`w-85 h-[calc(100vh-4.5em)] bg-white border-r border-gray-200   ${
-                showRightSidebar === "section" ? '' : 'hidden'
-            }`}
-        >
-
-       <div className='flex flex-col h-[calc(100vh-4.5em)] w-full overwflow-y-hidden'>
-            <div className='h-[7%] flex justify-between items-center border-b border-gray-200 px-4'>
-                <p className="text-[#111529] text-[16px] font-bold"> Add Elements </p>
-                <div className=" jdustify-end">
-                    <ShardButton variant="outldine" className="h-8 w-8 rounded-full cursor-pointer hover:bg-gray-100" onClick={() => setIsSection(!isSection)}> 
-                        <PlusCircledIcon className="w-4 h-4 text-gray-500" />
-                    </ShardButton>
-                </div>
-            </div>
-
-            
-      {/* Sidebar Tabs */}
-      <Tabs defaultValue="tab1" className="flex flex-row w-full h-[93%]">
-        <div className="w-[40%] bg-grasy-400 h-full  py-4 px-2 border-r">
-          <TabsList className="flex-col space-y-1 bg-transparent w-full p-0 "> 
-            <TabsTrigger value="tab1" className="cursor-pointer data-[state=active]:bg-blue-50 data-[state=active]:text-belue-500 data-[state=active]:shadow-none rounded-[3px] py-2" asChild>
-                <button className="w-full h-10 flex items-center justify-start text-gray-600 hover:bg-gray-100 text-[13px] font-normal">
-                    Header
-                </button>
-            </TabsTrigger>
-            <TabsTrigger value="tab2" className="cursor-pointer data-[state=active]:bg-blue-50 data-[state=active]:texqt-white data-[state=active]:shadow-none rounded-[3px] py-2" asChild>
-                <button className="w-full h-10 flex items-center justify-start text-gray-500 hover:bg-gray-100 text-[13px] font-normal">
-                    Hero
-                </button>
-            </TabsTrigger>
-            {/*
-            <TabsTrigger value="tab3" className="cursor-pointer data-[state=active]:bg-blue-50 data-[state=active]:texqt-white data-[state=active]:shadow-none" asChild>
-                <div className="w-full h-10flex items-center justify-start rounded-sm text-gray-500 hover:bg-gray-100 text-sm font-normal">
-                    Sectiond
-                </div>
-            </TabsTrigger> */}
-          </TabsList>
+  return (
+    <aside className="h-[calc(100vh-4.5em)] w-full flex border-gray-200">
+      <div className="w-[145px] bg-white">
+        <div className="mb-5 border-b">
+          <p className="text-xs text-[#6B6B6B] font-medium mb-5 mt-5 ml-3">
+            Add Section
+          </p>
         </div>
-        
-        {/* Content Section */}
-        {/* <ScrollArea className="w-[65%] h-full"> */}
-        <ScrollArea className="w-[60%] -ml-2 py-2 pl-2 pr-2">
-          <TabsContent value="tab1">
-          <div className="grid grid-cols-1 gap-2">
-            {/* <button className="group bg-gray-100 text-gray-600 rounded-sm h-20 flex flex-col items-center justify-center hover:bg-gray-200  w-full text-center cursor-pointer" ref={ref => connectors.create(ref, <Text text="Hi world" />)} >
-                  <TextIcon className="w-5 h-5 mb-1 stroke-current" />
-                  <p className='text-[13px] font-normal '>Text</p>
-            </button>
-
-            <button className="group bg-gray-100 text-gray-600 rounded-sm h-20 flex flex-col items-center justify-center hover:bg-gray-200  w-full text-center cursor-pointer" ref={ref => connectors.create(ref, <Element is={Container} padding={20} canvas />)} >
-                  <ContainerIcon className="w-5 h-5 mb-1 stroke-current" />
-                  <p className='text-[13px] font-normal '>Container</p>
-            </button>
-
-            <button className="group bg-gray-100 text-gray-600 rounded-sm h-20 flex flex-col items-center justify-center hover:bg-gray-200  w-full text-center cursor-pointer" ref={ref => connectors.create(ref, <Button text="Click me" size="small" />)} >
-                  <ButtonIcon className="w-5 h-5 mb-1 stroke-current" />
-                  <p className='text-[13px] font-normal '>Button</p>
-            </button>
-
-            <button className="group bg-gray-100 text-gray-600 rounded-sm h-20 flex flex-col items-center justify-center hover:bg-gray-200 w-full text-center cursor-pointer" ref={ref => connectors.create(ref, <Image />) } >
-                  <ImageIcon className="w-5 h-5 mb-1 stroke-current" />
-                  <p className='text-[13px] font-normal '>Image</p>
-            </button> */}
-
-            
-            <button className="group bg-gray-100 text-gray-600 rounded-sm h-20 flex flex-col items-center justify-center hover:bg-gray-200 w-full text-center cursor-pointer" ref={ref => connectors.create(ref, <AnnouncementBar />) } >
-                  <ImageIcon className="w-5 h-5 mb-1 stroke-current" />
-                  <p className='text-[13px] font-normal '>AnnouncementBar</p>
-            </button>
-
-            <button className="group bg-gray-100 text-gray-600 rounded-sm h-20 flex flex-col items-center justify-center hover:bg-gray-200 w-full text-center cursor-pointer" ref={ref => connectors.create(ref, <NavigationBar />) } >
-                  <ImageIcon className="w-5 h-5 mb-1 stroke-current" />
-                  <p className='text-[13px] font-normal '>NavigationBar</p>
-            </button>
-
-            <button className="group bg-gray-100 text-gray-600 rounded-sm h-20 flex flex-col items-center justify-center hover:bg-gray-200 w-full text-center cursor-pointer" ref={ref => connectors.create(ref, <Grid />) } >
-                  <ImageIcon className="w-5 h-5 mb-1 stroke-current" />
-                  <p className='text-[13px] font-normal '>Grid</p>
-            </button>
-
-          </div>
-          </TabsContent>
-          <TabsContent value="tab2">
-          <p className="text-gray-500 text-sm">page  Panel</p>
-          <p className="text-gray-500 text-sm">page Panel</p>
-          
-          </TabsContent>
-          <TabsContent value="tab3">
-          <p className="text-gray-500 text-sm">page  Panel</p>
-          <p className="text-gray-500 text-sm">page Panel</p>
-          <p className="text-gray-500 text-sm">page Panel</p>
-          
-          </TabsContent>
-        </ScrollArea>
-        {/* </ScrollArea> */}
-      </Tabs>
+        <ul className="space-y-2">
+          {sections.map((tab) => (
+            <li key={tab}>
+              <div className="px-1">
+                <button
+                  onClick={() => setActiveTab(tab)}
+                  className={`w-full text-left py-2 px-3 rounded-md text-sm transition ${
+                    activeTab === tab
+                      ? "bg-[#F6F6F6] text-[#464646] font-medium"
+                      : "text-[#464646] hover:bg-gray-50 font-light"
+                  }`}
+                >
+                  {tab}
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
-   
-        </aside>
-    );
+      <div
+        className={`flex-1 flex flex-col ${
+          activeTab === "Header" ? "bg-[#F6F6F6]" : "bg-white"
+        }`}
+      >
+        <div
+          className={`flex justify-between items-center  py-3.5 border-b border-[#8D9091] mx-4 ${
+            activeTab === "Header" ? "bg-[#F6F6F6]" : "bg-white"
+          }`}
+        >
+          <h2 className="text-sm font-bold text-[#464646]">{activeTab}</h2>
+          <button className="text-sm px-3 py-1 bg-gray-50 hover:bg-gray-200 text-[#6B6B6B] rounded-md">
+            Add Section
+          </button>
+        </div>
+        <ScrollArea className="p-6 h-full overflow-y-auto">
+          <div className="grid grid-cols-1 gap-4">{renderContent()}</div>
+        </ScrollArea>
+      </div>
+    </aside>
+  );
 };
 
-export default ElementContent;
+export default SectionContent;
