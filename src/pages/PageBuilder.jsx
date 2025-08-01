@@ -14,7 +14,7 @@ import { Image } from "../component/craft/user/Image";
 import { Column } from "../component/craft/user/TwoColumn";
 import { Container } from "../component/craft/user/Container";
 import { Card, CardTop, CardBottom } from "../component/craft/user/Card";
-import { Text } from "../component/craft/user/Text";
+import { Text } from "../component/editor/selectors/Text";
 import { Grid } from "../component/craft/user/Grid";
 
 import { ViewportProvider } from "../Context/ViewportContext";
@@ -26,6 +26,7 @@ import { Header } from "../component/craft/templates/Header";
 import { SectionProvider, useSection } from "../Context/SectionContext";
 import { motion, AnimatePresence } from "framer-motion";
 import EditorTopBar from "@/component/craft/EditorTopBar";
+import { Sidebar } from "@/component/editor/viewport/Sidebar";
 
 export default function PageBuilder() {
   const { isPreview } = usePreview();
@@ -66,7 +67,7 @@ export default function PageBuilder() {
             </div> */}
 
             {/* Main Content Area */}
-            <div className={`flex flex-1 justify-between overflow-hidden `}>
+            <div className={`flex flex-1 justify-between overflow-hidden`}>
               {/* Sidebar Left */}
               <AnimatePresence mode="wait">
                 {!isPreview && (
@@ -103,7 +104,6 @@ export default function PageBuilder() {
                 <ContentSectionSect />
               </motion.div>
 
-
               {/* Sidebar Right */}
               <AnimatePresence mode="wait">
                 {!isPreview && (
@@ -113,8 +113,10 @@ export default function PageBuilder() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 30 }}
                     transition={{ duration: 0.25 }}
+                    className=" flex h-full"
                   >
-                    <EditorRightBar />
+                    {/* <EditorRightBar /> */}
+                    <Sidebar />
                   </motion.div>
                 )}
               </AnimatePresence>
