@@ -30,7 +30,7 @@ const EditorSideBar = ({ hidden }) => {
           <nav className="flex flex-1 flex-col gap-7 mt-[16px]">
             <Tooltip text="Add Section">
               <button
-                className={`group relative rounded-xl p-2 transition-colors ${
+                className={`group relative rounded-xl p-2 transition-colors animate-glow duration-500 delay-200 ${
                   showRightSidebar === "section"
                     ? "bg-blue-50 text-blue-500"
                     : "text-black hover:bg-blue-50"
@@ -43,7 +43,7 @@ const EditorSideBar = ({ hidden }) => {
 
             <Tooltip text="Add Element">
               <button
-                className={`group relative rounded-xl p-2 transition-colors ${
+                className={`group relative rounded-xl p-2 transition-colors  ${
                   showRightSidebar === "element"
                     ? "bg-blue-50 text-blue-500"
                     : "text-black hover:bg-blue-50"
@@ -97,7 +97,10 @@ const EditorSideBar = ({ hidden }) => {
       </aside>
 
       <SectionContent showRightSidebar={showRightSidebar} />
-      <ElementContent showRightSidebar={showRightSidebar} />
+      <ElementContent
+        showRightSidebar={showRightSidebar}
+        setShowRightSidebar={setShowRightSidebar}
+      />
       <PageContent showRightSidebar={showRightSidebar} />
 
       <aside
