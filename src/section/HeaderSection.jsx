@@ -1,29 +1,26 @@
 import React from "react";
 import { useEditor } from "@craftjs/core";
-import { AnnouncementBar } from "@/component/craft/ui-blocks/AnnouncementBar";
+import { Header } from "@/component/craft/templates/Header";
+import { HeaderPreview } from "@/component/craft/templates/HeaderPreview";
+
+const headerVariants = [
+  { props: { logoText: "My Website", bgColor: "#ffffff", textColor: "#000000" } },
+  { props: { logoText: "Creative Studio", bgColor: "#222222", textColor: "#ffffff" } },
+];
 
 const HeaderSection = () => {
   const { connectors } = useEditor();
 
   return (
     <div className="grid grid-cols-1 gap-4">
-      {[...Array(4)].map((_, i) => (
-        <button
+      {headerVariants.map((variant, i) => (
+        <div
           key={i}
-          ref={(ref) => connectors.create(ref, <AnnouncementBar />)}
-          className="rounded-md border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition bg-white"
+          ref={(ref) => connectors.create(ref, <Header {...variant.props} />)}
+          className="rounded-md border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition bg-white cursor-move"
         >
-            <img
-             src="src\assets\icons\Screenshot 2025-07-05 at 12.57.36 1.png"
-            alt=""
-             />
-          {/* <img
-            src={`https://via.placeholder.com/400x160?text=Header+${i + 1}`}
-            alt={`Header ${i + 1}`}
-            className="w-full object-cover"
-          /> */}
-          
-        </button>
+          <HeaderPreview {...variant.props} />
+        </div>
       ))}
     </div>
   );
