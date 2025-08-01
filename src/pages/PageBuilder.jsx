@@ -21,6 +21,7 @@ import { ViewportProvider } from "../Context/ViewportContext";
 import { usePreview } from "../Context/PreviewContext";
 import { AnnouncementBar } from "../component/craft/ui-blocks/AnnouncementBar";
 import { NavigationBar } from "../component/craft/ui-blocks/NavigationBar";
+import { Header } from "../component/craft/templates/Header";
 
 import { SectionProvider, useSection } from "../Context/SectionContext";
 import { motion, AnimatePresence } from "framer-motion";
@@ -52,6 +53,7 @@ export default function PageBuilder() {
           AnnouncementBar,
           NavigationBar,
           Grid,
+          Header
         }}
       >
         <ViewportProvider>
