@@ -45,7 +45,7 @@ const SectionContent = ({ showRightSidebar }) => {
   if (showRightSidebar !== "section") return null;
 
   return (
-    <aside className="h-[calc(100vh-4.5em)] w-full flex border-gray-200">
+    <aside className="h-[calc(100vh-4.5em)] w-full flex border-gray-200 shadow-lg z-10">
       <div className="w-[145px] bg-white">
         <div className="mb-5 border-b">
           <p className="text-xs text-[#6B6B6B] font-medium mb-5 mt-5 ml-3">
@@ -77,7 +77,7 @@ const SectionContent = ({ showRightSidebar }) => {
         }`}
       >
         <div
-          className={`flex justify-between items-center  py-3.5 border-b border-[#8D9091] mx-4 ${
+          className={`flex justify-between items-center  py-3.5 border-b border-[#8D9091] mx-4  ${
             activeTab === "Header" ? "bg-[#F6F6F6]" : "bg-white"
           }`}
         >
@@ -86,7 +86,7 @@ const SectionContent = ({ showRightSidebar }) => {
             Add Section
           </button>
         </div>
-        <ScrollArea className="p-4 h-full overflow-y-auto">
+        <ScrollArea className="p-4 w-[350px] overflow-y-auto">
           <div className="grid grid-cols-1 gap-4">{renderContent()}</div>
         </ScrollArea>
       </div>
