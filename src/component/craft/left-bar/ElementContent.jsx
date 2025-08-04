@@ -2,7 +2,7 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Element, useEditor } from "@craftjs/core";
 
-import { Text } from "../../editor/selectors/Text";
+import { Text } from "../user/Text";
 
 import {
   TextIcon,
@@ -31,7 +31,6 @@ import { AnnouncementBar } from "../ui-blocks/AnnouncementBar";
 import { Card } from "../user/Card";
 import { NavigationBar } from "../ui-blocks/NavigationBar";
 
-
 const ElementContent = ({ showRightSidebar, setShowRightSidebar }) => {
   const { connectors } = useEditor();
   return (
@@ -45,13 +44,12 @@ const ElementContent = ({ showRightSidebar, setShowRightSidebar }) => {
           <p className="text-[#464646] text-[16px] font-bold"> Add Elements </p>
           <CancelIcon
             className="flex  ml-auto cursor-pointer hover:bg-gray-100 rounded-full"
-             onClick={() => setShowRightSidebar("")}
+            onClick={() => setShowRightSidebar("")}
           />
         </div>
 
         {/* Sidebar Tabs */}
         <Tabs defaultValue="tab1" className="flex flex-row w-full h-[93%]">
-
           <div className="w-[207px] bg-[#DBDBDB] h-full py-1 border-r border-gray-300">
             <TabsList className="flex-col space-y-1 bg-transparent w-full p-0">
               <TabsTrigger
@@ -65,7 +63,6 @@ const ElementContent = ({ showRightSidebar, setShowRightSidebar }) => {
               </TabsTrigger>
               <TabsTrigger
                 value="tab2"
-
                 className="cursor-pointer data-[state=active]:bg-[#E9E9E9] data-[state=active]:text-[#464646] data-[state=active]:shadow-none py-2 rounded-none"
                 asChild
               >
@@ -130,7 +127,6 @@ const ElementContent = ({ showRightSidebar, setShowRightSidebar }) => {
               <div className="grid grid-cols-1 gap-2">
                 <button
                   className="group bg-gray-100 text-gray-600 rounded-sm h-20 flex flex-col items-center justify-center hover:bg-gray-200  w-full text-center cursor-pointer"
-
                   ref={(ref) =>
                     connectors.create(ref, <Text text="Hi world" />)
                   }

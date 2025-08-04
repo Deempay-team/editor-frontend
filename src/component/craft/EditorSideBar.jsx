@@ -15,9 +15,9 @@ import SectionContent from "./left-bar/SectionContent";
 import ElementContent from "./left-bar/ElementContent";
 import PageContent from "./left-bar/PageContent";
 
-const EditorSideBar = ({ hidden }) => {
+const EditorSideBar = ({ hidden, showRightSidebar, setShowRightSidebar }) => {
   // const { connectors } = useEditor();
-  const [showRightSidebar, setShowRightSidebar] = useState("section");
+  // const [showRightSidebar, setShowRightSidebar] = useState("section");
 
   const handleToggle = (panel) => {
     setShowRightSidebar((prev) => (prev === panel ? "" : panel));
