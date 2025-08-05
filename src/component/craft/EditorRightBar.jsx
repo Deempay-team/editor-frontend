@@ -48,7 +48,7 @@ function EditorRightBar({ hidden }) {
                 {selected.settings && React.createElement(selected.settings)}
 
                 {/* Delete button */}
-                {selected.isDeletable && (
+                {/* {selected.isDeletable && (
                   <ShadButton
                     variant="destructive"
                     className="w-full mt-4"
@@ -56,10 +56,10 @@ function EditorRightBar({ hidden }) {
                   >
                     Delete
                   </ShadButton>
-                )}
+                )} */}
 
                 {/* Copy button */}
-                {selected.id && (
+                {/* {selected.id && (
                   <ShadButton
                     className="w-full bg-blue-500 hover:bg-blue-600 text-white mt-2"
                     onClick={() => {
@@ -69,7 +69,7 @@ function EditorRightBar({ hidden }) {
                   >
                     Copy Component
                   </ShadButton>
-                )}
+                )} */}
               </div>
             )}
           </div>
