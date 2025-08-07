@@ -18,8 +18,6 @@ import { ViewportProvider } from "../Context/ViewportContext";
 import { usePreview } from "../Context/PreviewContext";
 import { AnnouncementBarRender} from "../component/craft/ui-blocks/AnnouncementBar/AnnouncementBarRender.jsx";
 import { NavigationBar } from "../component/craft/ui-blocks/NavigationBar";
-import { Header } from "../component/craft/templates/Header";
-
 import { SectionProvider, useSection } from "../Context/SectionContext";
 import { motion, AnimatePresence } from "framer-motion";
 import EditorTopBar from "@/component/craft/EditorTopBar";
