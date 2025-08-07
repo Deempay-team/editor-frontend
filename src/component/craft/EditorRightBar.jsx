@@ -39,7 +39,7 @@ function EditorRightBar({ hidden }) {
                   <Label className="text-sm text-muted-foreground">
                     Selected
                   </Label>
-                  <div className="bg-blue-500 text-white rounded-lg px-3 py-1 text-sm font-medium inline-block">
+                  <div className="bg-blue-500 text-white rounded-lg px-3 py-1 text-xs font-medium inline-block">
                     {selected.name}
                   </div>
                 </div>
@@ -48,28 +48,28 @@ function EditorRightBar({ hidden }) {
                 {selected.settings && React.createElement(selected.settings)}
 
                 {/* Delete button */}
-                {selected.isDeletable && (
-                  <ShadButton
-                    variant="destructive"
-                    className="w-full mt-4"
-                    onClick={() => actions.delete(selected.id)}
-                  >
-                    Delete
-                  </ShadButton>
-                )}
+                {/*{selected.isDeletable && (*/}
+                {/*  <ShadButton*/}
+                {/*    variant="destructive"*/}
+                {/*    className="w-full mt-4"*/}
+                {/*    onClick={() => actions.delete(selected.id)}*/}
+                {/*  >*/}
+                {/*    Delete*/}
+                {/*  </ShadButton>*/}
+                {/*)}*/}
 
                 {/* Copy button */}
-                {selected.id && (
-                  <ShadButton
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white mt-2"
-                    onClick={() => {
-                      console.log("Selected ID:", selected.id);
-                      handleExport(selected.id, query);
-                    }}
-                  >
-                    Copy Component
-                  </ShadButton>
-                )}
+                {/*{selected.id && (*/}
+                {/*  <ShadButton*/}
+                {/*    className="w-full bg-blue-500 hover:bg-blue-600 text-white mt-2"*/}
+                {/*    onClick={() => {*/}
+                {/*      console.log("Selected ID:", selected.id);*/}
+                {/*      handleExport(selected.id, query);*/}
+                {/*    }}*/}
+                {/*  >*/}
+                {/*    Copy Component*/}
+                {/*  </ShadButton>*/}
+                {/*)}*/}
               </div>
             )}
           </div>
@@ -80,3 +80,4 @@ function EditorRightBar({ hidden }) {
 }
 
 export default EditorRightBar;
+

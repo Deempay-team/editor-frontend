@@ -1,29 +1,19 @@
 import React from "react";
 import { useEditor } from "@craftjs/core";
-import { Header } from "@/component/craft/templates/Header";
-import { HeaderPreview } from "@/component/craft/templates/HeaderPreview";
+import {NavigationBar} from "@/component/craft/ui-blocks/NavigationBar.jsx";
+import { Menu} from "lucide-react";
 
-const headerVariants = [
-  { props: { logoText: "My Website", bgColor: "#ffffff", textColor: "#000000" } },
-  { props: { logoText: "Creative Studio", bgColor: "#222222", textColor: "#ffffff" } },
-];
+const HeaderSection = ({ text = "Header" }) => {
+    const { connectors } = useEditor();
 
-const HeaderSection = () => {
-  const { connectors } = useEditor();
+    return (
 
-  return (
-    <div className="grid grid-cols-1 gap-4">
-      {headerVariants.map((variant, i) => (
-        <div
-          key={i}
-          ref={(ref) => connectors.create(ref, <Header {...variant.props} />)}
-          className="rounded-md border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition bg-white cursor-move"
-        >
-          <HeaderPreview {...variant.props} />
-        </div>
-      ))}
-    </div>
-  );
+            <div className='bg-gray-800 text-white text-center flex items-center justify-center h-10 rounded-sm' ref={(ref) => connectors.create(ref, <NavigationBar />)}
+            >
+                <Menu size={18} className="opacity-90 mr-4" />
+                {text}
+            </div>
+    );
 };
 
 export default HeaderSection;

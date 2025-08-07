@@ -14,19 +14,17 @@ import { Image } from "../component/craft/user/Image";
 import { Column } from "../component/craft/user/TwoColumn";
 import { Container } from "../component/craft/user/Container";
 import { Card, CardTop, CardBottom } from "../component/craft/user/Card";
-import { Text } from "../component/craft/user/Text";
+import { Text } from "../component/craft/user/Text/Text";
 import { Grid } from "../component/craft/user/Grid";
 
 import { ViewportProvider } from "../Context/ViewportContext";
 import { usePreview } from "../Context/PreviewContext";
-import { AnnouncementBar } from "../component/craft/ui-blocks/AnnouncementBar";
+import { AnnouncementBarRender} from "../component/craft/ui-blocks/AnnouncementBar/AnnouncementBarRender.jsx";
 import { NavigationBar } from "../component/craft/ui-blocks/NavigationBar";
-import { Header } from "../component/craft/templates/Header";
-
 import { SectionProvider, useSection } from "../Context/SectionContext";
 import { motion, AnimatePresence } from "framer-motion";
 import EditorTopBar from "@/component/craft/EditorTopBar";
-import { Sidebar } from "@/component/editor/viewport/Sidebar";
+
 
 export default function PageBuilder() {
   const { isPreview } = usePreview();
@@ -52,10 +50,9 @@ export default function PageBuilder() {
           CardBottom,
           Image,
           Column,
-          AnnouncementBar,
+          AnnouncementBarRender ,
           NavigationBar,
-          Grid,
-          Header,
+          Grid
         }}
       >
         <ViewportProvider>

@@ -181,7 +181,6 @@ import ReactFrameComponent from "react-frame-component";
 
 import { Container } from "./user/Container";
 import { useViewport } from "../../Context/ViewportContext";
-import { Header } from "./templates/Header";
 
 function ContentSect({ data }) {
   const { viewport } = useViewport();
@@ -204,7 +203,6 @@ function ContentSect({ data }) {
         style={{
           width: getViewportWidth(),
           boxSizing: "border-box",
-          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.25)", // Strong custom shadow
         }}
       >
         <ReactFrameComponent
@@ -235,7 +233,6 @@ function ContentSectionSect() {
     style={{
       width: getViewportWidth(),
       boxSizing: "border-box",
-      boxShadow: "0 10px 30px rgba(0, 0, 0, 0.10)",
     }}
   >
     <Frame>
@@ -253,7 +250,6 @@ function ContentSectionSect() {
         justifyContent="flex-start"
         canvas
       >
-        <Header />
       </Element>
     </Frame>
   </div>
