@@ -248,4 +248,24 @@
   .text_34 {
     @apply text-[#000000] xl:text-[34px] text-[26px] font-normal leading-6;
   }
+
+  .component-selected {
+    @apply relative;
+  }
+  .component-selected::after {
+    content: " ";
+    @apply border-primary border border-dashed rounded-[3px] w-full h-full absolute left-0 top-0 pointer-events-none block;
+  }
+
+  .component-active {
+    @apply relative;
+  }
+  .component-active::after {
+    content: " ";
+    @apply border-primary border-2 rounded-[3px] w-full h-full absolute left-0 top-0 pointer-events-none block;
+  }
+
+  .transition {
+    transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  }
 }
