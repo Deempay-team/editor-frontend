@@ -54,7 +54,6 @@ export default function PageBuilder() {
           AnnouncementBarRender ,
           NavigationBar,
           Grid,
-          Header,
         }}
         onRender={RenderNode}
       >
