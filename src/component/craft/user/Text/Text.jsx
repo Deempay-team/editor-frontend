@@ -27,18 +27,8 @@ export const Text = ({
     };
 
     const getTextTransform = () => {
-        switch (textCase) {
-            case "Uppercase":
-                return "uppercase";
-            case "Lowercase":
-                return "lowercase";
-            case "Capitalize":
-                return "capitalize";
-            default:
-                return "none";
-        }
+        return textCase === "Uppercase" ? "uppercase" : "none";
     };
-
 
     return (
         <>
