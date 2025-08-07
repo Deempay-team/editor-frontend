@@ -16,13 +16,14 @@ import { Grid } from "../component/craft/user/Grid";
 
 import { ViewportProvider } from "../Context/ViewportContext";
 import { usePreview } from "../Context/PreviewContext";
-import { AnnouncementBar } from "../component/craft/ui-blocks/AnnouncementBar";
+import { AnnouncementBarRender} from "../component/craft/ui-blocks/AnnouncementBar/AnnouncementBarRender.jsx";
 import { NavigationBar } from "../component/craft/ui-blocks/NavigationBar";
 import { SectionProvider, useSection } from "../Context/SectionContext";
 import { motion, AnimatePresence } from "framer-motion";
 import EditorTopBar from "@/component/craft/EditorTopBar";
 import { Sidebar } from "@/component/editor/viewport/Sidebar";
 import { RenderNode } from "@/component/editor/RenderNode";
+
 
 export default function PageBuilder() {
   const { isPreview } = usePreview();
@@ -48,7 +49,7 @@ export default function PageBuilder() {
           CardBottom,
           Image,
           Column,
-          AnnouncementBar,
+          AnnouncementBarRender ,
           NavigationBar,
           Grid,
           Header,
@@ -85,6 +86,7 @@ export default function PageBuilder() {
               </AnimatePresence>
 
               {/* Main Content */}
+
               <motion.div
                 className="w-full min-h-screen overflow-auto"
                 animate={{

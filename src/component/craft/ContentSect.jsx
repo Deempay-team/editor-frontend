@@ -205,7 +205,7 @@ function ContentSect({ data }) {
     <main className="viewport page-container bg-[#F6F6F6] flex justify-center pt-4 px-8 pb-30 min-h-screen">
       <div
         className={cx([
-          "craftjs-renderer bg-white rounded-sm",
+          "craftjs-renderer bg-white",
           {
             "bg-renderer-gray": enabled,
           },
@@ -265,7 +265,9 @@ function ContentSectionSect() {
             alignItems="stretch"
             justifyContent="flex-start"
             canvas
-          ></Element>
+            custom={{ displayName: "App" }}
+          >
+          </Element>
         </Frame>
       </div>
     </main>
