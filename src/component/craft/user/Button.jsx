@@ -321,7 +321,7 @@ export const Button = ({
           }
         `}
       </style>
-      <div ref={(ref) => connect(drag(ref))}>
+      <div>
         <ShadButton
           size={size}
           variant={variant}

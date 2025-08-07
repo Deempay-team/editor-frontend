@@ -7,22 +7,26 @@ import CollectionsSection from "@/section/CollectionsSection";
 import FormSection from "@/section/FormSection";
 import LayoutSection from "@/section/LayoutSection";
 import StorytellingSection from "@/section/StorytellingSection";
+import AnnouncementBar from "@/section/AnnouncementBar.jsx";
 
 const SectionContent = ({ showRightSidebar }) => {
-  const [activeTab, setActiveTab] = useState("Header");
+  const [activeTab, setActiveTab] = useState("Announcement");
 
   const sections = [
+    "Announcement",
     "Header",
     "Hero",
     "Productions",
     "Collections",
     "Form",
     "Layout",
-    "Storytelling",
+    "Storytelling"
   ];
 
   const renderContent = () => {
     switch (activeTab) {
+        case "Announcement":
+        return <AnnouncementBar />;
       case "Header":
         return <HeaderSection />;
       case "Hero":
@@ -86,7 +90,7 @@ const SectionContent = ({ showRightSidebar }) => {
             Add Section
           </button>
         </div>
-        <ScrollArea className="p-4 w-[350px] overflow-y-auto">
+        <ScrollArea className="p-4 w-[270px] overflow-y-auto">
           <div className="grid grid-cols-1 gap-4">{renderContent()}</div>
         </ScrollArea>
       </div>
