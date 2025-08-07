@@ -182,43 +182,8 @@ import cx from "classnames";
 import { Container } from "./user/Container";
 // import { Text } from "./user/Text";
 import { useViewport } from "../../Context/ViewportContext";
-import { Header } from "./templates/Header";
 
-// function ContentSect({ data }) {
-//   const { viewport } = useViewport();
-
-//   const getViewportWidth = () => {
-//     switch (viewport) {
-//       case "mobile":
-//         return "375px";
-//       case "tablet":
-//         return "768px";
-//       default:
-//         return "100%";
-//     }
-//   };
-
-//   return (
-//     <main className="bg-[#f1f1f1] flex justify-center items-start p-4 min-h-screen">
-//       <div
-//         className="bg-white min-h-[600px] rounded-sm overflow-hidden"
-//         style={{
-//           width: getViewportWidth(),
-//           boxSizing: "border-box",
-//           boxShadow: "0 10px 30px rgba(0, 0, 0, 0.25)", // Strong custom shadow
-//         }}
-//       >
-//         <ReactFrameComponent
-//           className="w-full h-full"
-//           style={{ boxSizing: "border-box" }}
-//         >
-//           <Frame data={data}>{/* Optional: Preload elements */}</Frame>
-//         </ReactFrameComponent>
-//       </div>
-//     </main>
-//   );
-// }
-function ContentSectionSect() {
+function ContentSect({ data }) {
   const { viewport } = useViewport();
 
   const { enabled, connectors } = useEditor((state) => ({
@@ -251,7 +216,39 @@ function ContentSectionSect() {
         style={{
           width: getViewportWidth(),
           boxSizing: "border-box",
-          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.10)",
+        }}
+      >
+        <ReactFrameComponent
+          className="w-full h-full"
+          style={{ boxSizing: "border-box" }}
+        >
+          <Frame data={data}>{/* Optional: Preload elements */}</Frame>
+        </ReactFrameComponent>
+      </div>
+    </main>
+  );
+}
+function ContentSectionSect() {
+  const { viewport } = useViewport();
+
+  const getViewportWidth = () => {
+    switch (viewport) {
+      case "mobile":
+        return "375px";
+      case "tablet":
+        return "768px";
+      default:
+        return "100%";
+    }
+  };
+
+  return (
+    <main className="bg-[#F6F6F6] flex justify-center pt-4 px-8 pb-20 min-h-screen">
+      <div
+        className="bg-white rounded-sm"
+        style={{
+          width: getViewportWidth(),
+          boxSizing: "border-box",
         }}
       >
         <Frame>

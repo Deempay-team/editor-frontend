@@ -10,7 +10,7 @@ const HeaderSection = ({ text = "Header" }) => {
 
             <div className='bg-gray-800 text-white text-center flex items-center justify-center h-10 rounded-sm' ref={(ref) => connectors.create(ref, <NavigationBar />)}
             >
-                <Menu size={18} className="opacity-90 ml-4" />
+                <Menu size={18} className="opacity-90 mr-4" />
                 {text}
             </div>
     );
