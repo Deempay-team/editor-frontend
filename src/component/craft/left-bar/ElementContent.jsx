@@ -27,7 +27,7 @@ import { Grid } from "../user/Grid";
 
 import { Button as ShardButton } from "@/components/ui/button";
 
-import { AnnouncementBar } from "../ui-blocks/AnnouncementBar";
+import { AnnouncementBar } from "../ui-blocks/AnnouncementBar/AnnouncementBarRender.jsx";
 import { Card } from "../user/Card";
 import { NavigationBar } from "../ui-blocks/NavigationBar";
 

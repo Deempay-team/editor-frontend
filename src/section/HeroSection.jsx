@@ -1,8 +1,8 @@
 import React from "react";
 import { useEditor } from "@craftjs/core";
-import { AnnouncementBar } from "@/component/craft/ui-blocks/AnnouncementBar";
+import { AnnouncementBar } from "@/component/craft/ui-blocks/AnnouncementBar/AnnouncementBarRender.jsx";
 
-const HeroSection = () => {
+const   HeroSection = () => {
   const { connectors } = useEditor();
 
   return (

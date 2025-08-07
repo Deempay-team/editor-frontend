@@ -1,0 +1,30 @@
+.wrapperd {
+    border: 1px solid gray;
+    border-radius: 4px;
+}
+
+.toolbar {
+    border-bottom: 1px solid gray;
+    background-color: #fdfdfd;
+}
+
+.editor {
+    padding: 5px;
+    min-height: 100px;
+}
+
+.rdw-option-wrapper {
+    border: none !important;
+    background: transparent;
+    box-shadow: none !important;
+    transition: all 0.2s;
+}
+
+.rdw-option-wrapper:hover {
+    background-color: #e6f0ff;
+}
+
+.rdw-option-active {
+    background-color: #e6f0ff !important;
+    color: gray !important;
+}
