@@ -10,7 +10,6 @@
 
 // export const Container = ({ background, paddingX, paddingY , margin = {}, borderRadius, borderWidth, borderColor, boxShadow, children, minHeight = "auto", maxWidth = "none", align }) => {
 //   const { id, connectors: { connect, drag } } = useNode();
-  
 
 //   return (
 //     <div
@@ -28,7 +27,7 @@
 //         boxShadow,
 //         minHeight,
 //         maxWidth,
-       
+
 //         justifyContent: align,
 //       }}
 //       className=" "
@@ -83,7 +82,7 @@
 //           onChange={(e) => setProp((props) => (props.paddingY = Number(e.target.value)))}
 //           placeholder="Padding Y"
 //         />
-          
+
 //         <Label>Margin</Label>
 //         {["top", "right", "bottom", "left"].map((side) => (
 //           <Input
@@ -105,7 +104,6 @@
 //     placeholder={`${side} padding`}
 //   />
 // ))} */}
-
 
 //         <Label>Min Height</Label>
 //         <Input
@@ -153,7 +151,6 @@
 //         <Label>Box Shadow</Label>
 //         <Input value={boxShadow} onChange={(e) => setProp((props) => (props.boxShadow = e.target.value))} placeholder="e.g., 0px 4px 6px rgba(0,0,0,0.1)" />
 
-
 //         <ShadButton
 //                               variant="contained"
 //                               color="default"
@@ -192,7 +189,6 @@
 //   },
 // };
 
-
 // export const ContainerDefaultProps = {
 //   background: "#ffffff",
 //   padding: 5,
@@ -202,9 +198,6 @@
 //   borderColor: "#000000",
 //   boxShadow: "none"
 // };
-
-
-
 
 // import React from "react";
 // import { useNode } from "@craftjs/core";
@@ -683,7 +676,6 @@
 //   children: PropTypes.node,
 // };
 
-
 // export const ContainerDefaultProps = {
 //   background: "#ffffff",
 //   padding: 5,
@@ -694,7 +686,6 @@
 //   boxShadow: "none"
 // };
 
-
 export const ContainerDefaultProps = {
   background: "#ffffff",
   padding: 5,
@@ -702,10 +693,8 @@ export const ContainerDefaultProps = {
   borderRadius: 0,
   borderWidth: 0,
   borderColor: "#000000",
-  boxShadow: "none"
+  boxShadow: "none",
 };
-
-
 
 // import React from "react";
 // import { useNode } from "@craftjs/core";
@@ -1283,7 +1272,6 @@ export const ContainerDefaultProps = {
 //   children: PropTypes.node,
 // };
 
-
 import React from "react";
 import { useNode } from "@craftjs/core";
 import { Card, CardContent } from "@/components/ui/card";
@@ -1340,7 +1328,10 @@ export const Container = ({
   justifyContentMobile,
   children,
 }) => {
-  const { id, connectors: { connect, drag } } = useNode();
+  const {
+    id,
+    connectors: { connect, drag },
+  } = useNode();
 
   return (
     <>
@@ -1395,21 +1386,37 @@ export const Container = ({
           "--background": background,
           "--background-mobile": backgroundMobile || undefined,
           "--padding-x": `${paddingX}px`,
-          "--padding-x-mobile": paddingXMobile ? `${paddingXMobile}px` : undefined,
+          "--padding-x-mobile": paddingXMobile
+            ? `${paddingXMobile}px`
+            : undefined,
           "--padding-y": `${paddingY}px`,
-          "--padding-y-mobile": paddingYMobile ? `${paddingYMobile}px` : undefined,
+          "--padding-y-mobile": paddingYMobile
+            ? `${paddingYMobile}px`
+            : undefined,
           "--margin-top": `${margin.top}px`,
           "--margin-right": `${margin.right}px`,
           "--margin-bottom": `${margin.bottom}px`,
           "--margin-left": `${margin.left}px`,
-          "--margin-top-mobile": marginMobile ? `${marginMobile.top}px` : undefined,
-          "--margin-right-mobile": marginMobile ? `${marginMobile.right}px` : undefined,
-          "--margin-bottom-mobile": marginMobile ? `${marginMobile.bottom}px` : undefined,
-          "--margin-left-mobile": marginMobile ? `${marginMobile.left}px` : undefined,
+          "--margin-top-mobile": marginMobile
+            ? `${marginMobile.top}px`
+            : undefined,
+          "--margin-right-mobile": marginMobile
+            ? `${marginMobile.right}px`
+            : undefined,
+          "--margin-bottom-mobile": marginMobile
+            ? `${marginMobile.bottom}px`
+            : undefined,
+          "--margin-left-mobile": marginMobile
+            ? `${marginMobile.left}px`
+            : undefined,
           "--border-radius": `${borderRadius}px`,
-          "--border-radius-mobile": borderRadiusMobile ? `${borderRadiusMobile}px` : undefined,
+          "--border-radius-mobile": borderRadiusMobile
+            ? `${borderRadiusMobile}px`
+            : undefined,
           "--border-width": `${borderWidth}px`,
-          "--border-width-mobile": borderWidthMobile ? `${borderWidthMobile}px` : undefined,
+          "--border-width-mobile": borderWidthMobile
+            ? `${borderWidthMobile}px`
+            : undefined,
           "--border-color": borderColor,
           "--border-color-mobile": borderColorMobile || undefined,
           "--box-shadow": boxShadow,
@@ -1420,8 +1427,13 @@ export const Container = ({
           "--height-mobile": heightMobile || undefined,
           "--flex-direction": flexDirection,
           "--flex-direction-mobile": flexDirectionMobile || undefined,
-          "--fill-space": fillSpace ? 1 : 'auto',
-          "--fill-space-mobile": fillSpaceMobile !== null ? (fillSpaceMobile ? 1 : 'auto') : undefined,
+          "--fill-space": fillSpace ? 1 : "auto",
+          "--fill-space-mobile":
+            fillSpaceMobile !== null
+              ? fillSpaceMobile
+                ? 1
+                : "auto"
+              : undefined,
           "--align-items": alignItems,
           "--align-items-mobile": alignItemsMobile || undefined,
           "--justify-content": justifyContent,
@@ -1454,7 +1466,9 @@ export const ContainerSettings = () => {
               <Label>Background</Label>
               <HexColorPicker
                 color={props.background}
-                onChange={(color) => setProp((props) => (props.background = color))}
+                onChange={(color) =>
+                  setProp((props) => (props.background = color))
+                }
               />
 
               <Label>Padding X (Left & Right)</Label>
@@ -1488,7 +1502,9 @@ export const ContainerSettings = () => {
                   type="number"
                   value={props.margin[side]}
                   onChange={(e) =>
-                    setProp((props) => (props.margin[side] = Number(e.target.value)))
+                    setProp(
+                      (props) => (props.margin[side] = Number(e.target.value))
+                    )
                   }
                   placeholder={`${side} margin`}
                 />
@@ -1519,7 +1535,9 @@ export const ContainerSettings = () => {
               <Label>Border Color</Label>
               <HexColorPicker
                 color={props.borderColor}
-                onChange={(color) => setProp((props) => (props.borderColor = color))}
+                onChange={(color) =>
+                  setProp((props) => (props.borderColor = color))
+                }
               />
 
               <Label>Box Shadow</Label>
@@ -1551,7 +1569,9 @@ export const ContainerSettings = () => {
 
               <Label>Flex Direction</Label>
               <Select
-                onValueChange={(value) => setProp((props) => (props.flexDirection = value))}
+                onValueChange={(value) =>
+                  setProp((props) => (props.flexDirection = value))
+                }
                 defaultValue={props.flexDirection}
               >
                 <SelectTrigger>
@@ -1565,7 +1585,9 @@ export const ContainerSettings = () => {
 
               <Label>Fill Space</Label>
               <Select
-                onValueChange={(value) => setProp((props) => (props.fillSpace = value === 'true'))}
+                onValueChange={(value) =>
+                  setProp((props) => (props.fillSpace = value === "true"))
+                }
                 defaultValue={props.fillSpace.toString()}
               >
                 <SelectTrigger>
@@ -1579,7 +1601,9 @@ export const ContainerSettings = () => {
 
               <Label>Align Items</Label>
               <Select
-                onValueChange={(value) => setProp((props) => (props.alignItems = value))}
+                onValueChange={(value) =>
+                  setProp((props) => (props.alignItems = value))
+                }
                 defaultValue={props.alignItems}
               >
                 <SelectTrigger>
@@ -1594,7 +1618,9 @@ export const ContainerSettings = () => {
 
               <Label>Justify Content</Label>
               <Select
-                onValueChange={(value) => setProp((props) => (props.justifyContent = value))}
+                onValueChange={(value) =>
+                  setProp((props) => (props.justifyContent = value))
+                }
                 defaultValue={props.justifyContent}
               >
                 <SelectTrigger>
@@ -1627,7 +1653,9 @@ export const ContainerSettings = () => {
                 min={0}
                 max={100}
                 onChange={(e) =>
-                  setProp((props) => (props.paddingXMobile = Number(e.target.value)))
+                  setProp(
+                    (props) => (props.paddingXMobile = Number(e.target.value))
+                  )
                 }
                 placeholder="Padding X"
               />
@@ -1639,7 +1667,9 @@ export const ContainerSettings = () => {
                 min={0}
                 max={100}
                 onChange={(e) =>
-                  setProp((props) => (props.paddingYMobile = Number(e.target.value)))
+                  setProp(
+                    (props) => (props.paddingYMobile = Number(e.target.value))
+                  )
                 }
                 placeholder="Padding Y"
               />
@@ -1649,7 +1679,11 @@ export const ContainerSettings = () => {
                 <Input
                   key={side}
                   type="number"
-                  value={props.marginMobile ? props.marginMobile[side] : props.margin[side]}
+                  value={
+                    props.marginMobile
+                      ? props.marginMobile[side]
+                      : props.margin[side]
+                  }
                   onChange={(e) =>
                     setProp((props) => {
                       props.marginMobile = {
@@ -1721,7 +1755,9 @@ export const ContainerSettings = () => {
 
               <Label>Flex Direction</Label>
               <Select
-                onValueChange={(value) => setProp((props) => (props.flexDirectionMobile = value))}
+                onValueChange={(value) =>
+                  setProp((props) => (props.flexDirectionMobile = value))
+                }
                 defaultValue={props.flexDirectionMobile || props.flexDirection}
               >
                 <SelectTrigger>
@@ -1735,8 +1771,13 @@ export const ContainerSettings = () => {
 
               <Label>Fill Space</Label>
               <Select
-                onValueChange={(value) => setProp((props) => (props.fillSpaceMobile = value === 'true'))}
-                defaultValue={(props.fillSpaceMobile !== null ? props.fillSpaceMobile : props.fillSpace).toString()}
+                onValueChange={(value) =>
+                  setProp((props) => (props.fillSpaceMobile = value === "true"))
+                }
+                defaultValue={(props.fillSpaceMobile !== null
+                  ? props.fillSpaceMobile
+                  : props.fillSpace
+                ).toString()}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="No" />
@@ -1749,7 +1790,9 @@ export const ContainerSettings = () => {
 
               <Label>Align Items</Label>
               <Select
-                onValueChange={(value) => setProp((props) => (props.alignItemsMobile = value))}
+                onValueChange={(value) =>
+                  setProp((props) => (props.alignItemsMobile = value))
+                }
                 defaultValue={props.alignItemsMobile || props.alignItems}
               >
                 <SelectTrigger>
@@ -1764,8 +1807,12 @@ export const ContainerSettings = () => {
 
               <Label>Justify Content</Label>
               <Select
-                onValueChange={(value) => setProp((props) => (props.justifyContentMobile = value))}
-                defaultValue={props.justifyContentMobile || props.justifyContent}
+                onValueChange={(value) =>
+                  setProp((props) => (props.justifyContentMobile = value))
+                }
+                defaultValue={
+                  props.justifyContentMobile || props.justifyContent
+                }
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Flex Start" />
@@ -1826,6 +1873,7 @@ Container.craft = {
   related: {
     settings: ContainerSettings,
   },
+  canvas: true,
 };
 
 Container.propTypes = {
