@@ -176,13 +176,12 @@
 // export  { ContentSect, ContentSectionSect};
 
 import React from "react";
-import { Frame, Element, useEditor } from "@craftjs/core";
+import {Frame, Element, useEditor} from "@craftjs/core";
 import cx from "classnames";
 
-import { Container } from "./user/Container";
+import {Container} from "./user/Container";
 // import { Text } from "./user/Text";
-import { useViewport } from "../../Context/ViewportContext";
-import { Header } from "./templates/Header";
+import {useViewport} from "../../Context/ViewportContext";
 
 // function ContentSect({ data }) {
 //   const { viewport } = useViewport();
@@ -219,62 +218,60 @@ import { Header } from "./templates/Header";
 //   );
 // }
 function ContentSectionSect() {
-  const { viewport } = useViewport();
+    const {viewport} = useViewport();
 
-  const { enabled, connectors } = useEditor((state) => ({
-    enabled: state.options.enabled,
-  }));
+    const {enabled, connectors} = useEditor((state) => ({
+        enabled: state.options.enabled,
+    }));
 
-  const getViewportWidth = () => {
-    switch (viewport) {
-      case "mobile":
-        return "375px";
-      case "tablet":
-        return "768px";
-      default:
-        return "100%";
-    }
-  };
-
-  return (
-    <main className="viewport page-container bg-[#F6F6F6] flex justify-center pt-4 px-8 pb-30 min-h-screen">
-      <div
-        className={cx([
-          "craftjs-renderer bg-white",
-          {
-            "bg-renderer-gray": enabled,
-          },
-        ])}
-        ref={(ref) => {
-          connectors.select(connectors.hover(ref), null);
-        }}
-        style={{
-          width: getViewportWidth(),
-          boxSizing: "border-box",
-          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.10)",
-        }}
-      >
-        <Frame>
-          <Element
-            is={Container}
-            id="main-frame"
-            paddingX={10}
-            paddingY={10}
-            background="transparent"
-            width="100%"
-            height="auto"
-            flexDirection="column"
-            fillSpace={false}
-            alignItems="stretch"
-            justifyContent="flex-start"
-            canvas
-            custom={{ displayName: "App" }}
-          >
-          </Element>
-        </Frame>
-      </div>
-    </main>
-  );
+    const getViewportWidth = () => {
+        switch (viewport) {
+            case "mobile":
+                return "375px";
+            case "tablet":
+                return "768px";
+            default:
+                return "100%";
+        }
+    };
+    return (
+        <main className="viewport page-container bg-[#F6F6F6] flex justify-center pt-4 px-8 pb-20 min-h-screen">
+            <div
+                className={cx([
+                    "craftjs-renderer bg-white",
+                    {
+                        "bg-renderer-gray": enabled,
+                    },
+                ])}
+                ref={(ref) => {
+                    connectors.select(connectors.hover(ref), null);
+                }}
+                style={{
+                    width: getViewportWidth(),
+                    boxSizing: "border-box",
+                    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.10)",
+                }}
+            >
+                <Frame>
+                    <Element
+                        is={Container}
+                        id="main-frame"
+                        paddingX={0}
+                        paddingY={0}
+                        width="100%"
+                        height="auto"
+                        flexDirection="column"
+                        fillSpace={false}
+                        alignItems="stretch"
+                        justifyContent="flex-start"
+                        canvas
+                        custom={{displayName: "App"}}
+                    >
+                    </Element>
+                </Frame>
+            </div>
+        </main>
+    );
 }
 
-export { ContentSectionSect };
+export {ContentSectionSect};

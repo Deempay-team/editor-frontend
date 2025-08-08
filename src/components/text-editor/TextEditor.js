@@ -1,9 +1,7 @@
-// components/TextEditor.js
 import React, { useState, useEffect } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, ContentState } from "draft-js";
 import { convertToHTML, convertFromHTML } from "draft-convert";
-
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./editorStyles.css";
 

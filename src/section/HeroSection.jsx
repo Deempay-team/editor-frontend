@@ -1,16 +1,15 @@
 import React from "react";
 import { useEditor } from "@craftjs/core";
-import { AnnouncementBar } from "@/component/craft/ui-blocks/AnnouncementBar/AnnouncementBarRender.jsx";
 
 const   HeroSection = () => {
-  const { connectors } = useEditor();
+  // const { connectors } = useEditor();
 
   return (
     <div className="grid grid-cols-1 gap-4">
       {[...Array(3)].map((_, i) => (
         <button
           key={i}
-          ref={(ref) => connectors.create(ref, <AnnouncementBar />)}
+          // ref={(ref) => connectors.create(ref,)}
           className="rounded-md border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition bg-white"
         >
           <img

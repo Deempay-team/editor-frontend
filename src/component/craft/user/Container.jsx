@@ -1438,6 +1438,7 @@ export const Container = ({
           "--align-items-mobile": alignItemsMobile || undefined,
           "--justify-content": justifyContent,
           "--justify-content-mobile": justifyContentMobile || undefined,
+          minHeight: "150px"
         }}
       >
         {children}

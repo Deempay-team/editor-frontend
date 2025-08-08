@@ -63,7 +63,7 @@ export const Text = ({
 Text.craft = {
     displayName: "Text Block",
     props: {
-        text: "Special Announcement! Check out our new features!",
+        text: <p>Special Announcement! Check out our new features!</p>,
         link: "",
         font: "Heading",
         fontSize: 16,
