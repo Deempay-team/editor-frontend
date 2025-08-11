@@ -6,15 +6,20 @@ import {
   ContentSect,
   ContentSectionSect,
 } from "../component/craft/ContentSect";
+import { loadGoogleFonts } from '@/utils/loadGoogleFonts';
+import { useTheme } from "@/Context/ThemeContext";
+
 import EditorSideBar from "../component/craft/EditorSideBar";
 import EditorRightBar from "../component/craft/EditorRightBar";
 
 import { Button } from "../component/craft/user/Button";
+import { ButtonX } from "../component/craft/user/ButtonX";
 import { Image } from "../component/craft/user/Image";
 import { Column } from "../component/craft/user/TwoColumn";
 import { Container } from "../component/craft/user/Container";
 import { Card, CardTop, CardBottom } from "../component/craft/user/Card";
 import { Text } from "../component/craft/user/Text";
+import { TextX } from "../component/craft/user/TextX";
 import { Grid } from "../component/craft/user/Grid";
 
 import { ViewportProvider } from "../Context/ViewportContext";
@@ -29,6 +34,15 @@ import EditorTopBar from "@/component/craft/EditorTopBar";
 import { Sidebar } from "@/component/editor/viewport/Sidebar";
 
 export default function PageBuilder() {
+const { theme, fonts } = useTheme();
+
+  //load all fonts
+  useEffect(() => {
+    const fontNames = fonts.map((font) => font.name);
+    loadGoogleFonts(fontNames);
+  }, []);
+
+
   const { isPreview } = usePreview();
   const { isSection, setIsSection } = useSection();
   const [stateToLoad, setStateToLoad] = useState(null);
@@ -56,6 +70,8 @@ export default function PageBuilder() {
           NavigationBar,
           Grid,
           Header,
+          TextX,
+          ButtonX
         }}
       >
         <ViewportProvider>

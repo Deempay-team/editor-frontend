@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Element, useEditor } from "@craftjs/core";
 
 import { Text } from "../user/Text";
+import { TextX } from "../user/TextX";
 
 import {
   TextIcon,
@@ -20,6 +21,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Container } from "../user/Container";
 import { Button } from "../user/Button";
+import { ButtonX } from "../user/ButtonX";
 import { Image } from "../user/Image";
 
 import CancelIcon from "@/assets/icons/CancelIcon";
@@ -138,6 +140,18 @@ const ElementContent = ({ showRightSidebar, setShowRightSidebar }) => {
                 <button
                   className="group bg-gray-100 text-gray-600 rounded-sm h-20 flex flex-col items-center justify-center hover:bg-gray-200  w-full text-center cursor-pointer"
                   ref={(ref) =>
+                    connectors.create(ref, <TextX text="Hi world" />)
+                  }
+                >
+                  <TextIcon className="w-5 h-5 mb-1 stroke-current" />
+                  <p className="text-[13px] font-normal ">TextX</p>
+                </button>
+
+                
+
+                <button
+                  className="group bg-gray-100 text-gray-600 rounded-sm h-20 flex flex-col items-center justify-center hover:bg-gray-200  w-full text-center cursor-pointer"
+                  ref={(ref) =>
                     connectors.create(
                       ref,
                       <Element is={Container} padding={20} canvas />
@@ -159,6 +173,19 @@ const ElementContent = ({ showRightSidebar, setShowRightSidebar }) => {
                 >
                   <ButtonIcon className="w-5 h-5 mb-1 stroke-current" />
                   <p className="text-[13px] font-normal ">Button</p>
+                </button>
+
+                <button
+                  className="group bg-gray-100 text-gray-600 rounded-sm h-20 flex flex-col items-center justify-center hover:bg-gray-200  w-full text-center cursor-pointer"
+                  ref={(ref) =>
+                    connectors.create(
+                      ref,
+                      <ButtonX text="Click me" size="small" />
+                    )
+                  }
+                >
+                  <ButtonIcon className="w-5 h-5 mb-1 stroke-current" />
+                  <p className="text-[13px] font-normal ">ButtonX</p>
                 </button>
 
                 <button

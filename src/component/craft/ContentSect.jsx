@@ -217,6 +217,7 @@ function ContentSect({ data }) {
     </main>
   );
 }
+
 function ContentSectionSect() {
   const { viewport } = useViewport();
 

@@ -272,6 +272,7 @@ const EditorTopBar = ({ zoom, setZoom }) => {
                   </span>
                 </Button>
               </TooltipTrigger>
+              
               <TooltipContent>Undo</TooltipContent>
             </Tooltip>
             <div className="w-[0.5px] h-[18px] bg-[#DBDBDB]" />
