@@ -4,5 +4,13 @@
       "paths": {
         "@/*": ["./src/*"]
       }
-    }
+    },
+     "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "src/app",
+    "src/asset",
+    "dist.zip"
+  ]
   }

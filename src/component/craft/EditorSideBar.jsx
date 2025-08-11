@@ -15,6 +15,10 @@ import SectionContent from "./left-bar/SectionContent";
 import ElementContent from "./left-bar/ElementContent";
 import PageContent from "./left-bar/PageContent";
 
+import SiteThemeContent from "./left-bar/SiteThemeContent"
+
+// SiteThemeContent.jsx
+
 const EditorSideBar = ({ hidden, showRightSidebar, setShowRightSidebar }) => {
   // const { connectors } = useEditor();
   // const [showRightSidebar, setShowRightSidebar] = useState("section");
@@ -80,7 +84,7 @@ const EditorSideBar = ({ hidden, showRightSidebar, setShowRightSidebar }) => {
               </button>
             </Tooltip>
 
-            <Tooltip text="Theme">
+            <Tooltip text="Site Theme">
               <button
                 className={`group relative rounded-xl p-1 transition-colors ${
                   showRightSidebar === "theme"
@@ -97,19 +101,23 @@ const EditorSideBar = ({ hidden, showRightSidebar, setShowRightSidebar }) => {
       </aside>
 
       <SectionContent showRightSidebar={showRightSidebar} />
+
       <ElementContent
         showRightSidebar={showRightSidebar}
         setShowRightSidebar={setShowRightSidebar}
       />
+
       <PageContent showRightSidebar={showRightSidebar} />
 
-      <aside
+      <SiteThemeContent showRightSidebar={showRightSidebar} />
+
+      {/* <aside
         className={`w-80 h-[calc(100vh-4.5em)] bg-white border-r border-gray-200 flex flex-col items-center justify-center ${
           showRightSidebar === "theme" ? "" : "hidden"
         }`}
       >
-        <p className="text-gray-500 text-sm">Theme Panel</p>
-      </aside>
+        <p className="text-gray-500 text-sm">Theme Panel ok</p>
+      </aside> */}
 
       <aside
         className={`w-80 h-[calc(100vh-4.5em)] bg-white border-r border-gray-200 flex flex-col items-center justify-center ${
