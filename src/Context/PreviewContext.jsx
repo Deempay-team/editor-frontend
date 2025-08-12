@@ -12,7 +12,7 @@ export const PreviewProvider = ({ children }) => {
   );
 };
 
-export const usePreview = () => useContext(PreviewContext);
+// export const usePreview = () => useContext(PreviewContext);
 
 // //Hook to use the context
 // export const useViewport = () => {
@@ -22,3 +22,12 @@ export const usePreview = () => useContext(PreviewContext);
 //     }
 //     return context;
 //   };
+
+export const usePreview = () => {
+  const context = useContext(PreviewContext);
+  if (!context) {
+    // Safe fallback to avoid destructuring undefined
+    return { isPreview: false, setIsPreview: () => {} };
+  }
+  return context;
+};

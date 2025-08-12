@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "deempay",
+    "site": "tadra-editor",
     "public": "dist",
     "ignore": [
       "firebase.json",

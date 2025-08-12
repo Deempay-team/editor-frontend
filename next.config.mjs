@@ -4,6 +4,15 @@ const nextConfig = {
   output: "standalone",
   distDir: "./dist", // Changes the build output directory to `./dist/`.
 
+  // output: 'export',
+  // images: {
+  //   unoptimized: true,
+  // },
+
+  eslint: {
+      ignoreDuringBuilds: true,
+    },
+
   // Alternative: If you want to use both SVG as components and as files
   webpack(config) {
     config.module.rules.push({

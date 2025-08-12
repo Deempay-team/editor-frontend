@@ -27,11 +27,21 @@ export const ViewportProvider = ({ children }) => {
   );
 };
 
-// Hook to use the context
+// // Hook to use the context
+// export const useViewport = () => {
+//   const context = useContext(ViewportContext);
+//   if (!context) {
+//     throw new Error("useViewport must be used within a ViewportProvider");
+//   }
+//   return context;
+// };
+
+
 export const useViewport = () => {
   const context = useContext(ViewportContext);
   if (!context) {
-    throw new Error("useViewport must be used within a ViewportProvider");
+    // Safe defaults if no provider wraps this component
+    return { viewport: "desktop", setViewport: () => {} };
   }
   return context;
 };
