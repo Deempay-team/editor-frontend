@@ -1,18 +1,10 @@
-import { useState } from 'react'
-import { Theme, ThemePanel } from "@radix-ui/themes";
-import reactLogo from './assets/react.svg'
-
-
 import './App.css'
-import CustomEditor from "./pages/CustomEditor"
-import WebBuilder from "./pages/WebBuilder"
-import CraftBuilder from "./pages/CraftBuilder"
 
 import PageBuilder from './pages/PageBuilder';
 import { PreviewProvider } from "./Context/PreviewContext";
 import { SectionProvider } from "./Context/SectionContext";
-
 import { ThemeProvider } from "./Context/ThemeContext";
+import { ViewportProvider } from "./Context/ViewportContext";
 
 
 
@@ -22,11 +14,13 @@ function App() {
     <>
       <div>
         <ThemeProvider>
-          <SectionProvider>
-            <PreviewProvider>
-              <PageBuilder />
-            </PreviewProvider>
-          </SectionProvider>
+          <ViewportProvider>
+            <SectionProvider>
+              <PreviewProvider>
+                <PageBuilder />
+              </PreviewProvider>
+            </SectionProvider>
+          </ViewportProvider>
         </ThemeProvider>
       </div>
     </>

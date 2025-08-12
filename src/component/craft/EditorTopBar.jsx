@@ -36,9 +36,36 @@ import { usePreview } from "../../Context/PreviewContext";
 import { useSection } from "../../Context/SectionContext";
 import { pasteNodeTree } from "@/utils/craftUtils";
 
+// Helper function to safely access localStorage
+const getFromLocalStorage = (key, defaultValue = null) => {
+  if (typeof window === 'undefined') {
+    return defaultValue;
+  }
+  try {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : defaultValue;
+  } catch (error) {
+    console.error('Error reading from localStorage:', error);
+    return defaultValue;
+  }
+};
+
+// Helper function to safely set localStorage
+const setToLocalStorage = (key, value) => {
+  if (typeof window === 'undefined') {
+    return;
+  }
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.error('Error writing to localStorage:', error);
+  }
+};
+
 const EditorTopBar = ({ zoom, setZoom }) => {
   //   const [page, setPage] = useState("home");
   const [checked, setChecked] = useState(true);
+  const [isClient, setIsClient] = useState(false);
   const { viewport, setViewport } = useViewport();
   const { isPreview, setIsPreview } = usePreview();
   const { isSection, setIsSection } = useSection();
@@ -71,18 +98,47 @@ const EditorTopBar = ({ zoom, setZoom }) => {
   //     },
   //   });
 
-  const json = query.serialize();
-  //   console.log("json", json);
+  // const json = query.serialize();
+  // //   console.log("json", json);
 
-  const savedPages = JSON.parse(localStorage.getItem("pages"));
-  const [pages, setPages] = useState(
-    savedPages || {
-      home: json,
-      about: json,
-      contact: json,
-    }
-  );
+  // const savedPages = JSON.parse(localStorage.getItem("pages"));
+  // const [pages, setPages] = useState(
+  //   savedPages || {
+  //     home: json,
+  //     about: json,
+  //     contact: json,
+  //   }
+  // );
+
+   const defaultPages = {
+    home: null,
+    about: null,
+    contact: null,
+  };
+
+  const [pages, setPages] = useState(defaultPages);
   const [currentPage, setCurrentPage] = useState("home");
+
+  useEffect(() => {
+    setIsClient(true);
+    
+    // Get the current serialized state
+    const json = query.serialize();
+    
+    // Load saved pages from localStorage or use current state as default
+    const savedPages = getFromLocalStorage("pages");
+    if (savedPages) {
+      setPages(savedPages);
+    } else {
+      // Initialize with current state for all pages
+      const initialPages = {
+        home: json,
+        about: json,
+        contact: json,
+      };
+      setPages(initialPages);
+    }
+  }, []);
 
   const switchPage = (newPage) => {
     const pageJson = pages[newPage];
@@ -104,7 +160,14 @@ const EditorTopBar = ({ zoom, setZoom }) => {
   };
 
   // Save all pages to localStorage
-  localStorage.setItem("pages", JSON.stringify(pages));
+  // localStorage.setItem("pages", JSON.stringify(pages));
+
+  // Save pages to localStorage whenever pages state changes (only on client)
+  useEffect(() => {
+    if (isClient && pages) {
+      setToLocalStorage("pages", pages);
+    }
+  }, [pages, isClient]);
 
   // Load pages from localStorage on app load
   //   const savedPages = JSON.parse(localStorage.getItem("pages"));
@@ -128,7 +191,7 @@ const EditorTopBar = ({ zoom, setZoom }) => {
   }, [checked]);
 
   function handleImport(data) {
-    //const compressedJson = `eyJST09UIjp7InR5cGXECHJlc29sdmVkTmFtZSI6IkNvbnRhaW5lciJ9LCJpc0NhbnZhcyI6dHJ1ZSwicHJvcHPENWJhY2tncm91bmQiOiIjZWVlIiwicGFkZGluZyI6NckMWCI6MMkNWcUNbWFyZ2luxER0b3DFEnJpZ2h0xQpib3R0b23FC2xlZsQUfcQVcmRlclJhZGl1c8cmxBFXaWR0aMsQQ29sb3LkAI0wxQEixBh4U2hhZG93Ijoibm9u5ACjbWluSGXGbyIxMDBweMQUYXjHTMYmfSwiZGlzcGxhefEBEiwiY3Vz5QCie30sImhpZGRlbiI6ZmFsc2UsIm5vZGVzIjpbIlhUSzgzZDduZi0iXSwibGlua2VkTsYde319LMwg/wGH/wGH8QGHYTllOe0BijLqAX5YIjoy6gGZWSI6Mjn/AY3/AY3/AY3/AY3vAY1hdXRv/wGM/QGMcGFyZW7ESeUC3voBnE1oQTR2MGYyQnT2AZzLIPoBnEJ1dHRvbu4Bmcdp6QGac2l6xCtzbWFsbCIsInZhcmlh5QChY+cAwmTkAMLnASdwcmltYXJ5xBJoaWxkcuQAuiJUaGFuayB5b3Ui5gCpIjoiIiwib3BlbkluTmV3VGFiyXZmb250U8VxMTbGDlfoAVlub3JtYeQAgmxpbmXoAW/kAhd0ZXh0QWxpZ8RrY2VudOUBU8QVRGVjb3JhdGlvxBrnAavFYXR5bOQA08lS6gJ96wHvN2JmZuwCgjHpAhToAjU1yBHKX2HkAIht5gHBZmnlATHkAIrkAfBsaWNrIG3zAgrnAYX3AgfrA2T5Ag3zAgF9`
+    //const compressedJson = "js"
     //const json = lz.decompress(lz.decodeBase64(compressedJson));
     //console.log(json);
 
@@ -272,7 +335,7 @@ const EditorTopBar = ({ zoom, setZoom }) => {
                   </span>
                 </Button>
               </TooltipTrigger>
-              
+
               <TooltipContent>Undo</TooltipContent>
             </Tooltip>
             <div className="w-[0.5px] h-[18px] bg-[#DBDBDB]" />
@@ -309,14 +372,12 @@ const EditorTopBar = ({ zoom, setZoom }) => {
                     setZoom("100%");
                     setViewport("mobile");
                   }}
-                  className={`cursor-pointer w-6 h-6 ml-2 ${
-                    viewport === "mobile" && "bg-primary-foreground"
-                  } `}
+                  className={`cursor-pointer w-6 h-6 ml-2 ${viewport === "mobile" && "bg-primary-foreground"
+                    } `}
                 >
                   <span
-                    className={`"text-[#DBDBDB] hover:text-primary transition-colors duration-300 ${
-                      viewport === "mobile" && "text-primary"
-                    } `}
+                    className={`"text-[#DBDBDB] hover:text-primary transition-colors duration-300 ${viewport === "mobile" && "text-primary"
+                      } `}
                   >
                     <Mobile className="w-[12.4px] h-[19.39px] " />
                   </span>
@@ -331,14 +392,12 @@ const EditorTopBar = ({ zoom, setZoom }) => {
                   size="icon"
                   variant="ghost"
                   onClick={() => setViewport("desktop")}
-                  className={`cursor-pointer w-6 h-6 mr-2 ${
-                    viewport === "desktop" && "bg-primary-foreground"
-                  } `}
+                  className={`cursor-pointer w-6 h-6 mr-2 ${viewport === "desktop" && "bg-primary-foreground"
+                    } `}
                 >
                   <span
-                    className={`text-[#000000] hover:text-primary transition-colors duration-300 ${
-                      viewport === "desktop" && "text-primary"
-                    }`}
+                    className={`text-[#000000] hover:text-primary transition-colors duration-300 ${viewport === "desktop" && "text-primary"
+                      }`}
                   >
                     <Desktop className="w-[14px] h-[12.39px]" />
                   </span>
@@ -358,14 +417,12 @@ const EditorTopBar = ({ zoom, setZoom }) => {
                 size="icon"
                 variant="ghost"
                 onClick={() => setIsPreview((prev) => !prev)}
-                className={`bg-[#F6F6F6] rounded-[8px] border-none cursor-pointer ${
-                  isPreview && "bg-primary-foreground"
-                }`}
+                className={`bg-[#F6F6F6] rounded-[8px] border-none cursor-pointer ${isPreview && "bg-primary-foreground"
+                  }`}
               >
                 <span
-                  className={`text-[#E3E3E3] hover:text-primary transition-colors duration-300 ${
-                    isPreview && "text-primary"
-                  }`}
+                  className={`text-[#E3E3E3] hover:text-primary transition-colors duration-300 ${isPreview && "text-primary"
+                    }`}
                 >
                   <Preview className="w-[9.38px] h-[10.73px]" />
                 </span>
@@ -382,9 +439,8 @@ const EditorTopBar = ({ zoom, setZoom }) => {
               <Button
                 variant="ghost"
                 className={`text_12_light w-[81px] bg-primary text-primary-foreground rounded-[8px] border-none cursor-pointer hover:bg-primary/70
-             hover:text-primary-foreground transition-colors duration-300 ${
-               isSection ? "hidden" : ""
-             }`}
+             hover:text-primary-foreground transition-colors duration-300 ${isSection ? "hidden" : ""
+                  }`}
                 onClick={() => setIsSection(true)}
               >
                 Publish
@@ -398,9 +454,8 @@ const EditorTopBar = ({ zoom, setZoom }) => {
                 variant="ghost"
                 onClick={() => setIsSection(false)}
                 className={`text_12_light w-[81px] bg-primary text-primary-foreground rounded-[8px] border-none cursor-pointer hover:bg-primary/70
-             hover:text-primary-foreground transition-colors duration-300 ${
-               isSection ? "" : "hidden"
-             }`}
+             hover:text-primary-foreground transition-colors duration-300 ${isSection ? "" : "hidden"
+                  }`}
               >
                 Save
               </Button>

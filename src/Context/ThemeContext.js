@@ -1,3 +1,5 @@
+
+
 import React, { createContext, useContext, useState } from "react";
 
 const ThemeContext = createContext(null);
@@ -272,11 +274,11 @@ const initialThemes = [
 ];
 
 
-export const useTheme = () => {
-  const context = useContext(ThemeContext);
-  if (!context) throw new Error("useTheme must be used within a ThemeProvider");
-  return context;
-};
+// export const useTheme = () => {
+//   const context = useContext(ThemeContext);
+//   if (!context) throw new Error("useTheme must be used within a ThemeProvider");
+//   return context;
+// };
 
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(defaultTheme);
@@ -334,4 +336,45 @@ export const ThemeProvider = ({ children }) => {
   };
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+};
+
+
+export const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    // Safe defaults if no provider wraps this component
+    return {
+      theme: defaultTheme,
+      updateTheme: () => {},
+      setTheme: () => {},
+      fontPairs: defaultFontPairs,
+      setFontPairs: () => {},
+      colorPairs: defaultColorPairs,
+      setColorPairs: () => {},
+      themes: initialThemes,
+      setThemes: () => {},
+      fonts: defaultFonts,
+      setFonts: () => {},
+      hexToRgba: (hex) => {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result
+          ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16),
+            a: 1
+          }
+          : { r: 0, g: 0, b: 0, a: 1 };
+      },
+      rgbaToHex: ({ r, g, b }) => {
+        const toHex = (c) => {
+          const hex = c.toString(16);
+          return hex.length === 1 ? "0" + hex : hex;
+        };
+        return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+      },
+      isClient: false
+    };
+  }
+  return context;
 };

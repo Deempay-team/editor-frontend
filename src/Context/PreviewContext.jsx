@@ -12,13 +12,22 @@ export const PreviewProvider = ({ children }) => {
   );
 };
 
-export const usePreview = () => useContext(PreviewContext);
+// export const usePreview = () => useContext(PreviewContext);
 
-// //Hook to use the context
-// export const useViewport = () => {
-//     const context = useContext(ViewportContext);
+//Hook to use the context
+// export const usePreview = () => {
+//     const context = useContext(PreviewContext);
 //     if (!context) {
-//       throw new Error("useViewport must be used within a ViewportProvider");
+//       throw new Error("usePreview must be used within a PreviewProvider");
 //     }
 //     return context;
 //   };
+
+export const usePreview = () => {
+  const context = useContext(PreviewContext);
+  if (!context) {
+    // Safe fallback to avoid destructuring undefined
+    return { isPreview: false, setIsPreview: () => {} };
+  }
+  return context;
+};

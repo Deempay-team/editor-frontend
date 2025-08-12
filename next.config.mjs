@@ -1,8 +1,14 @@
 // next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
+  // output: "standalone",
   distDir: "./dist", // Changes the build output directory to `./dist/`.
+  // productionBrowserSourceMaps: true,
+
+  output: 'export',
+  // images: {
+  //   unoptimized: true,
+  // },
 
   // Alternative: If you want to use both SVG as components and as files
   webpack(config) {
