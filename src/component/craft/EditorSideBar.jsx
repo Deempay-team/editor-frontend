@@ -14,6 +14,7 @@ import ImageIcons from "@/assets/icons/ImageIcon";
 import SectionContent from "./left-bar/SectionContent";
 import ElementContent from "./left-bar/ElementContent";
 import PageContent from "./left-bar/PageContent";
+import SiteThemeContent from "./left-bar/SiteThemeContent"
 
 const EditorSideBar = ({ hidden, showRightSidebar, setShowRightSidebar }) => {
   // const { connectors } = useEditor();
@@ -103,13 +104,7 @@ const EditorSideBar = ({ hidden, showRightSidebar, setShowRightSidebar }) => {
       />
       <PageContent showRightSidebar={showRightSidebar} />
 
-      <aside
-        className={`w-80 h-[calc(100vh-4.5em)] bg-white border-r border-gray-200 flex flex-col items-center justify-center ${
-          showRightSidebar === "theme" ? "" : "hidden"
-        }`}
-      >
-        <p className="text-gray-500 text-sm">Theme Panel</p>
-      </aside>
+      <SiteThemeContent showRightSidebar={showRightSidebar} />
 
       <aside
         className={`w-80 h-[calc(100vh-4.5em)] bg-white border-r border-gray-200 flex flex-col items-center justify-center ${
