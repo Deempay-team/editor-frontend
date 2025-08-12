@@ -12,7 +12,9 @@ function EditorRightBar({ hidden }) {
     if (currentNodeId) {
       selected = {
         id: currentNodeId,
-        name: state.nodes[currentNodeId].data.name,
+        name:
+          state.nodes[currentNodeId].data.displayName ||
+          state.nodes[currentNodeId].data.custom.name,
         settings:
           state.nodes[currentNodeId].related &&
           state.nodes[currentNodeId].related.settings,

@@ -31,6 +31,16 @@ export const RenderNode = ({ render }) => {
   }));
 
   const currentRef = React.useRef(null);
+  const isMounted = React.useRef(false);
+  const [containerEl, setContainerEl] = React.useState(null);
+
+  React.useEffect(() => {
+    isMounted.current = true;
+    setContainerEl(document.querySelector(".page-container"));
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   React.useEffect(() => {
     if (dom) {
@@ -59,7 +69,6 @@ export const RenderNode = ({ render }) => {
 
   const scroll = React.useCallback(() => {
     const { current: currentDom } = currentRef;
-
     if (!currentDom) return;
 
     const { top, left } = getPos(dom);
@@ -68,11 +77,11 @@ export const RenderNode = ({ render }) => {
   }, [dom, getPos]);
 
   React.useEffect(() => {
+    if (typeof window === "undefined") return;
     const renderer = document.querySelector(".craftjs-renderer");
     if (!renderer) return;
 
     renderer.addEventListener("scroll", scroll);
-
     return () => {
       renderer.removeEventListener("scroll", scroll);
     };
@@ -80,10 +89,11 @@ export const RenderNode = ({ render }) => {
 
   return (
     <>
-      {(isHover || isActive) &&
+      {isMounted.current &&
+        (isHover || isActive) &&
+        containerEl &&
         ReactDOM.createPortal(
           <>
-            {/* AnimatePresence handles the animation of components entering/exiting the DOM */}
             <AnimatePresence>
               {isHover && (
                 <motion.div
@@ -119,7 +129,7 @@ export const RenderNode = ({ render }) => {
               query={query}
             />
           </>,
-          document.querySelector(".page-container")
+          containerEl
         )}
       {render}
     </>
