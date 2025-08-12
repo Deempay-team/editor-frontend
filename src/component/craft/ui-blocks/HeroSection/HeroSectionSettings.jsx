@@ -14,6 +14,8 @@ import {
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SliderControl } from "./SliderControl";
 import { useViewport } from "@/Context/ViewportContext";
+import { ChevronDownIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const colorSchemes = [
   { label: "Light", value: "#ffffff" },
@@ -23,12 +25,12 @@ const colorSchemes = [
   { label: "Custom", value: "#FF4D00" },
 ];
 
-const Section = ({ title, children }) => (
-  <div className="space-y-3">
+const Section = ({ title, children, className }) => (
+  <div className="space-y-3 mt-4">
     <h3 className="text-xs font-semibold text-gray-800 uppercase tracking-wide">
       {title}
     </h3>
-    <div className="space-y-5">{children}</div>
+    <div className={cn("space-y-5", className)}>{children}</div>
   </div>
 );
 
@@ -75,98 +77,131 @@ export const HeroSectionSettings = () => {
         /> */}
       </Section>
 
-      <Section title="Layout">
-        {/* Direction */}
-        <div className=" flex items-center justify-between  w-full">
-          <Label>Direction</Label>
-          <Tabs
-            defaultValue={props.direction}
-            onValueChange={(val) => setProp((p) => (p.direction = val))}
-          >
-            <TabsList>
-              <TabsTrigger value="vertical">Vertical</TabsTrigger>
-              <TabsTrigger value="horizontal">Horizontal</TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
+      <details className="group">
+        <summary className="flex items-center justify-between border-b border-gray-200 py-2 px-0 cursor-pointer list-none ">
+          <h3 className="text-xs font-semibold text-gray-800 uppercase tracking-wide">
+            Desktop Settings
+          </h3>
+          <ChevronDownIcon className="h-5 w-5 stroke-current text-gray-400 rotate-0 group-open:rotate-180 transition-transform" />
+        </summary>
+        <div className=" px-0 py-0 mb-0">
+          <Section title="Layout" className=" border-b border-gray-200 pb-5">
+            {/* Direction */}
+            <div className=" flex items-center justify-between w-full">
+              <Label className="w-[30%]">Direction</Label>
+              <Tabs
+                defaultValue={props.direction}
+                onValueChange={(val) => setProp((p) => (p.direction = val))}
+                className="flex-1"
+              >
+                <TabsList className="w-full">
+                  <TabsTrigger value="vertical" className="flex-1">
+                    Vertical
+                  </TabsTrigger>
+                  <TabsTrigger value="horizontal" className="flex-1">
+                    Horizontal
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
 
-        {/* Alignment */}
-        <div className=" flex items-center justify-between w-full transition-all duration-1000 ease-in-out">
-          <Label>
-            {props.direction === "vertical" ? "Alignment" : "Position"}
-          </Label>
-          <Tabs
-            defaultValue={props.alignment}
-            onValueChange={(value) =>
-              value && setProp((props) => (props.alignment = value))
-            }
-          >
-            <TabsList>
-              {props.direction === "vertical" ? (
-                <>
-                  <TabsTrigger value="left">Left</TabsTrigger>
-                  <TabsTrigger value="center">Center</TabsTrigger>
-                  <TabsTrigger value="right">Right</TabsTrigger>
-                </>
-              ) : (
-                <>
-                  <TabsTrigger value="left">Top</TabsTrigger>
-                  <TabsTrigger value="center">Center</TabsTrigger>
-                  <TabsTrigger value="right">Bottom</TabsTrigger>
-                </>
-              )}
-            </TabsList>
-          </Tabs>
-        </div>
+            {/* Alignment */}
+            <div className=" flex items-center justify-between w-full transition-all duration-1000 ease-in-out">
+              <Label className="w-[30%]">
+                {props.direction === "vertical" ? "Alignment" : "Position"}
+              </Label>
+              <Tabs
+                defaultValue={props.alignment}
+                onValueChange={(value) =>
+                  value && setProp((props) => (props.alignment = value))
+                }
+                className="w-[70%]"
+              >
+                <TabsList className="w-full">
+                  {props.direction === "vertical" ? (
+                    <>
+                      <TabsTrigger value="left" className="flex-1">
+                        Left
+                      </TabsTrigger>
+                      <TabsTrigger value="center" className="flex-1">
+                        Center
+                      </TabsTrigger>
+                      <TabsTrigger value="right" className="flex-1">
+                        Right
+                      </TabsTrigger>
+                    </>
+                  ) : (
+                    <>
+                      <TabsTrigger value="left" className="flex-1 px-0">
+                        Top
+                      </TabsTrigger>
+                      <TabsTrigger value="center" className="flex-1 px-0">
+                        Center
+                      </TabsTrigger>
+                      <TabsTrigger value="right" className="flex-1 px-0">
+                        Bottom
+                      </TabsTrigger>
+                    </>
+                  )}
+                </TabsList>
+              </Tabs>
+            </div>
 
-        {/* Position */}
-        <div className=" flex items-center justify-between w-full transition-all duration-1000 ease-in-out">
-          <Label>
-            {props.direction === "vertical" ? "Position" : "Alignment"}
-          </Label>
-          <Tabs
-            defaultValue={props.position}
-            onValueChange={(value) =>
-              setProp((props) => (props.position = value))
-            }
-          >
-            <TabsList>
-              {props.direction === "vertical" ? (
-                <>
-                  <TabsTrigger value="top">Top</TabsTrigger>
-                  <TabsTrigger value="center">Center</TabsTrigger>
-                  <TabsTrigger value="bottom">Bottom</TabsTrigger>
-                </>
-              ) : (
-                <>
-                  <TabsTrigger value="top">Left</TabsTrigger>
-                  <TabsTrigger value="center">Center</TabsTrigger>
-                  <TabsTrigger value="bottom">Right</TabsTrigger>
-                </>
-              )}
-            </TabsList>
-          </Tabs>
-        </div>
+            {/* Position */}
+            <div className=" flex items-center justify-between w-full transition-all duration-1000 ease-in-out">
+              <Label className="w-[30%]">
+                {props.direction === "vertical" ? "Position" : "Alignment"}
+              </Label>
+              <Tabs
+                defaultValue={props.position}
+                onValueChange={(value) =>
+                  setProp((props) => (props.position = value))
+                }
+                className="w-[70%]"
+              >
+                <TabsList className="w-full">
+                  {props.direction === "vertical" ? (
+                    <>
+                      <TabsTrigger value="top" className="px-0">
+                        Top
+                      </TabsTrigger>
+                      <TabsTrigger value="center" className="px-0">
+                        Center
+                      </TabsTrigger>
+                      <TabsTrigger value="bottom" className="px-0">
+                        Bottom
+                      </TabsTrigger>
+                    </>
+                  ) : (
+                    <>
+                      <TabsTrigger value="top">Left</TabsTrigger>
+                      <TabsTrigger value="center">Center</TabsTrigger>
+                      <TabsTrigger value="bottom">Right</TabsTrigger>
+                    </>
+                  )}
+                </TabsList>
+              </Tabs>
+            </div>
 
-        <SliderControl
-          value={props.gap}
-          label="Gap"
-          onChange={(val) => setProp((p) => (p.gap = val))}
-        />
+            <SliderControl
+              value={props.gap}
+              label="Gap"
+              onChange={(val) => setProp((p) => (p.gap = val))}
+            />
 
-        <SliderControl
-          value={isDesktop ? props.desktopHeight : props.mobileHeight}
-          label="Height"
-          min={230}
-          max={600}
-          onChange={(val) =>
-            setProp((p) =>
-              isDesktop ? (p.desktopHeight = val) : (p.mobileHeight = val)
-            )
-          }
-        />
+            <SliderControl
+              value={isDesktop ? props.desktopHeight : props.mobileHeight}
+              label="Height"
+              min={230}
+              max={600}
+              onChange={(val) =>
+                setProp((p) =>
+                  isDesktop ? (p.desktopHeight = val) : (p.mobileHeight = val)
+                )
+              }
+            />
 
-        {/* <div className="space-y-2">
+            {/* <div className="space-y-2">
           <Label>Mobile Padding Y</Label>
           <Slider
             min={0}
@@ -175,47 +210,206 @@ export const HeroSectionSettings = () => {
             onValueChange={(val) => setProp((p) => (p.mobilePaddingY = val[0]))}
           />
         </div> */}
+          </Section>
 
-        {/* <div className="space-y-2">
-          <Label>Desktop Padding Y</Label>
+          <Section title="Padding" className="mb-4">
+            {/* Desktop Padding Y */}
+            <SliderControl
+              value={isDesktop ? props.desktopPaddingY : props.mobilePaddingY}
+              label="Desktop Padding Vertical"
+              stack={true}
+              onChange={(val) =>
+                setProp((p) =>
+                  isDesktop
+                    ? (p.desktopPaddingY = val)
+                    : (p.mobilePaddingY = val)
+                )
+              }
+            />
+
+            {/* Desktop Padding X */}
+            <SliderControl
+              value={isDesktop ? props.desktopPaddingX : props.mobilePaddingX}
+              label="Desktop Padding Horizontal"
+              stack={true}
+              onChange={(val) =>
+                setProp((p) =>
+                  isDesktop
+                    ? (p.desktopPaddingX = val)
+                    : (p.desktopPaddingX = val)
+                )
+              }
+            />
+          </Section>
+        </div>
+      </details>
+
+      <details className="group">
+        <summary className="flex items-center justify-between border-b border-gray-200 py-2 px-0 cursor-pointer list-none ">
+          <h3 className="text-xs font-semibold text-gray-800 uppercase tracking-wide">
+            Mobile Settings
+          </h3>
+          <ChevronDownIcon className="h-5 w-5 stroke-current text-gray-400 rotate-0 group-open:rotate-180 transition-transform" />
+        </summary>
+        <div className=" px-0 py-0 mb-0">
+          <Section title="Layout" className=" border-b border-gray-200 pb-5">
+            {/* Direction */}
+            <div className=" flex items-center justify-between w-full">
+              <Label className="w-[30%]">Direction</Label>
+              <Tabs
+                defaultValue={props.direction}
+                onValueChange={(val) => setProp((p) => (p.direction = val))}
+                className="flex-1"
+              >
+                <TabsList className="w-full">
+                  <TabsTrigger value="vertical" className="flex-1">
+                    Vertical
+                  </TabsTrigger>
+                  <TabsTrigger value="horizontal" className="flex-1">
+                    Horizontal
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
+
+            {/* Alignment */}
+            <div className=" flex items-center justify-between w-full transition-all duration-1000 ease-in-out">
+              <Label className="w-[30%]">
+                {props.direction === "vertical" ? "Alignment" : "Position"}
+              </Label>
+              <Tabs
+                defaultValue={props.alignment}
+                onValueChange={(value) =>
+                  value && setProp((props) => (props.alignment = value))
+                }
+                className="w-[70%]"
+              >
+                <TabsList className="w-full">
+                  {props.direction === "vertical" ? (
+                    <>
+                      <TabsTrigger value="left" className="flex-1">
+                        Left
+                      </TabsTrigger>
+                      <TabsTrigger value="center" className="flex-1">
+                        Center
+                      </TabsTrigger>
+                      <TabsTrigger value="right" className="flex-1">
+                        Right
+                      </TabsTrigger>
+                    </>
+                  ) : (
+                    <>
+                      <TabsTrigger value="left" className="flex-1 px-0">
+                        Top
+                      </TabsTrigger>
+                      <TabsTrigger value="center" className="flex-1 px-0">
+                        Center
+                      </TabsTrigger>
+                      <TabsTrigger value="right" className="flex-1 px-0">
+                        Bottom
+                      </TabsTrigger>
+                    </>
+                  )}
+                </TabsList>
+              </Tabs>
+            </div>
+
+            {/* Position */}
+            <div className=" flex items-center justify-between w-full transition-all duration-1000 ease-in-out">
+              <Label className="w-[30%]">
+                {props.direction === "vertical" ? "Position" : "Alignment"}
+              </Label>
+              <Tabs
+                defaultValue={props.position}
+                onValueChange={(value) =>
+                  setProp((props) => (props.position = value))
+                }
+                className="w-[70%]"
+              >
+                <TabsList className="w-full">
+                  {props.direction === "vertical" ? (
+                    <>
+                      <TabsTrigger value="top" className="px-0">
+                        Top
+                      </TabsTrigger>
+                      <TabsTrigger value="center" className="px-0">
+                        Center
+                      </TabsTrigger>
+                      <TabsTrigger value="bottom" className="px-0">
+                        Bottom
+                      </TabsTrigger>
+                    </>
+                  ) : (
+                    <>
+                      <TabsTrigger value="top">Left</TabsTrigger>
+                      <TabsTrigger value="center">Center</TabsTrigger>
+                      <TabsTrigger value="bottom">Right</TabsTrigger>
+                    </>
+                  )}
+                </TabsList>
+              </Tabs>
+            </div>
+
+            <SliderControl
+              value={props.gap}
+              label="Gap"
+              onChange={(val) => setProp((p) => (p.gap = val))}
+            />
+
+            <SliderControl
+              value={isDesktop ? props.desktopHeight : props.mobileHeight}
+              label="Height"
+              min={230}
+              max={600}
+              onChange={(val) =>
+                setProp((p) =>
+                  isDesktop ? (p.desktopHeight = val) : (p.mobileHeight = val)
+                )
+              }
+            />
+
+            {/* <div className="space-y-2">
+          <Label>Mobile Padding Y</Label>
           <Slider
             min={0}
-            max={200}
-            value={[props.desktopPaddingY]}
-            onValueChange={(val) =>
-              setProp((p) => (p.desktopPaddingY = val[0]))
-            }
+            max={100}
+            value={[props.mobilePaddingY]}
+            onValueChange={(val) => setProp((p) => (p.mobilePaddingY = val[0]))}
           />
         </div> */}
-        <SliderControl
-          value={isDesktop ? props.desktopPaddingY : props.mobilePaddingY}
-          label="Desktop Padding Vertical"
-          stack={true}
-          onChange={(val) =>
-            setProp((p) =>
-              isDesktop ? (p.desktopPaddingY = val) : (p.mobilePaddingY = val)
-            )
-          }
-        />
+          </Section>
 
-        <div className="space-y-2">
-          <Label>Border Radius</Label>
-          <Slider
-            min={0}
-            max={50}
-            value={[props.borderRadius]}
-            onValueChange={(val) => setProp((p) => (p.borderRadius = val[0]))}
-          />
-        </div>
+          <Section title="Padding" className="mb-4">
+            {/* Desktop Padding Y */}
+            <SliderControl
+              value={isDesktop ? props.desktopPaddingY : props.mobilePaddingY}
+              label="Desktop Padding Vertical"
+              stack={true}
+              onChange={(val) =>
+                setProp((p) =>
+                  isDesktop
+                    ? (p.desktopPaddingY = val)
+                    : (p.mobilePaddingY = val)
+                )
+              }
+            />
 
-        <div className="space-y-2">
-          <Label>Enable Shadow</Label>
-          <Switch
-            checked={props.shadow}
-            onCheckedChange={(val) => setProp((p) => (p.shadow = val))}
-          />
+            {/* Desktop Padding X */}
+            <SliderControl
+              value={isDesktop ? props.desktopPaddingX : props.mobilePaddingX}
+              label="Desktop Padding Horizontal"
+              stack={true}
+              onChange={(val) =>
+                setProp((p) =>
+                  isDesktop
+                    ? (p.desktopPaddingX = val)
+                    : (p.desktopPaddingX = val)
+                )
+              }
+            />
+          </Section>
         </div>
-      </Section>
+      </details>
     </div>
   );
 };

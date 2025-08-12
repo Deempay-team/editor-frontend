@@ -22,13 +22,18 @@ export function SliderControl({
     <div
       className={cn(
         "flex items-center gap-4 w-full",
-        stack && "flex-col items-start"
+        stack && "flex-col items-start gap-2"
       )}
     >
       {/* Label */}
-      <Label className="">{label}</Label>
+      <Label className={cn("w-[30%]", stack && " w-full")}>{label}</Label>
 
-      <div className="flex1 flex items-center gap-4 w-full">
+      <div
+        className={cn(
+          "flex1 flex items-center gap-4 w-[70%]",
+          stack && " w-full"
+        )}
+      >
         {/* Slider */}
         <div className="flex-1">
           <Slider

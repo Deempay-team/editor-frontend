@@ -18,8 +18,6 @@ export const HeroSectionRender = ({
   gap = 16,
   desktopHeight = 450,
   mobileHeight = 500,
-  borderRadius = 0,
-  shadow = true,
   children,
 }) => {
   const { isDesktop } = useViewport();
@@ -33,8 +31,6 @@ export const HeroSectionRender = ({
       ref={(ref) => connect(drag(ref))}
       style={{
         backgroundColor: background,
-        borderRadius: `${borderRadius}px`,
-        boxShadow: shadow ? "0 2px 12px rgba(0,0,0,0.1)" : "none",
         height: isDesktop ? `${desktopHeight}px` : `${mobileHeight}px`,
       }}
       className={`
@@ -103,8 +99,6 @@ HeroSectionRender.craft = {
     gap: 16,
     desktopHeight: 450,
     mobileHeight: 500,
-    borderRadius: 0,
-    shadow: true,
   },
   related: {
     settings: HeroSectionSettings,
