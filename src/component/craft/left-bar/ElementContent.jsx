@@ -50,7 +50,7 @@ const ElementContent = ({ showRightSidebar, setShowRightSidebar }) => {
 
         {/* Sidebar Tabs */}
         <Tabs defaultValue="tab1" className="flex flex-row w-full h-[93%]">
-          <div className="w-[207px] bg-[#DBDBDB] h-full py-1 border-r border-gray-300">
+          <div className="w-[207px] bg-[#dbdbdb] h-full py-1 border-r border-gray-300">
             <TabsList className="flex-col space-y-1 bg-transparent w-full p-0">
               <TabsTrigger
                 value="tab1"
@@ -158,7 +158,7 @@ const ElementContent = ({ showRightSidebar, setShowRightSidebar }) => {
                   }
                 >
                   <ButtonIcon className="w-5 h-5 mb-1 stroke-current" />
-                  <p className="text-[13px] font-normal ">Button</p>
+                  <p className="text-[13px] font-normal ">Button </p>
                 </button>
 
                 <button
@@ -190,9 +190,18 @@ const ElementContent = ({ showRightSidebar, setShowRightSidebar }) => {
               <p className="text-gray-500 text-sm">page Panel</p>
             </TabsContent>
             <TabsContent value="tab3">
-              <p className="text-gray-500 text-sm">page Panel</p>
-              <p className="text-gray-500 text-sm">page Panel</p>
-              <p className="text-gray-500 text-sm">page Panel</p>
+              <button
+                className="group bg-gray-100 text-gray-600 rounded-sm h-20 flex flex-col items-center justify-center hover:bg-gray-200  w-full text-center cursor-pointer"
+                ref={(ref) =>
+                  connectors.create(
+                    ref,
+                    <Button text="Click me" size="small" />
+                  )
+                }
+              >
+                <ButtonIcon className="w-5 h-5 mb-1 stroke-current" />
+                <p className="text-[13px] font-normal ">Button </p>
+              </button>
             </TabsContent>
           </ScrollArea>
           {/* </ScrollArea> */}

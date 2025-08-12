@@ -1,25 +1,16 @@
-import React from "react";
 import { useEditor } from "@craftjs/core";
-import { AnnouncementBar } from "@/component/craft/ui-blocks/AnnouncementBar/AnnouncementBarRender.jsx";
+import { HeroSectionRender } from "../component/craft/ui-blocks/HeroSection/HeroSectionRender";
 
-const   HeroSection = () => {
+const HeroSection = () => {
   const { connectors } = useEditor();
 
   return (
-    <div className="grid grid-cols-1 gap-4">
-      {[...Array(3)].map((_, i) => (
-        <button
-          key={i}
-          ref={(ref) => connectors.create(ref, <AnnouncementBar />)}
-          className="rounded-md border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition bg-white"
-        >
-          <img
-            src={`https://via.placeholder.com/400x160?text=Hero+${i + 1}`}
-            alt={`Hero ${i + 1}`}
-            className="w-full object-cover"
-          />
-        </button>
-      ))}
+    <div
+      ref={(ref) => connectors.create(ref, <HeroSectionRender />)}
+      className="bg-gray-800 text-white text-center flex items-center justify-center h-10 rounded-sm"
+    >
+      {/* <Megaphone size={18} className="opacity-90 mr-4" /> */}
+      Hero Section
     </div>
   );
 };

@@ -15,8 +15,6 @@
 //   AccordionTrigger,
 // } from "@/components/ui/accordion"
 
-
-
 // export const Button = ({ size, variant, color, children, link, openInNewTab, fontSize, fontWeight, lineHeight, textAlign, textDecoration, fontStyle, backgroundColor, padding, borderRadius, border, alignment }) => {
 //   const {
 //     connectors: { connect, drag },
@@ -93,12 +91,10 @@
 //           />
 //         </div>
 
-
 //         {/* <Accordion type="single" collapsible>
 //           <AccordionItem value="item-1">
 //             <AccordionTrigger>Topography</AccordionTrigger>
 //             <AccordionContent className="mt-4 space-y-4">
-            
 
 //             </AccordionContent>
 //           </AccordionItem>
@@ -109,7 +105,6 @@
 //             </AccordionContent>
 //           </AccordionItem>
 //         </Accordion> */}
-
 
 //         <Label>Font Size</Label>
 //         <Slider defaultValue={[props.fontSize]} min={10} max={50} step={1} onValueChange={(value) => setProp((props) => (props.fontSize = value[0]))} />
@@ -125,7 +120,6 @@
 //             <SelectItem value="bold">Bold</SelectItem>
 //           </SelectContent>
 //         </Select>
-
 
 //         <Label>Line Height</Label>
 //         <Slider defaultValue={[props.lineHeight]} min={10} max={50} step={1} onValueChange={(value) => setProp((props) => (props.lineHeight = value[0]))} />
@@ -235,9 +229,8 @@
 //   },
 // };
 
-
 import React from "react";
-import { useNode } from "@craftjs/core";
+import { useEditor, useNode } from "@craftjs/core";
 import { Button as ShadButton } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -264,7 +257,7 @@ const BREAKPOINT = 640;
 export const Button = ({
   size,
   variant,
-  children,
+  children = "Click me",
   link,
   openInNewTab,
   fontSize,
@@ -289,7 +282,9 @@ export const Button = ({
 }) => {
   const {
     connectors: { connect, drag },
+    actions: { setProp },
   } = useNode();
+  const isEditor = useEditor((state) => state.options.enabled);
 
   const buttonElement = (
     <>
@@ -321,14 +316,16 @@ export const Button = ({
           }
         `}
       </style>
-      <div>
+      <div ref={(ref) => connect(drag(ref))}>
         <ShadButton
           size={size}
           variant={variant}
-          className="responsive-button"
+          className="responsive-button cursor-pointer"
           style={{
             "--font-size": `${fontSize}px`,
-            "--font-size-mobile": fontSizeMobile ? `${fontSizeMobile}px` : undefined,
+            "--font-size-mobile": fontSizeMobile
+              ? `${fontSizeMobile}px`
+              : undefined,
             "--font-weight": fontWeight,
             "--font-weight-mobile": fontWeightMobile || undefined,
             "--text-align": textAlign,
@@ -336,9 +333,13 @@ export const Button = ({
             "--background-color": backgroundColor,
             "--background-color-mobile": backgroundColorMobile || undefined,
             "--padding": `${padding}px`,
-            "--padding-mobile": paddingMobile ? `${paddingMobile}px` : undefined,
+            "--padding-mobile": paddingMobile
+              ? `${paddingMobile}px`
+              : undefined,
             "--border-radius": `${borderRadius}px`,
-            "--border-radius-mobile": borderRadiusMobile ? `${borderRadiusMobile}px` : undefined,
+            "--border-radius-mobile": borderRadiusMobile
+              ? `${borderRadiusMobile}px`
+              : undefined,
             "--border": border,
             "--border-mobile": borderMobile || undefined,
             "--margin":
@@ -366,12 +367,16 @@ export const Button = ({
     </>
   );
 
-  return link ? (
-    <a href={link} target={openInNewTab ? "_blank" : "_self"} rel="noopener noreferrer">
+  return link && !isEditor ? (
+    <a
+      ref={(ref) => connect(drag(ref))}
+      href={link}
+      target={openInNewTab ? "_blank" : "_self"}
+    >
       {buttonElement}
     </a>
   ) : (
-    buttonElement
+    <div ref={(ref) => connect(drag(ref))}>{buttonElement}</div>
   );
 };
 
@@ -384,288 +389,315 @@ export const ButtonSettings = () => {
   }));
 
   return (
-    <Card>
-      <CardContent className="space-y-4">
-        <Label>Button Text</Label>
-        <Input
-          value={props.children}
-          onChange={(e) => setProp((props) => (props.children = e.target.value))}
+    <div className="space-y-4">
+      <Label>Button Text</Label>
+      <Input
+        value={props.children}
+        onChange={(e) => setProp((props) => (props.children = e.target.value))}
+      />
+
+      <Label>Link</Label>
+      <Input
+        value={props.link}
+        onChange={(e) => setProp((props) => (props.link = e.target.value))}
+      />
+
+      <div className="flex items-center gap-2 justify-between">
+        <Label>Open in New Tab</Label>
+        <input
+          type="checkbox"
+          checked={props.openInNewTab}
+          onChange={(e) =>
+            setProp((props) => (props.openInNewTab = e.target.checked))
+          }
         />
+      </div>
 
-        <Label>Link</Label>
-        <Input
-          value={props.link}
-          onChange={(e) => setProp((props) => (props.link = e.target.value))}
-        />
+      <Accordion type="single" collapsible>
+        <AccordionItem value="desktop">
+          <AccordionTrigger className="flex items-center justify-between w-full pb-3">
+            <span>Desktop Settings</span>
+          </AccordionTrigger>
+          <AccordionContent className="space-y-4">
+            <Label>Font Size</Label>
+            <Slider
+              defaultValue={[props.fontSize]}
+              min={10}
+              max={50}
+              step={1}
+              onValueChange={(value) =>
+                setProp((props) => (props.fontSize = value[0]))
+              }
+            />
 
-        <div className="flex items-center gap-2 justify-between">
-          <Label>Open in New Tab</Label>
-          <input
-            type="checkbox"
-            checked={props.openInNewTab}
-            onChange={(e) => setProp((props) => (props.openInNewTab = e.target.checked))}
-          />
-        </div>
+            <Label>Font Weight</Label>
+            <Select
+              onValueChange={(value) =>
+                setProp((props) => (props.fontWeight = value))
+              }
+              defaultValue={props.fontWeight}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Normal" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="lighter">Lighter</SelectItem>
+                <SelectItem value="normal">Normal</SelectItem>
+                <SelectItem value="bold">Bold</SelectItem>
+              </SelectContent>
+            </Select>
 
-        <Accordion type="single" collapsible>
-          <AccordionItem value="desktop">
-            <AccordionTrigger>Desktop Settings</AccordionTrigger>
-            <AccordionContent className="space-y-4">
-              <Label>Font Size</Label>
-              <Slider
-                defaultValue={[props.fontSize]}
-                min={10}
-                max={50}
-                step={1}
-                onValueChange={(value) => setProp((props) => (props.fontSize = value[0]))}
-              />
+            <Label>Text Align</Label>
+            <Select
+              onValueChange={(value) =>
+                setProp((props) => (props.textAlign = value))
+              }
+              defaultValue={props.textAlign}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Center" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="left">Left</SelectItem>
+                <SelectItem value="center">Center</SelectItem>
+                <SelectItem value="right">Right</SelectItem>
+              </SelectContent>
+            </Select>
 
-              <Label>Font Weight</Label>
-              <Select
-                onValueChange={(value) => setProp((props) => (props.fontWeight = value))}
-                defaultValue={props.fontWeight}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Normal" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="lighter">Lighter</SelectItem>
-                  <SelectItem value="normal">Normal</SelectItem>
-                  <SelectItem value="bold">Bold</SelectItem>
-                </SelectContent>
-              </Select>
+            <Label>Background Color</Label>
+            <ColorPicker
+              value={props.backgroundColor}
+              onChange={(value) =>
+                setProp((props) => (props.backgroundColor = value))
+              }
+            />
 
-              <Label>Text Align</Label>
-              <Select
-                onValueChange={(value) => setProp((props) => (props.textAlign = value))}
-                defaultValue={props.textAlign}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Center" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="left">Left</SelectItem>
-                  <SelectItem value="center">Center</SelectItem>
-                  <SelectItem value="right">Right</SelectItem>
-                </SelectContent>
-              </Select>
+            <Label>Padding</Label>
+            <Slider
+              defaultValue={[props.padding]}
+              min={0}
+              max={50}
+              step={1}
+              onValueChange={(value) =>
+                setProp((props) => (props.padding = value[0]))
+              }
+            />
 
-              <Label>Background Color</Label>
-              <ColorPicker
-                value={props.backgroundColor}
-                onChange={(value) => setProp((props) => (props.backgroundColor = value))}
-              />
+            <Label>Border Radius</Label>
+            <Slider
+              defaultValue={[props.borderRadius]}
+              min={0}
+              max={50}
+              step={1}
+              onValueChange={(value) =>
+                setProp((props) => (props.borderRadius = value[0]))
+              }
+            />
 
-              <Label>Padding</Label>
-              <Slider
-                defaultValue={[props.padding]}
-                min={0}
-                max={50}
-                step={1}
-                onValueChange={(value) => setProp((props) => (props.padding = value[0]))}
-              />
+            <Label>Border</Label>
+            <Select
+              onValueChange={(value) =>
+                setProp((props) => (props.border = value))
+              }
+              defaultValue={props.border}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="None" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="none">None</SelectItem>
+                <SelectItem value="1px solid #000">Solid</SelectItem>
+                <SelectItem value="1px dotted #000">Dotted</SelectItem>
+                <SelectItem value="1px dashed #000">Dashed</SelectItem>
+              </SelectContent>
+            </Select>
 
-              <Label>Border Radius</Label>
-              <Slider
-                defaultValue={[props.borderRadius]}
-                min={0}
-                max={50}
-                step={1}
-                onValueChange={(value) => setProp((props) => (props.borderRadius = value[0]))}
-              />
+            <Label>Alignment</Label>
+            <Select
+              onValueChange={(value) =>
+                setProp((props) => (props.alignment = value))
+              }
+              defaultValue={props.alignment}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Left" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="left">Left</SelectItem>
+                <SelectItem value="center">Center</SelectItem>
+                <SelectItem value="right">Right</SelectItem>
+                <SelectItem value="fill">Fill Width</SelectItem>
+              </SelectContent>
+            </Select>
+          </AccordionContent>
+        </AccordionItem>
 
-              <Label>Border</Label>
-              <Select
-                onValueChange={(value) => setProp((props) => (props.border = value))}
-                defaultValue={props.border}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="None" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="none">None</SelectItem>
-                  <SelectItem value="1px solid #000">Solid</SelectItem>
-                  <SelectItem value="1px dotted #000">Dotted</SelectItem>
-                  <SelectItem value="1px dashed #000">Dashed</SelectItem>
-                </SelectContent>
-              </Select>
+        <AccordionItem value="mobile">
+          <AccordionTrigger className="flex items-center justify-between w-full pt-3">
+            <span>Mobile Settings</span>
+          </AccordionTrigger>
+          <AccordionContent className="space-y-4">
+            <Label>Font Size</Label>
+            <Slider
+              defaultValue={[props.fontSizeMobile || props.fontSize]}
+              min={10}
+              max={50}
+              step={1}
+              onValueChange={(value) =>
+                setProp((props) => (props.fontSizeMobile = value[0]))
+              }
+            />
 
-              <Label>Alignment</Label>
-              <Select
-                onValueChange={(value) => setProp((props) => (props.alignment = value))}
-                defaultValue={props.alignment}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Left" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="left">Left</SelectItem>
-                  <SelectItem value="center">Center</SelectItem>
-                  <SelectItem value="right">Right</SelectItem>
-                  <SelectItem value="fill">Fill Width</SelectItem>
-                </SelectContent>
-              </Select>
-            </AccordionContent>
-          </AccordionItem>
+            <Label>Font Weight</Label>
+            <Select
+              onValueChange={(value) =>
+                setProp((props) => (props.fontWeightMobile = value))
+              }
+              defaultValue={props.fontWeightMobile || props.fontWeight}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Normal" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="lighter">Lighter</SelectItem>
+                <SelectItem value="normal">Normal</SelectItem>
+                <SelectItem value="bold">Bold</SelectItem>
+              </SelectContent>
+            </Select>
 
-          <AccordionItem value="mobile">
-            <AccordionTrigger>Mobile Settings</AccordionTrigger>
-            <AccordionContent className="space-y-4">
-              <Label>Font Size</Label>
-              <Slider
-                defaultValue={[props.fontSizeMobile || props.fontSize]}
-                min={10}
-                max={50}
-                step={1}
-                onValueChange={(value) =>
-                  setProp((props) => (props.fontSizeMobile = value[0]))
-                }
-              />
+            <Label>Text Align</Label>
+            <Select
+              onValueChange={(value) =>
+                setProp((props) => (props.textAlignMobile = value))
+              }
+              defaultValue={props.textAlignMobile || props.textAlign}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Center" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="left">Left</SelectItem>
+                <SelectItem value="center">Center</SelectItem>
+                <SelectItem value="right">Right</SelectItem>
+              </SelectContent>
+            </Select>
 
-              <Label>Font Weight</Label>
-              <Select
-                onValueChange={(value) =>
-                  setProp((props) => (props.fontWeightMobile = value))
-                }
-                defaultValue={props.fontWeightMobile || props.fontWeight}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Normal" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="lighter">Lighter</SelectItem>
-                  <SelectItem value="normal">Normal</SelectItem>
-                  <SelectItem value="bold">Bold</SelectItem>
-                </SelectContent>
-              </Select>
+            <Label>Background Color</Label>
+            <ColorPicker
+              value={props.backgroundColorMobile || props.backgroundColor}
+              onChange={(value) =>
+                setProp((props) => (props.backgroundColorMobile = value))
+              }
+            />
 
-              <Label>Text Align</Label>
-              <Select
-                onValueChange={(value) =>
-                  setProp((props) => (props.textAlignMobile = value))
-                }
-                defaultValue={props.textAlignMobile || props.textAlign}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Center" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="left">Left</SelectItem>
-                  <SelectItem value="center">Center</SelectItem>
-                  <SelectItem value="right">Right</SelectItem>
-                </SelectContent>
-              </Select>
+            <Label>Padding</Label>
+            <Slider
+              defaultValue={[props.paddingMobile || props.padding]}
+              min={0}
+              max={50}
+              step={1}
+              onValueChange={(value) =>
+                setProp((props) => (props.paddingMobile = value[0]))
+              }
+            />
 
-              <Label>Background Color</Label>
-              <ColorPicker
-                value={props.backgroundColorMobile || props.backgroundColor}
-                onChange={(value) =>
-                  setProp((props) => (props.backgroundColorMobile = value))
-                }
-              />
+            <Label>Border Radius</Label>
+            <Slider
+              defaultValue={[props.borderRadiusMobile || props.borderRadius]}
+              min={0}
+              max={50}
+              step={1}
+              onValueChange={(value) =>
+                setProp((props) => (props.borderRadiusMobile = value[0]))
+              }
+            />
 
-              <Label>Padding</Label>
-              <Slider
-                defaultValue={[props.paddingMobile || props.padding]}
-                min={0}
-                max={50}
-                step={1}
-                onValueChange={(value) =>
-                  setProp((props) => (props.paddingMobile = value[0]))
-                }
-              />
+            <Label>Border</Label>
+            <Select
+              onValueChange={(value) =>
+                setProp((props) => (props.borderMobile = value))
+              }
+              defaultValue={props.borderMobile || props.border}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="None" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="none">None</SelectItem>
+                <SelectItem value="1px solid #000">Solid</SelectItem>
+                <SelectItem value="1px dotted #000">Dotted</SelectItem>
+                <SelectItem value="1px dashed #000">Dashed</SelectItem>
+              </SelectContent>
+            </Select>
 
-              <Label>Border Radius</Label>
-              <Slider
-                defaultValue={[props.borderRadiusMobile || props.borderRadius]}
-                min={0}
-                max={50}
-                step={1}
-                onValueChange={(value) =>
-                  setProp((props) => (props.borderRadiusMobile = value[0]))
-                }
-              />
+            <Label>Alignment</Label>
+            <Select
+              onValueChange={(value) =>
+                setProp((props) => (props.alignmentMobile = value))
+              }
+              defaultValue={props.alignmentMobile || props.alignment}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Left" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="left">Left</SelectItem>
+                <SelectItem value="center">Center</SelectItem>
+                <SelectItem value="right">Right</SelectItem>
+                <SelectItem value="fill">Fill Width</SelectItem>
+              </SelectContent>
+            </Select>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
 
-              <Label>Border</Label>
-              <Select
-                onValueChange={(value) => setProp((props) => (props.borderMobile = value))}
-                defaultValue={props.borderMobile || props.border}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="None" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="none">None</SelectItem>
-                  <SelectItem value="1px solid #000">Solid</SelectItem>
-                  <SelectItem value="1px dotted #000">Dotted</SelectItem>
-                  <SelectItem value="1px dashed #000">Dashed</SelectItem>
-                </SelectContent>
-              </Select>
+      <Label>Line Height</Label>
+      <Slider
+        defaultValue={[props.lineHeight]}
+        min={10}
+        max={50}
+        step={1}
+        onValueChange={(value) =>
+          setProp((props) => (props.lineHeight = value[0]))
+        }
+      />
 
-              <Label>Alignment</Label>
-              <Select
-                onValueChange={(value) =>
-                  setProp((props) => (props.alignmentMobile = value))
-                }
-                defaultValue={props.alignmentMobile || props.alignment}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Left" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="left">Left</SelectItem>
-                  <SelectItem value="center">Center</SelectItem>
-                  <SelectItem value="right">Right</SelectItem>
-                  <SelectItem value="fill">Fill Width</SelectItem>
-                </SelectContent>
-              </Select>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+      <Label>Text Decoration</Label>
+      <Select
+        onValueChange={(value) =>
+          setProp((props) => (props.textDecoration = value))
+        }
+        defaultValue={props.textDecoration}
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="None" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="none">None</SelectItem>
+          <SelectItem value="underline">Underline</SelectItem>
+          <SelectItem value="line-through">Line Through</SelectItem>
+        </SelectContent>
+      </Select>
 
-        <Label>Line Height</Label>
-        <Slider
-          defaultValue={[props.lineHeight]}
-          min={10}
-          max={50}
-          step={1}
-          onValueChange={(value) => setProp((props) => (props.lineHeight = value[0]))}
-        />
-
-        <Label>Text Decoration</Label>
-        <Select
-          onValueChange={(value) => setProp((props) => (props.textDecoration = value))}
-          defaultValue={props.textDecoration}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="None" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="none">None</SelectItem>
-            <SelectItem value="underline">Underline</SelectItem>
-            <SelectItem value="line-through">Line Through</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Label>Font Style</Label>
-        <Select
-          onValueChange={(value) => setProp((props) => (props.fontStyle = value))}
-          defaultValue={props.fontStyle}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Normal" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="normal">Normal</SelectItem>
-            <SelectItem value="italic">Italic</SelectItem>
-          </SelectContent>
-        </Select>
-      </CardContent>
-    </Card>
+      <Label>Font Style</Label>
+      <Select
+        onValueChange={(value) => setProp((props) => (props.fontStyle = value))}
+        defaultValue={props.fontStyle}
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="Normal" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="normal">Normal</SelectItem>
+          <SelectItem value="italic">Italic</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
   );
 };
 
 Button.craft = {
+  displayName: "Button",
   props: {
     size: "small",
     variant: "contained",

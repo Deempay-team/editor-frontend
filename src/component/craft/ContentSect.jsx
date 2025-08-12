@@ -180,8 +180,9 @@ import { Frame, Element, useEditor } from "@craftjs/core";
 import cx from "classnames";
 
 import { Container } from "./user/Container";
-// import { Text } from "./user/Text";
+import { Text } from "./user/Text";
 import { useViewport } from "../../Context/ViewportContext";
+import { HeroSectionRender } from "./ui-blocks/HeroSection/HeroSectionRender";
 
 function ContentSect({ data }) {
   const { viewport } = useViewport();
@@ -231,6 +232,10 @@ function ContentSect({ data }) {
 function ContentSectionSect() {
   const { viewport } = useViewport();
 
+  const { enabled, connectors } = useEditor((state) => ({
+    enabled: state.options.enabled,
+  }));
+
   const getViewportWidth = () => {
     switch (viewport) {
       case "mobile":
@@ -243,12 +248,21 @@ function ContentSectionSect() {
   };
 
   return (
-    <main className="bg-[#F6F6F6] flex justify-center pt-4 px-8 pb-20 min-h-screen">
+    <main className="viewport page-container bg-[#F6F6F6] flex justify-center pt-4 px-8 pb-30 min-h-screen">
       <div
-        className="bg-white rounded-sm"
+        className={cx([
+          "craftjs-renderer bg-white",
+          {
+            "bg-renderer-gray": enabled,
+          },
+        ])}
+        ref={(ref) => {
+          connectors.select(connectors.hover(ref), null);
+        }}
         style={{
           width: getViewportWidth(),
           boxSizing: "border-box",
+          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.10)",
         }}
       >
         <Frame>
@@ -267,6 +281,7 @@ function ContentSectionSect() {
             canvas
             custom={{ displayName: "App" }}
           >
+            <Element is={HeroSectionRender} canvas />
           </Element>
         </Frame>
       </div>

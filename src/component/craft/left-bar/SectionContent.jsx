@@ -20,12 +20,12 @@ const SectionContent = ({ showRightSidebar }) => {
     "Collections",
     "Form",
     "Layout",
-    "Storytelling"
+    "Storytelling",
   ];
 
   const renderContent = () => {
     switch (activeTab) {
-        case "Announcement":
+      case "Announcement":
         return <AnnouncementBar />;
       case "Header":
         return <HeaderSection />;
