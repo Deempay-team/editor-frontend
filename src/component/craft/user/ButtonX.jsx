@@ -60,7 +60,7 @@ export const ButtonX = ({
     <>
       <style>
         {`
-          .responsive-button {
+          .responsive-buttonX {
             font-size: var(--font-size, 16px);
             font-weight: var(--font-weight, normal);
             text-align: var(--text-align, center);
@@ -75,7 +75,7 @@ export const ButtonX = ({
           }
 
           @media (max-width: ${BREAKPOINT}px) {
-            .responsive-button {
+            .responsive-buttonX {
               font-size: var(--font-size-mobile, var(--font-size));
               font-weight: var(--font-weight-mobile, var(--font-weight));
               text-align: var(--text-align-mobile, var(--text-align));
@@ -93,7 +93,7 @@ export const ButtonX = ({
         <ShadButton
           size={size}
           variant={variant}
-          className="responsive-button"
+          className="responsive-buttonX"
           style={{
             "--font-size": `${fontSize}px`,
             "--font-size-mobile": fontSizeMobile ? `${fontSizeMobile}px` : undefined,

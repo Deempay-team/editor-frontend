@@ -26,7 +26,7 @@ export const TextX = ({ text,
     hasSelectedNode: state.events.selected,
   }));
 
-  const { theme } = useTheme(); 
+  const { theme } = useTheme();
   const [editable, setEditable] = useState(false);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export const TextX = ({ text,
 
   return (
     <>
-    {/* <style>
+      {/* <style>
         {`
           .responsive-text {
             font-size: var(--font-size, 16px);
@@ -54,9 +54,15 @@ export const TextX = ({ text,
           }
         `}
       </style> */}
-       <style>
+
+
+      {/* 
+      make sure you change the classname to fit the component classname,
+      also each component should have a unique classname so that we will not have a conflict 
+       */}
+      <style>
         {`
-          .responsive-text {
+          .responsive-textX {
             font-size: var(--font-size, 16px);
             text-align: var(--text-align, left);
             font-weight: var(--font-weight, 400);
@@ -65,7 +71,7 @@ export const TextX = ({ text,
           }
 
           @media (max-width: 600px) {
-            .responsive-text {
+            .responsive-textX {
               font-size: var(--font-size-mobile, var(--font-size));
               text-align: var(--text-align-mobile, var(--text-align));
               font-weight: var(--font-weight-mobile, var(--font-weight));
@@ -78,7 +84,7 @@ export const TextX = ({ text,
       <div
         ref={(ref) => connect(drag(ref))}
         onClick={() => setEditable(true)}
-        className="responsive-text"
+        className="responsive-textX"
         style={{
           '--font-size': `${fontSize}px`,
           '--font-size-mobile': fontSizeMobile ? `${fontSizeMobile}px` : undefined,
@@ -86,7 +92,7 @@ export const TextX = ({ text,
           '--text-align-mobile': textAlignMobile || undefined,
           '--font-weight': fontWeight,
           '--font-weight-mobile': fontWeightMobile || undefined,
-          "--font-family":  theme.font.heading.family, 
+          "--font-family": theme.font.heading.family,
           "--color": color || theme.colors.primary.hex,
           '--color-mobile': colorMobile || undefined,
           lineHeight,
@@ -96,7 +102,7 @@ export const TextX = ({ text,
           width: `${width}%`,
         }}
       >
-      {/* <ContentEditable
+        {/* <ContentEditable
         html={text}
         disabled={false}
         onChange={e => 
@@ -110,8 +116,8 @@ export const TextX = ({ text,
         // }}
         className=" mx-autos"
       /> */}
-      <p>{text}</p>
-    </div>
+        <p>{text}</p>
+      </div>
     </>
   );
 };
@@ -123,7 +129,7 @@ export const TextXSettings = () => {
   } = useNode((node) => ({
     props: node.data.props,
   }));
-  const { theme } = useTheme(); 
+  const { theme } = useTheme();
 
   return (
     <Card>
@@ -233,22 +239,22 @@ export const TextXSettings = () => {
         {/* Text Color */}
         <div className="space-y-4">
           <div className="space-y-2">
-          <Label>Text Color (Desktop)</Label>
-          <Input
-            type="color"
-            value={props.color || theme.colors.primary.hex}
-            onChange={(e) => setProp((props) => (props.color = e.target.value))}
-          />
+            <Label>Text Color (Desktop)</Label>
+            <Input
+              type="color"
+              value={props.color || theme.colors.primary.hex}
+              onChange={(e) => setProp((props) => (props.color = e.target.value))}
+            />
           </div>
           <div className="space-y-2">
-          <Label>Text Color (Mobile)</Label>
-          <Input
-            type="color"
-            value={props.colorMobile || props.color || theme.colors.primary.hex}
-            onChange={(e) =>
-              setProp((props) => (props.colorMobile = e.target.value))
-            }
-          />
+            <Label>Text Color (Mobile)</Label>
+            <Input
+              type="color"
+              value={props.colorMobile || props.color || theme.colors.primary.hex}
+              onChange={(e) =>
+                setProp((props) => (props.colorMobile = e.target.value))
+              }
+            />
           </div>
         </div>
 
