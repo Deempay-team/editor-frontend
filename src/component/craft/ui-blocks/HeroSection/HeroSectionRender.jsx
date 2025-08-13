@@ -8,9 +8,8 @@ import { useViewport } from "@/Context/ViewportContext";
 
 export const HeroSectionRender = ({
   background = "#ffffff",
-  direction = "vertical",
-  alignment = "left",
-  position = "bottom",
+  backgroundType = "color",
+  backgroundSrc = "", // image or video src
   mobilePaddingX = 20,
   desktopPaddingX = 40,
   mobilePaddingY = 20,
@@ -18,6 +17,15 @@ export const HeroSectionRender = ({
   gap = 16,
   desktopHeight = 450,
   mobileHeight = 500,
+  desktopDirection = "vertical",
+  mobileDirection = "vertical",
+  desktopAlignment = "center",
+  mobileAlignment = "center",
+  desktopPosition = "center",
+  mobilePosition = "center",
+  backgroundSize = "cover",
+  backgroundPosition = "center",
+  overlayOpacity = 40, // default 40% opacity
   children,
 }) => {
   const { isDesktop } = useViewport();
@@ -26,20 +34,84 @@ export const HeroSectionRender = ({
     connectors: { connect, drag },
   } = useNode();
 
+  // Helper to get YouTube video ID
+  function getYouTubeId(url) {
+    try {
+      const regExp =
+        /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+      const match = url.match(regExp);
+      return match ? match[1] : null;
+    } catch {
+      return null;
+    }
+  }
+
+  // Pick values based on screen size
+  const direction = isDesktop ? desktopDirection : mobileDirection;
+  const alignment = isDesktop ? desktopAlignment : mobileAlignment;
+  const position = isDesktop ? desktopPosition : mobilePosition;
+
   return (
     <div
       ref={(ref) => connect(drag(ref))}
       style={{
         backgroundColor: background,
         height: isDesktop ? `${desktopHeight}px` : `${mobileHeight}px`,
+        ...(backgroundType === "color" && { backgroundColor: background }),
+        ...(backgroundType === "image" && {
+          backgroundImage: `url(${backgroundSrc})`,
+          backgroundSize: backgroundSize || "cover",
+          backgroundPosition: backgroundPosition || "center",
+          backgroundRepeat: "no-repeat",
+        }),
       }}
       className={`
-        transition-all duration-300 ease-in-out w-full overflow-hidden container mx-auto
+       relative transition-all duration-300 ease-in-out w-full overflow-hidden container mx-auto
       `}
     >
+      {backgroundType === "video" &&
+        backgroundSrc &&
+        (backgroundSrc.includes("youtube.com") ||
+        backgroundSrc.includes("youtu.be") ? (
+          (() => {
+            const videoId = getYouTubeId(backgroundSrc);
+            if (!videoId) return null; // invalid URL
+            return (
+              <div className="absolute inset-0 overflow-hidden">
+                <iframe
+                  src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}`}
+                  frameBorder="0"
+                  allow="autoplay; fullscreen"
+                  allowFullScreen
+                  className="absolute top-1/2 left-1/2 w-[177.78vh] h-[100vh] -translate-x-1/2 -translate-y-1/2"
+                />
+              </div>
+            );
+          })()
+        ) : (
+          <video
+            src={backgroundSrc}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        ))}
+
+      {/* Dark overlay */}
+      {backgroundType !== "color" && (
+        <div
+          className="absolute inset-0 z-[5]"
+          style={{
+            backgroundColor: `rgba(0,0,0,${overlayOpacity / 100})`,
+          }}
+        />
+      )}
+
       <div
         className={cn(
-          "flex transition-all h-full w-full",
+          "flex transition-all h-full w-full relative z-10", // <-- z-10 ensures it’s above the video
           direction === "vertical" ? "flex-col" : "flex-row",
           alignment === "left" && "items-start text-left",
           alignment === "center" && "items-center text-center",
@@ -68,7 +140,7 @@ export const HeroSectionRender = ({
           is={Text}
           id="heroHeading"
           text="Browse our latest products"
-          fontSize={48}
+          fontSize={32}
           fontWeight="700"
         />
 
@@ -88,10 +160,14 @@ HeroSectionRender.craft = {
   displayName: "Hero Section",
   props: {
     background: "#dcdcdc",
-    direction: "vertical",
-    direction: "vertical",
-    alignment: "left",
-    position: "bottom",
+    backgroundType: "color",
+    backgroundSrc: "",
+    desktopDirection: "vertical",
+    mobileDirection: "vertical",
+    desktopAlignment: "center",
+    mobileAlignment: "center",
+    desktopPosition: "center",
+    mobilePosition: "center",
     mobilePaddingX: 20,
     desktopPaddingX: 40,
     mobilePaddingY: 20,
@@ -99,6 +175,9 @@ HeroSectionRender.craft = {
     gap: 16,
     desktopHeight: 450,
     mobileHeight: 500,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    overlayOpacity: 40, // default 40% opacity
   },
   related: {
     settings: HeroSectionSettings,
