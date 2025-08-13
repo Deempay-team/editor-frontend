@@ -22,7 +22,7 @@ export function SliderControl({
     <div
       className={cn(
         "flex items-center gap-4 w-full",
-        stack && "flex-col items-start gap-2"
+        stack && "flex-col items-start gap-1"
       )}
     >
       {/* Label */}
@@ -48,7 +48,8 @@ export function SliderControl({
         {/* Numeric Input */}
         <div className="relative w-18 ">
           <Input
-            className="pr-2 h-8" // space for px
+            type="number"
+            className="pr-5 h-8 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             value={value}
             onChange={(e) => updateGap(Number(e.target.value))}
           />
