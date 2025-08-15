@@ -28,7 +28,6 @@ import {Logo} from "@/component/craft/ui-blocks/Logo.jsx";
 import {MenuItems} from "@/component/craft/ui-blocks/MenuItems.jsx";
 import {IconButtons} from "@/component/craft/ui-blocks/IconButtons.jsx";
 
-
 export default function PageBuilder() {
     const {isPreview} = usePreview();
     const {isSection, setIsSection} = useSection();
@@ -58,8 +57,7 @@ export default function PageBuilder() {
                     Grid,
                     Logo,
                     MenuItems,
-                    IconButtons
-
+                    IconButtons,
                 }}
                 onRender={RenderNode}
             >

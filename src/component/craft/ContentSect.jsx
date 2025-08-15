@@ -235,10 +235,10 @@ function ContentSectionSect() {
         }
     };
     return (
-        <main className="viewport page-container bg-[#F6F6F6] flex justify-center pt-4 px-8 pb-20 min-h-screen">
+        <main className="viewport page-container overflow-auto bg-[#F6F6F6] flex justify-center pt-4 px-8 pb-30 min-h-screen">
             <div
                 className={cx([
-                    "craftjs-renderer bg-white",
+                    "craftjs-renderer bg-white overflow-auto",
                     {
                         "bg-renderer-gray": enabled,
                     },
@@ -265,6 +265,7 @@ function ContentSectionSect() {
                         alignItems="stretch"
                         justifyContent="flex-start"
                         canvas
+                        overflow="overflow-auto"
                         custom={{displayName: "App"}}
                     >
                     </Element>
