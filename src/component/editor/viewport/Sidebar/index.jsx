@@ -5,7 +5,6 @@ import { styled } from "styled-components";
 import { Layers2, Pencil } from "lucide-react";
 
 import { SidebarItem } from "./SidebarItems";
-import { Toolbar } from "../../Toolbar";
 
 export const SidebarDiv = styled.div`
   width: 280px;
@@ -31,9 +30,7 @@ export const Sidebar = () => {
           visible={toolbarVisible}
           onChange={(val) => setToolbarVisible(val)}
           className="overflow-auto"
-        >
-          <Toolbar />
-        </SidebarItem>
+        ></SidebarItem>
         {/* <SidebarItem
           icon={Layers2}
           title="Layers"

@@ -3,7 +3,7 @@ import { Editor, Frame, Element, useEditor } from "@craftjs/core";
 import lz from "lzutf8";
 
 import { ContentSectionSect } from "../component/craft/ContentSect";
-import { loadGoogleFonts } from '@/utils/loadGoogleFonts';
+import { loadGoogleFonts } from "@/utils/loadGoogleFonts";
 import { useTheme } from "@/Context/ThemeContext";
 
 import EditorSideBar from "../component/craft/EditorSideBar";
@@ -24,15 +24,17 @@ import { NavigationBar } from "../component/craft/ui-blocks/NavigationBar";
 import { SectionProvider, useSection } from "../Context/SectionContext";
 import { motion, AnimatePresence } from "framer-motion";
 import EditorTopBar from "@/component/craft/EditorTopBar";
-import { Sidebar } from "@/component/editor/viewport/Sidebar";
+// import { Sidebar } from "@/component/editor/viewport/Sidebar";
 import { RenderNode } from "@/component/editor/RenderNode";
-import { HeroSectionRender } from "@/component/craft/ui-blocks/HeroSection/HeroSectionRender";
+import {
+  HeroContent,
+  HeroSectionRender,
+} from "@/component/craft/ui-blocks/HeroSection/HeroSectionRender";
 import { HeroSectionSettings } from "@/component/craft/ui-blocks/HeroSection/HeroSectionSettings";
 
 import { ButtonX } from "../component/craft/user/ButtonX";
 import { TextX } from "../component/craft/user/TextX";
-
-
+// import { Text } from "@/component/editor/selectors";
 
 export default function PageBuilder() {
   const { theme, fonts } = useTheme();
@@ -42,7 +44,6 @@ export default function PageBuilder() {
     const fontNames = fonts.map((font) => font.name);
     loadGoogleFonts(fontNames);
   }, []);
-
 
   const { isPreview } = usePreview();
   const { isSection, setIsSection } = useSection();
@@ -73,7 +74,8 @@ export default function PageBuilder() {
           HeroSectionRender,
           HeroSectionSettings,
           ButtonX,
-          TextX
+          TextX,
+          HeroContent,
         }}
         onRender={RenderNode}
       >
@@ -151,14 +153,3 @@ export default function PageBuilder() {
     </>
   );
 }
-//   return (
-//     <>
-//       <Editor enabled={false} resolver={{ Card, Button, Text, Container, CardTop, CardBottom, Image, Column, AnnouncementBar, NavigationBar, Grid }}>
-//           {/* <Frame data={json}   style={{ width: "80%", overflow: "hidden" , boxSizing: 'border-box'}}/> */}
-//          <ViewportProvider>
-//          < ContentSect data={json} />
-//          </ViewportProvider>
-//       </Editor>
-//     </>
-//   );
-// }

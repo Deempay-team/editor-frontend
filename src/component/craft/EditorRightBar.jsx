@@ -13,8 +13,9 @@ function EditorRightBar({ hidden }) {
       selected = {
         id: currentNodeId,
         name:
-          state.nodes[currentNodeId].data.displayName ||
-          state.nodes[currentNodeId].data.custom.name,
+          state.nodes[currentNodeId].data.custom.displayName ||
+          state.nodes[currentNodeId].data.displayName,
+
         settings:
           state.nodes[currentNodeId].related &&
           state.nodes[currentNodeId].related.settings,
