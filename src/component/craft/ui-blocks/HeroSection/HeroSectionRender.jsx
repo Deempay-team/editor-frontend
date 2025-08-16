@@ -6,7 +6,8 @@ import { Button } from "../../user/Button";
 import { HeroSectionSettings } from "./HeroSectionSettings";
 import { useViewport } from "@/Context/ViewportContext";
 
-export const HeroSectionRender = ({
+export const HeroContent = ({
+  children,
   background = "#ffffff",
   backgroundType = "color",
   backgroundSrc = "", // image or video src
@@ -26,7 +27,6 @@ export const HeroSectionRender = ({
   backgroundSize = "cover",
   backgroundPosition = "center",
   overlayOpacity = 40, // default 40% opacity
-  children,
 }) => {
   const { isDesktop } = useViewport();
 
@@ -65,9 +65,7 @@ export const HeroSectionRender = ({
           backgroundRepeat: "no-repeat",
         }),
       }}
-      className={`
-       relative transition-all duration-300 ease-in-out w-full overflow-hidden container mx-auto
-      `}
+      className={" relative w-full overflow-hidden"}
     >
       {backgroundType === "video" &&
         backgroundSrc &&
@@ -77,12 +75,15 @@ export const HeroSectionRender = ({
             const videoId = getYouTubeId(backgroundSrc);
             if (!videoId) return null; // invalid URL
             return (
-              <div className="absolute inset-0 overflow-hidden">
+              <div className="absolute inset-0 overflow-hidden z-0 pointer-events-none">
                 <iframe
                   src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}`}
                   frameBorder="0"
-                  allow="autoplay; fullscreen"
-                  allowFullScreen
+                  loading="lazy"
+                  title="Background video"
+                  aria-hidden="true"
+                  tabIndex={-1}
+                  allow="autoplay; fullscreen, picture-in-picture"
                   className="absolute top-1/2 left-1/2 w-[177.78vh] h-[100vh] -translate-x-1/2 -translate-y-1/2"
                 />
               </div>
@@ -95,31 +96,21 @@ export const HeroSectionRender = ({
             muted
             loop
             playsInline
-            className="absolute inset-0 w-full h-full object-cover z-0"
+            preload="metadata"
+            className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
           />
         ))}
 
       {/* Dark overlay */}
       {backgroundType !== "color" && (
         <div
-          className="absolute inset-0 z-[5]"
+          className="absolute inset-0 z-10 pointer-events-none"
           style={{
             backgroundColor: `rgba(0,0,0,${overlayOpacity / 100})`,
           }}
         />
       )}
-
       <div
-        className={cn(
-          "flex transition-all h-full w-full relative z-10", // <-- z-10 ensures it’s above the video
-          direction === "vertical" ? "flex-col" : "flex-row",
-          alignment === "left" && "items-start text-left",
-          alignment === "center" && "items-center text-center",
-          alignment === "right" && "items-end text-right",
-          position === "top" && "justify-start",
-          position === "center" && "justify-center",
-          position === "bottom" && "justify-end"
-        )}
         style={{
           paddingLeft: isDesktop
             ? `${desktopPaddingX}px`
@@ -135,6 +126,76 @@ export const HeroSectionRender = ({
             : `${mobilePaddingY}px`,
           gap: `${gap}px`,
         }}
+        className={cn(
+          "flex transition-all duration-300 ease-in-out h-full w-full relative z-20  ", // <-- z-10 ensures it’s above the video
+          direction === "vertical" ? "flex-col" : "flex-row",
+          alignment === "left" && "items-start text-left",
+          alignment === "center" && "items-center text-center",
+          alignment === "right" && "items-end text-right",
+          position === "top" && "justify-start",
+          position === "center" && "justify-center",
+          position === "bottom" && "justify-end"
+        )}
+      >
+        {children}
+      </div>
+    </div>
+  );
+};
+
+HeroContent.craft = {
+  displayName: "Hero Section",
+  props: {
+    background: "#dcdcdc",
+    backgroundType: "color",
+    backgroundSrc: "",
+    desktopDirection: "vertical",
+    mobileDirection: "vertical",
+    desktopAlignment: "center",
+    mobileAlignment: "center",
+    desktopPosition: "center",
+    mobilePosition: "center",
+    mobilePaddingX: 20,
+    desktopPaddingX: 40,
+    mobilePaddingY: 20,
+    desktopPaddingY: 60,
+    gap: 16,
+    desktopHeight: 450,
+    mobileHeight: 500,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    overlayOpacity: 40, // default 40% opacity
+  },
+  rules: {
+    canDrag: () => true,
+    canMoveIn: () => true,
+    canDrop: () => false,
+    canMoveOut: () => false,
+  },
+  related: {
+    settings: HeroSectionSettings,
+  },
+};
+
+export const HeroSectionRender = () => {
+  const {
+    connectors: { connect, drag },
+  } = useNode();
+
+  return (
+    <Element
+      is="div"
+      id="Hero-Content-1"
+      canvas
+      ref={(ref) => connect(drag(ref))}
+    >
+      <Element
+        id="Hero-Content-2"
+        is={HeroContent}
+        canvas
+        custom={{
+          displayName: "Hero Content",
+        }}
       >
         <Element
           is={Text}
@@ -142,6 +203,7 @@ export const HeroSectionRender = ({
           text="Browse our latest products"
           fontSize={32}
           fontWeight="700"
+          canvas={false}
         />
 
         <Element
@@ -150,9 +212,8 @@ export const HeroSectionRender = ({
           children="Shop Now"
           canvas={false} // it's a single component, not a container
         />
-      </div>
-      {children}
-    </div>
+      </Element>
+    </Element>
   );
 };
 

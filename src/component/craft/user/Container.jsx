@@ -1393,10 +1393,10 @@ export const Container = ({
           "--padding-y-mobile": paddingYMobile
             ? `${paddingYMobile}px`
             : undefined,
-          "--margin-top": `${margin.top}px`,
-          "--margin-right": `${margin.right}px`,
-          "--margin-bottom": `${margin.bottom}px`,
-          "--margin-left": `${margin.left}px`,
+          "--margin-top": `${margin?.top}px`,
+          "--margin-right": `${margin?.right}px`,
+          "--margin-bottom": `${margin?.bottom}px`,
+          "--margin-left": `${margin?.left}px`,
           "--margin-top-mobile": marginMobile
             ? `${marginMobile.top}px`
             : undefined,

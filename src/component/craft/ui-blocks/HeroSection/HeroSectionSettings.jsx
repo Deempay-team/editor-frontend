@@ -353,7 +353,7 @@ export const HeroSectionSettings = () => {
             {/* Desktop Padding Y */}
             <SliderControl
               value={isDesktop ? props.desktopPaddingY : props.mobilePaddingY}
-              label="Desktop Padding Vertical"
+              label="Padding Vertical"
               stack={true}
               onChange={(val) =>
                 setProp((p) =>
@@ -367,7 +367,7 @@ export const HeroSectionSettings = () => {
             {/* Desktop Padding X */}
             <SliderControl
               value={isDesktop ? props.desktopPaddingX : props.mobilePaddingX}
-              label="Desktop Padding Horizontal"
+              label="Padding Horizontal"
               stack={true}
               onChange={(val) =>
                 setProp((p) =>

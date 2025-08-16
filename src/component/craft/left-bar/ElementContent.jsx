@@ -32,13 +32,15 @@ import { Button as ShardButton } from "@/components/ui/button";
 import { AnnouncementBar } from "../ui-blocks/AnnouncementBar/AnnouncementBarRender.jsx";
 import { Card } from "../user/Card";
 import { NavigationBar } from "../ui-blocks/NavigationBar";
+// import { Text } from "@/component/editor/selectors";
 
 const ElementContent = ({ showRightSidebar, setShowRightSidebar }) => {
   const { connectors } = useEditor();
   return (
     <aside
-      className={`w-85 h-[calc(100vh-4.5em)] bg-white border-r ${showRightSidebar === "element" ? "" : "hidden"
-        }`}
+      className={`w-85 h-[calc(100vh-4.5em)] bg-white border-r ${
+        showRightSidebar === "element" ? "" : "hidden"
+      }`}
     >
       <div className="flex flex-col h-[calc(100vh-4.5em)] w-full overflow-y-hidden">
         <div className="h-[7%] flex items-center border-b border-gray-200 px-4">
