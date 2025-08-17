@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNode } from "@craftjs/core";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -19,35 +19,58 @@ export const IconButtons = ({
                                 iconSize,
                             }) => {
     const { connectors: { connect, drag } } = useNode();
-    const iconBaseStyle = { color: iconColor, width: iconSize, height: iconSize };
+    const [isHovering, setIsHovering] = useState(false);
+    const hoverColor = isHovering ? iconHoverColor : iconColor;
+    const iconSizeValue = parseInt(iconSize);
 
     return (
         <div ref={ref => connect(drag(ref))} className="flex items-center space-x-4 ml-2">
             {showSearch && (
                 <div
                     className="cursor-pointer transition-colors duration-200"
-                    onMouseEnter={(e) => e.currentTarget.style.color = iconHoverColor}
-                    onMouseLeave={(e) => e.currentTarget.style.color = iconColor}
+                    onMouseEnter={() => setIsHovering(true)}
+                    onMouseLeave={() => setIsHovering(false)}
                 >
-                    <Search className="w-5 h-5" style={iconBaseStyle} />
+                    <Search
+                        className="w-5 h-5"
+                        style={{
+                            color: hoverColor,
+                            width: `${iconSizeValue}px`,
+                            height: `${iconSizeValue}px`,
+                        }}
+                    />
                 </div>
             )}
             {showAccount && (
                 <div
                     className="cursor-pointer transition-colors duration-200"
-                    onMouseEnter={(e) => e.currentTarget.style.color = iconHoverColor}
-                    onMouseLeave={(e) => e.currentTarget.style.color = iconColor}
+                    onMouseEnter={() => setIsHovering(true)}
+                    onMouseLeave={() => setIsHovering(false)}
                 >
-                    <User className="w-5 h-5" style={iconBaseStyle} />
+                    <User
+                        className="w-5 h-5"
+                        style={{
+                            color: hoverColor,
+                            width: `${iconSizeValue}px`,
+                            height: `${iconSizeValue}px`,
+                        }}
+                    />
                 </div>
             )}
             {showCart && (
                 <div
                     className="relative cursor-pointer transition-colors duration-200"
-                    onMouseEnter={(e) => e.currentTarget.style.color = iconHoverColor}
-                    onMouseLeave={(e) => e.currentTarget.style.color = iconColor}
+                    onMouseEnter={() => setIsHovering(true)}
+                    onMouseLeave={() => setIsHovering(false)}
                 >
-                    <ShoppingCart className="w-5 h-5" style={iconBaseStyle} />
+                    <ShoppingCart
+                        className="w-5 h-5"
+                        style={{
+                            color: hoverColor,
+                            width: `${iconSizeValue}px`,
+                            height: `${iconSizeValue}px`,
+                        }}
+                    />
                     {cartCount > 0 && (
                         <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full font-bold leading-none">
                             {cartCount}
@@ -76,28 +99,28 @@ export const IconButtonsSettings = () => {
                         <TabsTrigger value="style">Style</TabsTrigger>
                     </TabsList>
                     <TabsContent value="visibility" className="space-y-4 mt-4">
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between p-2 rounded-md hover:bg-gray-50">
                             <Label>Show Search</Label>
                             <Switch
                                 checked={props.showSearch}
                                 onCheckedChange={(v) => setProp((p) => (p.showSearch = v))}
                             />
                         </div>
-                        <div className="flex items-center justify-between ">
+                        <div className="flex items-center justify-between p-2 rounded-md hover:bg-gray-50">
                             <Label>Show Account</Label>
                             <Switch
                                 checked={props.showAccount}
                                 onCheckedChange={(v) => setProp((p) => (p.showAccount = v))}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between p-2 rounded-md hover:bg-gray-50">
                             <Label>Show Cart</Label>
                             <Switch
                                 checked={props.showCart}
                                 onCheckedChange={(v) => setProp((p) => (p.showCart = v))}
                             />
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-2 pt-2">
                             <Label>Cart Count</Label>
                             <div className="flex items-center gap-2">
                                 <Slider
@@ -109,13 +132,15 @@ export const IconButtonsSettings = () => {
                                 />
                                 <Input
                                     type="number"
-                                    min=""
+                                    min={0}
                                     max={50}
-                                    className="w-20 h-8"
+                                    className="w-20 h-8 text-right"
                                     value={props.cartCount}
                                     onChange={(e) => setProp((p) => (p.cartCount = parseInt(e.target.value)))}
                                 />
-                                <span className="text-sm text-gray-500">px</span>
+                                <span className="text-sm text-gray-500">
+                                    {/*{props.cartCount}*/}
+                                </span>
                             </div>
                         </div>
                     </TabsContent>
@@ -134,21 +159,21 @@ export const IconButtonsSettings = () => {
                             <Label>Icon Size</Label>
                             <div className="flex items-center gap-2">
                                 <Slider
-                                    defaultValue={[props.iconSize]}
-                                    min={0}
+                                    defaultValue={[parseInt(props.iconSize)]}
+                                    min={10}
                                     max={30}
                                     step={1}
-                                    onValueChange={(v) => setProp((p) => (p.iconSize = v[0]))}
+                                    onValueChange={(v) => setProp((p) => (p.iconSize = `${v[0]}px`))}
                                 />
                                 <Input
                                     type="number"
-                                    min={0}
+                                    min={10}
                                     max={30}
-                                    className="w-20 h-8"
-                                    value={props.iconSize}
-                                    onChange={(e) => setProp((p) => (p.iconSize = parseInt(e.target.value)))}
+                                    className="w-20 h-8 text-right"
+                                    value={parseInt(props.iconSize)}
+                                    onChange={(e) => setProp((p) => (p.iconSize = `${parseInt(e.target.value)}px`))}
                                 />
-                                <span className="text-sm text-gray-500">px</span>
+                                <span className="text-sm text-gray-500">{props.iconSize}</span>
                             </div>
                         </div>
                     </TabsContent>

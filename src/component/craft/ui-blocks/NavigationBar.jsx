@@ -4,14 +4,18 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import { Menu } from "lucide-react";
 import { Logo } from "./Logo";
 import { MenuItems } from "./MenuItems";
 import { IconButtons } from "./IconButtons";
 import { useViewport } from "@/Context/ViewportContext.jsx";
+import { cn } from "@/lib/utils.js";
+import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ColorPicker from "@/components/ui/ColorPicker.jsx";
 
-export const NavigationBar = ({ backgroundColor, paddingY, paddingX, logoPosition }) => {
+
+export const NavigationBar = ({ backgroundColor, paddingY, paddingX, logoPosition, showBorder }) => {
     const {
         connectors: { connect, drag },
     } = useNode();
@@ -22,7 +26,7 @@ export const NavigationBar = ({ backgroundColor, paddingY, paddingX, logoPositio
     return (
         <div
             ref={(ref) => connect(drag(ref))}
-            className="w-full border-b relative"
+            className={cn("w-full relative", showBorder && "border-b")}
             style={{
                 backgroundColor,
                 padding: `${paddingY}px ${paddingX}px`,
@@ -75,16 +79,12 @@ export const NavigationBar = ({ backgroundColor, paddingY, paddingX, logoPositio
                     </>
                 )}
 
-                {/* RIGHT SECTION */}
                 {logoPosition === "right" && (
                     <>
                         {!isMobile && (
-                            // <div className="flex items-end justify-end">
-
                             <Canvas id="menu_area" is={MenuItems}>
                                 <MenuItems />
                             </Canvas>
-                            // </div>
                         )}
                         <Canvas id="logo_area" is={Logo}>
                             <Logo />
@@ -118,50 +118,83 @@ export const NavigationBarSettings = () => {
 
     return (
         <Card>
-            <CardContent className="space-y-4 mt-4">
-                <Label>Background Color</Label>
-                <Input
-                    type="color"
-                    value={props.backgroundColor}
-                    onChange={(e) => setProp((p) => (p.backgroundColor = e.target.value))}
-                />
-
-                <div className="space-y-2">
-                    <Label>Padding X</Label>
-                    <Slider
-                        defaultValue={[props.paddingX]}
-                        min={0}
-                        max={50}
-                        step={1}
-                        onValueChange={(v) => setProp((p) => (p.paddingX = v[0]))}
-                    />
-                    <Input
-                        type="number"
-                        min={0}
-                        max={50}
-                        value={props.paddingX}
-                        onChange={(e) =>
-                            setProp((p) => (p.paddingX = parseInt(e.target.value)))
-                        }
+            <CardContent className="space-y-6 mt-4">
+                <div className="space-y-4 p-3 rounded-md border bg-gray-50">
+                    <div className="flex items-center justify-between">
+                        <Label>Show Bottom Border</Label>
+                        <Switch
+                            checked={props.showBorder}
+                            onCheckedChange={(v) => setProp((p) => (p.showBorder = v))}
+                        />
+                    </div>
+                    <Label>Background Color</Label>
+                    <ColorPicker
+                        label="Background Color"
+                        value={props.backgroundColor}
+                        onChange={(val) => setProp((p) => (p.backgroundColor = val))}
                     />
                 </div>
 
+                <div className="space-y-4 p-3 rounded-md border bg-gray-50">
+                    <Label className="block mb-2 font-medium">Padding</Label>
+                    <div className="space-y-2">
+                        <Label>Horizontal</Label>
+                        <div className="flex items-center gap-2">
+                            <Slider
+                                defaultValue={[props.paddingX]}
+                                min={0}
+                                max={50}
+                                step={1}
+                                onValueChange={(v) => setProp((p) => (p.paddingX = v[0]))}
+                            />
+                            <Input
+                                type="number"
+                                min={0}
+                                max={50}
+                                className="w-20 h-8 text-right"
+                                value={props.paddingX}
+                                onChange={(e) =>
+                                    setProp((p) => (p.paddingX = parseInt(e.target.value)))
+                                }
+                            />
+                            <span className="text-sm text-gray-500">px</span>
+                        </div>
+                    </div>
 
-                <div className="space-y-2">
-                    <Label>Logo Position</Label>
-                    <Select
-                        value={props.logoPosition}
-                        onValueChange={(val) => setProp((p) => (p.logoPosition = val))}
-                    >
-                        <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem  value="left">Left</SelectItem>
-                            <SelectItem value="center">Center</SelectItem>
-                            <SelectItem value="right">Right</SelectItem>
-                        </SelectContent>
-                    </Select>
+                    <div className="space-y-2">
+                        <Label>Vertical</Label>
+                        <div className="flex items-center gap-2">
+                            <Slider
+                                defaultValue={[props.paddingY]}
+                                min={0}
+                                max={50}
+                                step={1}
+                                onValueChange={(v) => setProp((p) => (p.paddingY = v[0]))}
+                            />
+                            <Input
+                                type="number"
+                                min={0}
+                                max={50}
+                                className="w-20 h-8 text-right"
+                                value={props.paddingY}
+                                onChange={(e) =>
+                                    setProp((p) => (p.paddingY = parseInt(e.target.value)))
+                                }
+                            />
+                            <span className="text-sm text-gray-500">px</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="space-y-4 p-3 rounded-md border bg-gray-50">
+                    <Label className="block mb-2 font-medium">Logo Position</Label>
+                    <Tabs value={props.logoPosition} onValueChange={(val) => setProp((p) => (p.logoPosition = val))}>
+                        <TabsList className="w-full grid grid-cols-3">
+                            <TabsTrigger value="left">Left</TabsTrigger>
+                            <TabsTrigger value="center">Center</TabsTrigger>
+                            <TabsTrigger value="right">Right</TabsTrigger>
+                        </TabsList>
+                    </Tabs>
                 </div>
             </CardContent>
         </Card>
@@ -173,10 +206,10 @@ NavigationBar.craft = {
         backgroundColor: "#ffffff",
         paddingX: 20,
         paddingY: 10,
-        logoPosition: "left", // Default
+        logoPosition: "left",
+        showBorder: true,
     },
     related: {
         settings: NavigationBarSettings,
     },
 };
-

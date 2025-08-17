@@ -248,7 +248,7 @@ export const MenuItemsSettings = () => {
                                     type="number"
                                     min={0}
                                     max={50}
-                                    className="w-20 h-8"
+                                    className="w-20 h-8 text-right"
                                     value={props.itemSpacing}
                                     onChange={(e) => setProp((p) => (p.itemSpacing = parseInt(e.target.value)))}
                                 />
@@ -273,65 +273,48 @@ export const MenuItemsSettings = () => {
                                 </SelectContent>
                             </Select>
                         </div>
-                        <div>
-                            <Label className="block mb-2">Text Case</Label>
-                            <div className="flex space-x-1 p-1 bg-gray-100 rounded-md">
-                                {["default", "uppercase"].map((textCase) => (
-                                    <Button
-                                        key={textCase}
-                                        variant={props.textTransform === textCase ? "default" : "ghost"}
-                                        onClick={() => setProp((p) => (p.textTransform = textCase))}
-                                        className="flex-1"
-                                    >
-                                        {textCase.charAt(0).toUpperCase() + textCase.slice(1)}
-                                    </Button>
-                                ))}
-                            </div>
+
+                        <div className="bg-gray-50 p-3 rounded-md border border-gray-200">
+                            <Label className="block mb-2 font-medium">Text Case</Label>
+                            <Tabs value={props.textTransform} onValueChange={(val) => setProp((p) => (p.textTransform = val))}>
+                                <TabsList className="w-full grid grid-cols-2">
+                                    <TabsTrigger value="default">Default</TabsTrigger>
+                                    <TabsTrigger value="uppercase">Uppercase</TabsTrigger>
+                                </TabsList>
+                            </Tabs>
                         </div>
-                        <div>
-                            <Label className="block mb-2">Horizontal Alignment</Label>
-                            <div className="flex space-x-1 p-1 bg-gray-100 rounded-md">
-                                {["left", "center", "right"].map((align) => (
-                                    <Button
-                                        key={align}
-                                        variant={props.textAlign === align ? "default" : "ghost"}
-                                        onClick={() => setProp((p) => (p.textAlign = align))}
-                                        className="flex-1"
-                                    >
-                                        {align.charAt(0).toUpperCase() + align.slice(1)}
-                                    </Button>
-                                ))}
-                            </div>
+
+                        <div className="bg-gray-50 p-3 rounded-md border border-gray-200">
+                            <Label className="block mb-2 font-medium">Horizontal Alignment</Label>
+                            <Tabs value={props.textAlign} onValueChange={(val) => setProp((p) => (p.textAlign = val))}>
+                                <TabsList className="w-full grid grid-cols-3">
+                                    <TabsTrigger value="left">Left</TabsTrigger>
+                                    <TabsTrigger value="center">Center</TabsTrigger>
+                                    <TabsTrigger value="right">Right</TabsTrigger>
+                                </TabsList>
+                            </Tabs>
                         </div>
-                        <div>
-                            <Label className="block mb-2">Vertical Alignment</Label>
-                            <div className="flex space-x-1 p-1 bg-gray-100 rounded-md">
-                                {["top", "middle", "bottom"].map((align) => (
-                                    <Button
-                                        key={align}
-                                        variant={props.verticalAlign === align ? "default" : "ghost"}
-                                        onClick={() => setProp((p) => (p.verticalAlign = align))}
-                                        className="flex-1"
-                                    >
-                                        {align.charAt(0).toUpperCase() + align.slice(1)}
-                                    </Button>
-                                ))}
-                            </div>
+
+                        <div className="bg-gray-50 p-3 rounded-md border border-gray-200">
+                            <Label className="block mb-2 font-medium">Vertical Alignment</Label>
+                            <Tabs value={props.verticalAlign} onValueChange={(val) => setProp((p) => (p.verticalAlign = val))}>
+                                <TabsList className="w-full grid grid-cols-3">
+                                    <TabsTrigger value="top">Top</TabsTrigger>
+                                    <TabsTrigger value="middle">Middle</TabsTrigger>
+                                    <TabsTrigger value="bottom">Bottom</TabsTrigger>
+                                </TabsList>
+                            </Tabs>
                         </div>
-                        <div>
-                            <Label className="block mb-2">Font Weight</Label>
-                            <div className="flex space-x-1 p-1 bg-gray-100 rounded-md">
-                                {["normal", "medium", "bold"].map((weight) => (
-                                    <Button
-                                        key={weight}
-                                        variant={props.fontWeight === weight ? "default" : "ghost"}
-                                        onClick={() => setProp((p) => (p.fontWeight = weight))}
-                                        className="flex-1"
-                                    >
-                                        {weight.charAt(0).toUpperCase() + weight.slice(1)}
-                                    </Button>
-                                ))}
-                            </div>
+
+                        <div className="bg-gray-50 p-3 rounded-md border border-gray-200">
+                            <Label className="block mb-2 font-medium">Font Weight</Label>
+                            <Tabs value={props.fontWeight} onValueChange={(val) => setProp((p) => (p.fontWeight = val))}>
+                                <TabsList className="w-full grid grid-cols-3">
+                                    <TabsTrigger value="normal">Normal</TabsTrigger>
+                                    <TabsTrigger value="medium">Medium</TabsTrigger>
+                                    <TabsTrigger value="bold">Bold</TabsTrigger>
+                                </TabsList>
+                            </Tabs>
                         </div>
                     </TabsContent>
                 </Tabs>
@@ -362,4 +345,3 @@ MenuItems.craft = {
         settings: MenuItemsSettings,
     },
 };
-
