@@ -19,6 +19,7 @@ const SectionContent = ({ showRightSidebar }) => {
     "Productions",
     "Collections",
     "Form",
+    "Product Details",
     "Layout",
     "Storytelling",
   ];
@@ -37,6 +38,8 @@ const SectionContent = ({ showRightSidebar }) => {
         return <CollectionsSection />;
       case "Form":
         return <FormSection />;
+      case "Product Details":
+        return <ProductDetailsCard />;
       case "Layout":
         return <LayoutSection />;
       case "Storytelling":

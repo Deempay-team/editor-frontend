@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Editor, Frame, Element, useEditor } from "@craftjs/core";
+import React, {useState, useEffect} from "react";
+import {Editor, Frame, Element, useEditor} from "@craftjs/core";
 import lz from "lzutf8";
+
 
 import { ContentSectionSect } from "../component/craft/ContentSect";
 import { loadGoogleFonts } from "@/utils/loadGoogleFonts";
@@ -9,13 +10,14 @@ import { useTheme } from "@/Context/ThemeContext";
 import EditorSideBar from "../component/craft/EditorSideBar";
 import EditorRightBar from "../component/craft/EditorRightBar";
 
-import { Button } from "../component/craft/user/Button";
-import { Image } from "../component/craft/user/Image";
-import { Column } from "../component/craft/user/TwoColumn";
-import { Container } from "../component/craft/user/Container";
-import { Card, CardTop, CardBottom } from "../component/craft/user/Card";
-import { Text } from "../component/craft/user/Text/Text";
-import { Grid } from "../component/craft/user/Grid";
+import {Button} from "../component/craft/user/Button";
+import {Image} from "../component/craft/user/Image";
+import {Column} from "../component/craft/user/TwoColumn";
+import {Container} from "../component/craft/user/Container";
+import {Card, CardTop, CardBottom} from "../component/craft/user/Card";
+import {Text} from "../component/craft/user/Text/Text";
+import {Grid} from "../component/craft/user/Grid";
+
 
 import { ViewportProvider } from "../Context/ViewportContext";
 import { usePreview } from "../Context/PreviewContext";
@@ -24,6 +26,9 @@ import { NavigationBar } from "../component/craft/ui-blocks/NavigationBar";
 import { SectionProvider, useSection } from "../Context/SectionContext";
 import { motion, AnimatePresence } from "framer-motion";
 import EditorTopBar from "@/component/craft/EditorTopBar";
+import {Logo} from "@/component/craft/ui-blocks/Logo.jsx";
+import {MenuItems} from "@/component/craft/ui-blocks/MenuItems.jsx";
+import {IconButtons} from "@/component/craft/ui-blocks/IconButtons.jsx";
 // import { Sidebar } from "@/component/editor/viewport/Sidebar";
 import { RenderNode } from "@/component/editor/RenderNode";
 import {
@@ -53,7 +58,8 @@ export default function PageBuilder() {
   // const jsonDecrypt = "fff"
   // const json = lz.decompress(lz.decodeBase64(jsonDecrypt));
 
-  // console.log("isSection:", isSection, "isPreview:", isPreview); // Debug
+    // console.log("isSection:", isSection, "isPreview:", isPreview); // Debug
+
 
   return (
     <>
@@ -76,6 +82,9 @@ export default function PageBuilder() {
           ButtonX,
           TextX,
           HeroContent,
+          Logo,
+          MenuItems,
+          IconButtons,
         }}
         onRender={RenderNode}
       >
@@ -84,72 +93,72 @@ export default function PageBuilder() {
             {/* Top Bar */}
             <EditorTopBar zoom={zoom} setZoom={setZoom} />
 
-            {/* <div className={`hidden ${isPreview === false ? "": "hidden" }`} >
+                        {/* <div className={`hidden ${isPreview === false ? "": "hidden" }`} >
               <ContentSectionSect />
             </div> */}
 
-            {/* Main Content Area */}
-            <div className={`flex flex-1 justify-between overflow-hidden`}>
-              {/* Sidebar Left */}
-              <AnimatePresence mode="wait">
-                {!isPreview && (
-                  <motion.div
-                    key="left-sidebar"
-                    initial={{ opacity: 0, x: -30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -30 }}
-                    transition={{ duration: 0.25 }}
-                  >
-                    <EditorSideBar
-                      setShowRightSidebar={setShowRightSidebar}
-                      showRightSidebar={showRightSidebar}
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                        {/* Main Content Area */}
+                        <div className={`flex flex-1 justify-between overflow-hidden`}>
+                            {/* Sidebar Left */}
+                            <AnimatePresence mode="wait">
+                                {!isPreview && (
+                                    <motion.div
+                                        key="left-sidebar"
+                                        initial={{opacity: 0, x: -30}}
+                                        animate={{opacity: 1, x: 0}}
+                                        exit={{opacity: 0, x: -30}}
+                                        transition={{duration: 0.25}}
+                                    >
+                                        <EditorSideBar
+                                            setShowRightSidebar={setShowRightSidebar}
+                                            showRightSidebar={showRightSidebar}
+                                        />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
 
-              {/* Main Content */}
+                            {/* Main Content */}
 
-              <motion.div
-                className="w-full min-h-screen overflow-auto"
-                animate={{
-                  scale: isPreview
-                    ? (parseInt(zoom) / 100) * 0.95
-                    : parseInt(zoom) / 100,
-                }}
-                transition={{
-                  duration: 0.25,
-                  ease: "easeInOut",
-                }}
-                style={{
-                  transformOrigin: "top center",
-                  width: `${100 / (parseInt(zoom) / 100)}%`,
-                }}
-              >
-                <ContentSectionSect />
-              </motion.div>
+                            <motion.div
+                                className="w-full min-h-screen overflow-auto"
+                                animate={{
+                                    scale: isPreview
+                                        ? (parseInt(zoom) / 100) * 0.95
+                                        : parseInt(zoom) / 100,
+                                }}
+                                transition={{
+                                    duration: 0.25,
+                                    ease: "easeInOut",
+                                }}
+                                style={{
+                                    transformOrigin: "top center",
+                                    width: `${100 / (parseInt(zoom) / 100)}%`,
+                                }}
+                            >
+                                <ContentSectionSect/>
+                            </motion.div>
 
-              {/* Sidebar Right */}
-              <AnimatePresence mode="wait">
-                {!isPreview && (
-                  <motion.div
-                    key="right-sidebar"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 20 }}
-                    transition={{ duration: 0.25 }}
-                    className=" flex h-full"
-                  >
-                    <EditorRightBar
-                    // hidden={showRightSidebar ? "false" : "true"}
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-        </ViewportProvider>
-      </Editor>
-    </>
-  );
+                            {/* Sidebar Right */}
+                            <AnimatePresence mode="wait">
+                                {!isPreview && (
+                                    <motion.div
+                                        key="right-sidebar"
+                                        initial={{opacity: 0, x: 20}}
+                                        animate={{opacity: 1, x: 0}}
+                                        exit={{opacity: 0, x: 20}}
+                                        transition={{duration: 0.25}}
+                                        className=" flex h-full"
+                                    >
+                                        <EditorRightBar
+                                            // hidden={showRightSidebar ? "false" : "true"}
+                                        />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    </div>
+                </ViewportProvider>
+            </Editor>
+        </>
+    );
 }

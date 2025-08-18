@@ -66,19 +66,19 @@ export const Text = ({
   );
 };
 Text.craft = {
-  displayName: "Text Block",
-  props: {
-    text: "Special Announcement! Check out our new features!",
-    link: "",
-    font: "Heading",
-    fontSize: 16,
-    fontWeight: "400",
-    charSpacing: "Normal",
-    case: "Default",
-    color: "#000000",
-  },
-  related: {
-    settings: TextSettings,
-  },
+    displayName: "Text Block",
+    props: {
+        text: <p>Special Announcement! Check out our new features!</p>,
+        link: "",
+        font: "Heading",
+        fontSize: 16,
+        fontWeight: "400",
+        charSpacing: "Normal",
+        case: "Default",
+        color: "#000000"
+    },
+    related: {
+        settings: TextSettings,
+    },
 };
 export default Text;

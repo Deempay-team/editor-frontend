@@ -1,20 +1,19 @@
 import React from "react";
-import { Frame, Element, useEditor } from "@craftjs/core";
+import {Frame, Element, useEditor} from "@craftjs/core";
 import cx from "classnames";
 
-import { Container } from "./user/Container";
+import {Container} from "./user/Container";
 // import { Text } from "./user/Text";
 import { useViewport } from "../../Context/ViewportContext";
 import { HeroSectionRender } from "./ui-blocks/HeroSection/HeroSectionRender";
 import { Text } from "../editor/selectors";
 
 function ContentSectionSect() {
-  const { viewport } = useViewport();
+    const {viewport} = useViewport();
 
-  const { enabled, connectors } = useEditor((state) => ({
-    enabled: state.options.enabled,
-  }));
-
+    const {enabled, connectors} = useEditor((state) => ({
+        enabled: state.options.enabled,
+    }));
   const getViewportWidth = () => {
     switch (viewport) {
       case "mobile":
@@ -66,4 +65,4 @@ function ContentSectionSect() {
   );
 }
 
-export { ContentSectionSect };
+export {ContentSectionSect};
