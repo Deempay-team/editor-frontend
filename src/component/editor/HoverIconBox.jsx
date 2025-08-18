@@ -33,8 +33,17 @@ export const HoverIconBox = ({
   query,
 }) => {
   const currentRef = useRef(null);
+  const isMounted = useRef(false);
   const [show, setShow] = useState(false);
   const [toolbarHover, setToolbarHover] = useState(false);
+
+  // Track mount state
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   // Detect flex direction from parent node
   const parentNode = parent ? query.node(parent).get() : null;
@@ -53,10 +62,10 @@ export const HoverIconBox = ({
     let timeout;
 
     if (visible) {
-      setShow(true);
+      if (isMounted.current) setShow(true);
     } else {
       timeout = setTimeout(() => {
-        if (!toolbarHover && !isHover) {
+        if (!toolbarHover && !isHover && isMounted.current) {
           setShow(false);
         }
       }, HOVER_HIDE_DELAY);
@@ -95,10 +104,6 @@ export const HoverIconBox = ({
 
     const siblings = parent ? query.node(parent).childNodes() : null;
     const currentIndex = siblings?.indexOf(id);
-
-    // console.log("Siblings:", siblings);
-    // console.log("Current ID:", id);
-    // console.log("Current Index:", currentIndex);
 
     if (currentIndex === -1) {
       console.warn("Node is not a direct child of parent");

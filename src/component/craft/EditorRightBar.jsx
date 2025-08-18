@@ -12,7 +12,10 @@ function EditorRightBar({ hidden }) {
     if (currentNodeId) {
       selected = {
         id: currentNodeId,
-        name: state.nodes[currentNodeId].data.name,
+        name:
+          state.nodes[currentNodeId].data.custom.displayName ||
+          state.nodes[currentNodeId].data.displayName,
+
         settings:
           state.nodes[currentNodeId].related &&
           state.nodes[currentNodeId].related.settings,
@@ -48,28 +51,28 @@ function EditorRightBar({ hidden }) {
                 {selected.settings && React.createElement(selected.settings)}
 
                 {/* Delete button */}
-                {/* {selected.isDeletable && (
-                  <ShadButton
-                    variant="destructive"
-                    className="w-full mt-4"
-                    onClick={() => actions.delete(selected.id)}
-                  >
-                    Delete
-                  </ShadButton>
-                )} */}
+                {/*{selected.isDeletable && (*/}
+                {/*  <ShadButton*/}
+                {/*    variant="destructive"*/}
+                {/*    className="w-full mt-4"*/}
+                {/*    onClick={() => actions.delete(selected.id)}*/}
+                {/*  >*/}
+                {/*    Delete*/}
+                {/*  </ShadButton>*/}
+                {/*)}*/}
 
                 {/* Copy button */}
-                {/* {selected.id && (
-                  <ShadButton
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white mt-2"
-                    onClick={() => {
-                      console.log("Selected ID:", selected.id);
-                      handleExport(selected.id, query);
-                    }}
-                  >
-                    Copy Component
-                  </ShadButton>
-                )} */}
+                {/*{selected.id && (*/}
+                {/*  <ShadButton*/}
+                {/*    className="w-full bg-blue-500 hover:bg-blue-600 text-white mt-2"*/}
+                {/*    onClick={() => {*/}
+                {/*      console.log("Selected ID:", selected.id);*/}
+                {/*      handleExport(selected.id, query);*/}
+                {/*    }}*/}
+                {/*  >*/}
+                {/*    Copy Component*/}
+                {/*  </ShadButton>*/}
+                {/*)}*/}
               </div>
             )}
           </div>

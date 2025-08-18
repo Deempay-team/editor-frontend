@@ -39,7 +39,6 @@ export const NavigationBar = ({ backgroundColor, paddingY, paddingX, logoPositio
                     </button>
                 )}
 
-                {/* LEFT SECTION */}
                 {logoPosition === "left" && (
                     <>
                         <Canvas id="logo_area" is={Logo}>
@@ -55,8 +54,6 @@ export const NavigationBar = ({ backgroundColor, paddingY, paddingX, logoPositio
                         </Canvas>
                     </>
                 )}
-
-                {/* CENTER SECTION */}
                 {logoPosition === "center" && (
                     <>
                         <div className="flex items-start justify-start">
@@ -106,6 +103,7 @@ export const NavigationBar = ({ backgroundColor, paddingY, paddingX, logoPositio
             )}
         </div>
     );
+
 };
 
 export const NavigationBarSettings = () => {
@@ -134,7 +132,6 @@ export const NavigationBarSettings = () => {
                         onChange={(val) => setProp((p) => (p.backgroundColor = val))}
                     />
                 </div>
-
                 <div className="space-y-4 p-3 rounded-md border bg-gray-50">
                     <Label className="block mb-2 font-medium">Padding</Label>
                     <div className="space-y-2">
@@ -199,6 +196,7 @@ export const NavigationBarSettings = () => {
             </CardContent>
         </Card>
     );
+ 
 };
 
 NavigationBar.craft = {

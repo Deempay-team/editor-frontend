@@ -1,24 +1,25 @@
-import React from "react";
 import { useEditor } from "@craftjs/core";
+import { HeroSectionRender } from "../component/craft/ui-blocks/HeroSection/HeroSectionRender";
+import Image from "next/image";
+import { heroSectionThumbnail_1 } from "@/assets/img";
 
-const   HeroSection = () => {
-  // const { connectors } = useEditor();
+const HeroSection = () => {
+  const { connectors } = useEditor();
 
   return (
-    <div className="grid grid-cols-1 gap-4">
-      {[...Array(3)].map((_, i) => (
-        <button
-          key={i}
-          // ref={(ref) => connectors.create(ref,)}
-          className="rounded-md border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition bg-white"
-        >
-          <img
-            src={`https://via.placeholder.com/400x160?text=Hero+${i + 1}`}
-            alt={`Hero ${i + 1}`}
-            className="w-full object-cover"
-          />
-        </button>
-      ))}
+    <div className="">
+      <div
+        ref={(ref) => connectors.create(ref, <HeroSectionRender />)}
+        className="overflow-hidden cursor-pointer"
+      >
+        <Image
+          src={heroSectionThumbnail_1}
+          alt="Hero Section"
+          width={302}
+          height={126.75}
+          className="rounded-lg border-[0.5px] border-[rgba(107,107,107,1)] "
+        />
+      </div>
     </div>
   );
 };

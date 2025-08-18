@@ -21,12 +21,12 @@ const SectionContent = ({ showRightSidebar }) => {
     "Form",
     "Product Details",
     "Layout",
-    "Storytelling"
+    "Storytelling",
   ];
 
   const renderContent = () => {
     switch (activeTab) {
-        case "Announcement":
+      case "Announcement":
         return <AnnouncementBar />;
       case "Header":
         return <HeaderSection />;
@@ -80,12 +80,12 @@ const SectionContent = ({ showRightSidebar }) => {
       </div>
       <div
         className={`flex-1 flex flex-col ${
-          activeTab === "Header" ? "bg-[#F6F6F6]" : "bg-white"
+          ["Header", "Hero"].includes(activeTab) ? "bg-[#F6F6F6]" : "bg-white"
         }`}
       >
         <div
           className={`flex justify-between items-center  py-3.5 border-b border-[#8D9091] mx-4  ${
-            activeTab === "Header" ? "bg-[#F6F6F6]" : "bg-white"
+            ["Header", "Hero"].includes(activeTab) ? "bg-[#F6F6F6]" : "bg-white"
           }`}
         >
           <h2 className="text-sm font-bold text-[#464646]">{activeTab}</h2>

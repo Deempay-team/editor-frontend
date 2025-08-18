@@ -17,10 +17,19 @@ export const SectionProvider = ({ children }) => {
 
 
 //Hook to use the context
+// export const useSection = () => {
+//     const context = useContext(SectionContext);
+//     if (!context) {
+//       throw new Error("useSection must be used within a SectionProvider");
+//     }
+//     return context;
+//   };
+
 export const useSection = () => {
-    const context = useContext(SectionContext);
-    if (!context) {
-      throw new Error("useSection must be used within a SectionProvider");
-    }
-    return context;
-  };
+  const context = useContext(SectionContext);
+  if (!context) {
+    // Safe defaults if no provider wraps this component
+    return { isSection: true, setIsSection: () => {} };
+  }
+  return context;
+};
