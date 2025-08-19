@@ -1,19 +1,16 @@
 import React from "react";
-import {Frame, Element, useEditor} from "@craftjs/core";
+import { Frame, Element, useEditor } from "@craftjs/core";
 import cx from "classnames";
 
-import {Container} from "./user/Container";
-// import { Text } from "./user/Text";
+import { Container } from "./user/Container";
 import { useViewport } from "../../Context/ViewportContext";
-import { HeroSectionRender } from "./ui-blocks/HeroSection/HeroSectionRender";
-import { Text } from "../editor/selectors";
 
 function ContentSectionSect() {
-    const {viewport} = useViewport();
+  const { viewport } = useViewport();
 
-    const {enabled, connectors} = useEditor((state) => ({
-        enabled: state.options.enabled,
-    }));
+  const { enabled, connectors } = useEditor((state) => ({
+    enabled: state.options.enabled,
+  }));
   const getViewportWidth = () => {
     switch (viewport) {
       case "mobile":
@@ -47,8 +44,6 @@ function ContentSectionSect() {
           <Element
             is={Container}
             id="main-frame"
-            paddingX={10}
-            paddingY={10}
             background="transparent"
             width="100%"
             height="auto"
@@ -58,11 +53,13 @@ function ContentSectionSect() {
             justifyContent="flex-start"
             canvas
             custom={{ displayName: "App" }}
-          ></Element>
+          >
+            {/* <Element id="Announcement Bar" is={AnnouncementBarRender} /> */}
+          </Element>
         </Frame>
       </div>
     </main>
   );
 }
 
-export {ContentSectionSect};
+export { ContentSectionSect };

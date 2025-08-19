@@ -2,17 +2,13 @@ import React from "react";
 import { useNode, Element } from "@craftjs/core";
 import { Text } from "../../user/Text/Text.jsx";
 import { AnnouncementBarSettings } from "./AnnouncementBarSettings";
+import { Megaphone } from "lucide-react";
 
-export const AnnouncementBarRender = ({
+export const AnnouncementBarContent = ({
   background = "#333333",
-  textColor = "#ffffff",
-  fontSize = 14,
-  fontWeight = "400",
   textAlign = "center",
-  letterSpacing = 0,
-  lineHeight = 1.4,
   paddingX = 15,
-  paddingY = 1,
+  paddingY = 8,
   height = "auto",
   width = "auto",
   borderRadius = 0,
@@ -32,58 +28,80 @@ export const AnnouncementBarRender = ({
         padding: `${paddingY}px ${paddingX}px`,
         borderRadius: `${borderRadius}px`,
         boxShadow: shadow ? "0 2px 8px rgba(0,0,0,0.15)" : "none",
+        display: "flex",
+        alignItems: "center",
+        justifyContent:
+          textAlign === "left"
+            ? "flex-start"
+            : textAlign === "right"
+            ? "flex-end"
+            : "center",
+        height:
+          height.toLowerCase() === "auto"
+            ? "auto"
+            : `${parseInt(height, 10)}px`,
+        width:
+          height.toLowerCase() === "auto" ? "auto" : `${parseInt(width, 10)}px`,
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent:
-            textAlign === "left"
-              ? "flex-start"
-              : textAlign === "right"
-              ? "flex-end"
-              : "center",
-          height:
-            height.toLowerCase() === "auto"
-              ? "auto"
-              : `${parseInt(height, 10)}px`,
-          width:
-            height.toLowerCase() === "auto"
-              ? "auto"
-              : `${parseInt(width, 10)}px`,
-        }}
-      >
-        {showIcon && <span style={{ marginRight: "8px" }}>📢</span>}
-        <Element
-          is={Text}
-          id="announcementText"
-          text="Special Announcement! Check out our new features!"
-          fontSize={fontSize}
-          fontWeight={fontWeight}
-          color={textColor}
-          textAlign={textAlign}
-          lineHeight={lineHeight}
-          charSpacing={letterSpacing}
-        />
-      </div>
+      {showIcon && (
+        <span style={{ marginRight: "8px" }}>
+          <Megaphone className=" w-5 h-5 text-white" />
+        </span>
+      )}
       {children}
     </div>
   );
 };
 
-AnnouncementBarRender.craft = {
+export const AnnouncementBarRender = () => {
+  // const {} = useNode();
+
+  const {
+    props,
+    connectors: { connect, drag },
+  } = useNode((node) => ({
+    props: node.data.props,
+  }));
+
+  return (
+    <Element
+      is="div"
+      id="Announcement Bar 1"
+      canvas
+      ref={(ref) => connect(drag(ref))}
+    >
+      <Element
+        id="Announcement Bar 2"
+        is={AnnouncementBarContent}
+        canvas
+        custom={{
+          displayName: "Announcement Bar",
+        }}
+      >
+        <Element
+          is={Text}
+          id="announcementText"
+          text="Special Announcement! Check out our new features!"
+          fontSize={14}
+          fontWeight={"400"}
+          color={"#ffffff"}
+          textAlign={props?.textAlign}
+          lineHeight={1.4}
+          charSpacing={0}
+        />
+      </Element>
+    </Element>
+  );
+};
+
+AnnouncementBarContent.craft = {
   displayName: "Announcement Bar",
   props: {
     background: "#333333",
-    textColor: "#ffffff",
-    fontSize: 14,
-    fontWeight: "400",
     textAlign: "center",
-    letterSpacing: 0,
-    lineHeight: 1.4,
     paddingX: 15,
-    paddingY: 1,
+    paddingY: 8,
     height: "auto",
     width: "auto",
     borderRadius: 0,

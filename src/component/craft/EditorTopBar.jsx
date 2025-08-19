@@ -37,13 +37,10 @@ import { useSection } from "../../Context/SectionContext";
 import { pasteNodeTree } from "@/utils/craftUtils";
 
 // Helper function to safely access localStorage
-const getFromLocalStorage = (key, defaultValue = null) => {
-};
+const getFromLocalStorage = (key, defaultValue = null) => {};
 
 // Helper function to safely set localStorage
-const setToLocalStorage = (key, value) => {
-};
-
+const setToLocalStorage = (key, value) => {};
 
 const EditorTopBar = ({ zoom, setZoom }) => {
   //   const [page, setPage] = useState("home");
@@ -53,7 +50,13 @@ const EditorTopBar = ({ zoom, setZoom }) => {
   const { isPreview, setIsPreview } = usePreview();
   const { isSection, setIsSection } = useSection();
 
-  const { actions, query } = useEditor();
+  // const { actions, query } = useEditor();
+
+  // inside your component
+  const { actions, canUndo, canRedo, query } = useEditor((state, query) => ({
+    canUndo: query.history.canUndo(),
+    canRedo: query.history.canRedo(),
+  }));
 
   //   const emptyPageJson = JSON.stringify({
   //     ROOT: {
@@ -106,7 +109,7 @@ const EditorTopBar = ({ zoom, setZoom }) => {
     setIsClient(true);
 
     // Get the current serialized state
-    const json = query.serialize();
+    const json = query?.serialize();
 
     // Load saved pages from localStorage or use current state as default
     const savedPages = getFromLocalStorage("pages");
@@ -174,7 +177,6 @@ const EditorTopBar = ({ zoom, setZoom }) => {
   }, [checked]);
 
   function handleImport(data) {
-
     //const compressedJson = "jf"
     //const json = lz.decompress(lz.decodeBase64(compressedJson));
     //console.log(json);
@@ -307,14 +309,13 @@ const EditorTopBar = ({ zoom, setZoom }) => {
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="cursor-pointer"
+                  className="cursor-pointer disabled:cursor-not-allowed"
+                  disabled={!canUndo}
                   onClick={() => {
-                    actions.history.undo();
-                    console.log("redo");
+                    if (canUndo) actions.history.undo();
                   }}
-                  disabled={!query.history.canUndo()}
                 >
-                  <span className=" text-[#DBDBDB] hover:text-primary transition-colors duration-300">
+                  <span className=" text-[rgba(219, 219, 219, 0.5)] hover:text-primary transition-colors duration-300">
                     <Undo className="w-[13.62px] h-[12.27px]" />
                   </span>
                 </Button>
@@ -329,13 +330,13 @@ const EditorTopBar = ({ zoom, setZoom }) => {
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="cursor-pointer"
+                  className="cursor-pointer disabled:cursor-not-allowed"
+                  disabled={!canRedo}
                   onClick={() => {
-                    actions.history.redo();
+                    if (canRedo) actions.history.redo();
                   }}
-                  disabled={!query.history.canRedo()}
                 >
-                  <span className=" text-[#DBDBDB] hover:text-primary transition-colors duration-300">
+                  <span className=" text-[rgba(219, 219, 219, 0.5)] hover:text-primary transition-colors duration-300">
                     <Redo className="w-[13.62px] h-[12.27px]" />
                   </span>
                 </Button>
@@ -355,12 +356,14 @@ const EditorTopBar = ({ zoom, setZoom }) => {
                     setZoom("100%");
                     setViewport("mobile");
                   }}
-                  className={`cursor-pointer w-6 h-6 ml-2 ${viewport === "mobile" && "bg-primary-foreground"
-                    } `}
+                  className={`cursor-pointer w-6 h-6 ml-2 ${
+                    viewport === "mobile" && "bg-primary-foreground"
+                  } `}
                 >
                   <span
-                    className={`"text-[#DBDBDB] hover:text-primary transition-colors duration-300 ${viewport === "mobile" && "text-primary"
-                      } `}
+                    className={`"text-[#DBDBDB] hover:text-primary transition-colors duration-300 ${
+                      viewport === "mobile" && "text-primary"
+                    } `}
                   >
                     <Mobile className="w-[12.4px] h-[19.39px] " />
                   </span>
@@ -375,12 +378,14 @@ const EditorTopBar = ({ zoom, setZoom }) => {
                   size="icon"
                   variant="ghost"
                   onClick={() => setViewport("desktop")}
-                  className={`cursor-pointer w-6 h-6 mr-2 ${viewport === "desktop" && "bg-primary-foreground"
-                    } `}
+                  className={`cursor-pointer w-6 h-6 mr-2 ${
+                    viewport === "desktop" && "bg-primary-foreground"
+                  } `}
                 >
                   <span
-                    className={`text-[#000000] hover:text-primary transition-colors duration-300 ${viewport === "desktop" && "text-primary"
-                      }`}
+                    className={`text-[#000000] hover:text-primary transition-colors duration-300 ${
+                      viewport === "desktop" && "text-primary"
+                    }`}
                   >
                     <Desktop className="w-[14px] h-[12.39px]" />
                   </span>
@@ -400,12 +405,14 @@ const EditorTopBar = ({ zoom, setZoom }) => {
                 size="icon"
                 variant="ghost"
                 onClick={() => setIsPreview((prev) => !prev)}
-                className={`bg-[#F6F6F6] rounded-[8px] border-none cursor-pointer ${isPreview && "bg-primary-foreground"
-                  }`}
+                className={`bg-[#F6F6F6] rounded-[8px] border-none cursor-pointer ${
+                  isPreview && "bg-primary-foreground"
+                }`}
               >
                 <span
-                  className={`text-[#E3E3E3] hover:text-primary transition-colors duration-300 ${isPreview && "text-primary"
-                    }`}
+                  className={`text-[#E3E3E3] hover:text-primary transition-colors duration-300 ${
+                    isPreview && "text-primary"
+                  }`}
                 >
                   <Preview className="w-[9.38px] h-[10.73px]" />
                 </span>
@@ -422,8 +429,9 @@ const EditorTopBar = ({ zoom, setZoom }) => {
               <Button
                 variant="ghost"
                 className={`text_12_light w-[81px] bg-primary text-primary-foreground rounded-[8px] border-none cursor-pointer hover:bg-primary/70
-             hover:text-primary-foreground transition-colors duration-300 ${isSection ? "hidden" : ""
-                  }`}
+             hover:text-primary-foreground transition-colors duration-300 ${
+               isSection ? "hidden" : ""
+             }`}
                 onClick={() => setIsSection(true)}
               >
                 Publish
@@ -437,8 +445,9 @@ const EditorTopBar = ({ zoom, setZoom }) => {
                 variant="ghost"
                 onClick={() => setIsSection(false)}
                 className={`text_12_light w-[81px] bg-primary text-primary-foreground rounded-[8px] border-none cursor-pointer hover:bg-primary/70
-             hover:text-primary-foreground transition-colors duration-300 ${isSection ? "" : "hidden"
-                  }`}
+             hover:text-primary-foreground transition-colors duration-300 ${
+               isSection ? "" : "hidden"
+             }`}
               >
                 Save
               </Button>

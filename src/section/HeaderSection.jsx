@@ -1,18 +1,24 @@
 import React from "react";
 import { useEditor } from "@craftjs/core";
 import { NavigationBar } from "@/component/craft/ui-blocks/NavigationBar.jsx";
-import { Menu } from "lucide-react";
+import { NavbarThumbnail_1 } from "@/assets/img";
+import Image from "next/image";
 
 const HeaderSection = ({ text = "Header" }) => {
   const { connectors } = useEditor();
 
   return (
     <div
-      className="bg-gray-800 text-white text-center flex items-center justify-center h-10 rounded-sm"
       ref={(ref) => connectors.create(ref, <NavigationBar />)}
+      className="overflow-hidden cursor-pointer"
     >
-      <Menu size={18} className="opacity-90 mr-4" />
-      {text}
+      <Image
+        src={NavbarThumbnail_1}
+        alt="Hero Section"
+        width={302}
+        height={126.75}
+        className="rounded-lg border-[0.5px] border-[rgba(107,107,107,1)] "
+      />
     </div>
   );
 };

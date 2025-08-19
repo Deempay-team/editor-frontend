@@ -1340,7 +1340,7 @@ export const Container = ({
           .responsive-container {
             box-sizing: border-box;
             background: var(--background, #ffffff);
-            padding: var(--padding-y, 10px) var(--padding-x, 10px);
+            padding: var(--padding-y, 0px) var(--padding-x, 0px);
             margin: var(--margin-top, 0px) var(--margin-right, 0px) var(--margin-bottom, 0px) var(--margin-left, 0px);
             border-radius: var(--border-radius, 0px);
             border-width: var(--border-width, 0px);
@@ -1438,7 +1438,7 @@ export const Container = ({
           "--align-items-mobile": alignItemsMobile || undefined,
           "--justify-content": justifyContent,
           "--justify-content-mobile": justifyContentMobile || undefined,
-          minHeight: "150px"
+          minHeight: "150px",
         }}
       >
         {children}
@@ -1844,9 +1844,9 @@ Container.craft = {
   props: {
     background: "#ffffff",
     backgroundMobile: null,
-    paddingX: 10,
+    paddingX: 0,
     paddingXMobile: null,
-    paddingY: 10,
+    paddingY: 0,
     paddingYMobile: null,
     margin: { top: 0, right: 0, bottom: 0, left: 0 },
     marginMobile: null,
