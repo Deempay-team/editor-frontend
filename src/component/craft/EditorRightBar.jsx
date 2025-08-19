@@ -1,11 +1,10 @@
 import React from "react";
 import { useEditor } from "@craftjs/core";
 import { Label } from "@/components/ui/label";
-import { Button as ShadButton } from "@/components/ui/button";
-import { copyNodeTree } from "@/utils/craftUtils";
+// import { copyNodeTree } from "@/utils/craftUtils";
 
 function EditorRightBar({ hidden }) {
-  const { actions, selected, query } = useEditor((state, query) => {
+  const { selected } = useEditor((state, query) => {
     const [currentNodeId] = state.events.selected;
     let selected;
 
@@ -26,10 +25,10 @@ function EditorRightBar({ hidden }) {
     return { selected };
   });
 
-  const handleExport = (id, query) => {
-    const copyTree = copyNodeTree(id, query);
-    console.log(copyTree.jsonString);
-  };
+  // const handleExport = (id, query) => {
+  //   const copyTree = copyNodeTree(id, query);
+  //   console.log(copyTree.jsonString);
+  // };
 
   return (
     selected && (

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Editor, Frame, Element, useEditor } from "@craftjs/core";
-import lz from "lzutf8";
+import { Editor } from "@craftjs/core";
 
 import { ContentSectionSect } from "../component/craft/ContentSect";
 import { loadGoogleFonts } from "@/utils/loadGoogleFonts";
@@ -27,7 +26,7 @@ import {
   NavbarContent,
   NavigationBar,
 } from "../component/craft/ui-blocks/NavigationBar";
-import { SectionProvider, useSection } from "../Context/SectionContext";
+import { useSection } from "../Context/SectionContext";
 import { motion, AnimatePresence } from "framer-motion";
 import EditorTopBar from "@/component/craft/EditorTopBar";
 // import { Logo } from "@/component/craft/ui-blocks/Logo.jsx";
@@ -49,7 +48,7 @@ import { IconButtons } from "@/component/craft/ui-blocks/IconButtons";
 // import { Text } from "@/component/editor/selectors";
 
 export default function PageBuilder() {
-  const { theme, fonts } = useTheme();
+  const { fonts } = useTheme();
 
   //load all fonts, after you change to build only default font, for the build
   useEffect(() => {
@@ -58,14 +57,9 @@ export default function PageBuilder() {
   }, []);
 
   const { isPreview } = usePreview();
-  const { isSection, setIsSection } = useSection();
-  const [stateToLoad, setStateToLoad] = useState(null);
+
   const [zoom, setZoom] = useState("100%");
   const [showRightSidebar, setShowRightSidebar] = useState("");
-  // const jsonDecrypt = "fff"
-  // const json = lz.decompress(lz.decodeBase64(jsonDecrypt));
-
-  // console.log("isSection:", isSection, "isPreview:", isPreview); // Debug
 
   return (
     <>
@@ -101,9 +95,7 @@ export default function PageBuilder() {
             {/* Top Bar */}
             <EditorTopBar zoom={zoom} setZoom={setZoom} />
 
-            {/* <div className={`hidden ${isPreview === false ? "": "hidden" }`} >
-              <ContentSectionSect />
-            </div> */}
+         
 
             {/* Main Content Area */}
             <div className={`flex flex-1 justify-between overflow-hidden`}>

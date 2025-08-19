@@ -1,9 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import Tooltip from "../Tooltip";
-
-// import { Element, useEditor } from "@craftjs/core";
-import { Container } from "./user/Container";
-import { Button } from "./user/Button";
 
 import OutLineIcon from "@/assets/icons/OutLineIcon";
 import AddIcon from "@/assets/icons/AddIcon";
@@ -14,7 +10,7 @@ import ImageIcons from "@/assets/icons/ImageIcon";
 import SectionContent from "./left-bar/SectionContent";
 import ElementContent from "./left-bar/ElementContent";
 import PageContent from "./left-bar/PageContent";
-import SiteThemeContent from "./left-bar/SiteThemeContent"
+import SiteThemeContent from "./left-bar/SiteThemeContent";
 
 const EditorSideBar = ({ hidden, showRightSidebar, setShowRightSidebar }) => {
   // const { connectors } = useEditor();
