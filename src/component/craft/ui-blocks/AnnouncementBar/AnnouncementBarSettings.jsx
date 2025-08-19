@@ -106,8 +106,8 @@ export const AnnouncementBarSettings = () => {
           <Slider
             min={0}
             max={30}
-            value={[props.paddingy]}
-            onValueChange={(val) => setProp((p) => (p.paddingy = val[0]))}
+            value={[props.paddingY]}
+            onValueChange={(val) => setProp((p) => (p.paddingY = val[0]))}
             className="w-full"
           />
         </div>
@@ -117,8 +117,8 @@ export const AnnouncementBarSettings = () => {
           <Slider
             min={0}
             max={50}
-            value={[props.paddingx]}
-            onValueChange={(val) => setProp((p) => (p.paddingx = val[0]))}
+            value={[props.paddingX]}
+            onValueChange={(val) => setProp((p) => (p.paddingX = val[0]))}
             className="w-full"
           />
         </div>
