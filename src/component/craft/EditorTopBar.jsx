@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   Select,
   SelectTrigger,
@@ -24,13 +23,6 @@ import Desktop from "../../assets/icons/Desktop";
 import Preview from "../../assets/icons/Preview";
 
 import { useEditor } from "@craftjs/core";
-import lz from "lzutf8";
-import copy from "copy-to-clipboard";
-import { Textarea } from "@/components/ui/textarea";
-
-import { toast } from "sonner";
-import { Toaster } from "@/components/ui/sonner";
-import { set, useForm } from "react-hook-form";
 import { useViewport } from "../../Context/ViewportContext";
 import { usePreview } from "../../Context/PreviewContext";
 import { useSection } from "../../Context/SectionContext";
@@ -50,7 +42,6 @@ const EditorTopBar = ({ zoom, setZoom }) => {
   const { isPreview, setIsPreview } = usePreview();
   const { isSection, setIsSection } = useSection();
 
-  // const { actions, query } = useEditor();
 
   // inside your component
   const { actions, canUndo, canRedo, query } = useEditor((state, query) => ({
@@ -163,60 +154,16 @@ const EditorTopBar = ({ zoom, setZoom }) => {
   //     enabled: state.options.enabled,
   //   }));
 
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState();
-  const [stateToLoad, setStateToLoad] = useState(null);
-
-  function handleChange() {
-    setChecked(!checked);
-  }
+  // function handleChange() {
+  //   setChecked(!checked);
+  // }
 
   useEffect(() => {
     actions.setOptions((options) => (options.enabled = checked));
     //console.log(checked);
   }, [checked]);
 
-  function handleImport(data) {
-    //const compressedJson = "jf"
-    //const json = lz.decompress(lz.decodeBase64(compressedJson));
-    //console.log(json);
 
-    //parse the JSON string into an object
-    // const json = JSON.parse(jsonString);
-    //const parsed = JSON.parse(json);
-    console.log("++++++++++++++++++++++");
-    console.log("++++++++++++++++++++++");
-    console.log("++++++++++++++++++++++");
-    //console.log(parsed);
-    console.log("++++++++++++++++++++++");
-    console.log("++++++++++++++++++++++");
-
-    const json = " ";
-    const targetNodeId = "ROOT"; // e.g., a div section you want to insert into
-    try {
-      // const parsede = JSON.parse(json);
-
-      // const allNodes = query.getSerializedNodes();
-      // console.log("all nodes",  allNodes);
-
-      // const canvasNode = query.node("9lZNA6IVjJ").get();
-
-      // if (!canvasNode || !canvasNode.data.isCanvas) {
-      //   console.error(`Target node "${targetNodeId}" does not exist or is not a canvas.`);
-      //   return;
-      // }
-
-      // console.log("canvasNode", canvasNode);
-      // console.log("canvasNode", canvasNode.data.isCanvas);
-
-      pasteNodeTree(targetNodeId, query, actions, null, data);
-      console.log("json", json);
-
-      //actions.add(parsede, targetNodeId);
-    } catch (e) {
-      console.error("Failed to import:", e);
-    }
-  }
 
   return (
     <div
