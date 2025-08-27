@@ -49,8 +49,6 @@ export const FooterSectionRender = () => {
     connectors: { connect, drag },
   } = useNode();
 
-  const year = new Date().getFullYear();
-
   return (
     <Element
       is="div"
@@ -85,7 +83,7 @@ export const FooterSectionRender = () => {
           />
 
           <Element
-            is={TextX}
+            is={Text}
             id="footer-aboutus-text"
             text="We bring comfort to your doorsteps."
             fontSize={16}
