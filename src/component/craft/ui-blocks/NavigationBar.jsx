@@ -209,19 +209,6 @@ export const NavigationBarSettings = () => {
   );
 };
 
-// NavigationBar.craft = {
-//   props: {
-//     backgroundColor: "#ffffff",
-//     paddingX: 20,
-//     paddingY: 10,
-//     logoPosition: "right",
-//     showBorder: true,
-//   },
-//   related: {
-//     settings: NavigationBarSettings,
-//   },
-// };
-
 NavbarContent.craft = {
   props: {
     backgroundColor: "#ffffff",

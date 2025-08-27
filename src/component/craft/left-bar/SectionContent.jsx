@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import HeaderSection from "@/section/HeaderSection";
 import HeroSection from "@/section/HeroSection";
+import FooterSection from "@/section/FooterSection";
 import ProductionsSection from "@/section/ProductionsSection";
 import CollectionsSection from "@/section/CollectionsSection";
 import FormSection from "@/section/FormSection";
@@ -16,6 +17,7 @@ const SectionContent = ({ showRightSidebar }) => {
     "Announcement",
     "Header",
     "Hero",
+    "Footer",
     "Productions",
     "Collections",
     "Form",
@@ -32,6 +34,8 @@ const SectionContent = ({ showRightSidebar }) => {
         return <HeaderSection />;
       case "Hero":
         return <HeroSection />;
+      case "Footer":
+        return <FooterSection />;
       case "Productions":
         return <ProductionsSection />;
       case "Collections":

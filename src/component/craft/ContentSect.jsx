@@ -4,6 +4,10 @@ import cx from "classnames";
 
 import { Container } from "./user/Container";
 import { useViewport } from "../../Context/ViewportContext";
+import { FooterSectionRender_2 } from "./ui-blocks/footer-section/FooterSectionRender_2";
+import { NavigationBar } from "./ui-blocks/NavigationBar";
+import { Copyright } from "./user/Copyright";
+import { FooterSectionRender } from "./ui-blocks/footer-section/FooterSectionRender";
 
 function ContentSectionSect() {
   const { viewport } = useViewport();
@@ -37,7 +41,7 @@ function ContentSectionSect() {
         style={{
           width: getViewportWidth(),
           boxSizing: "border-box",
-          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.10)",
+          // boxShadow: "0 10px 30px rgba(0, 0, 0, 0.10)",
         }}
       >
         <Frame>
@@ -54,7 +58,8 @@ function ContentSectionSect() {
             canvas
             custom={{ displayName: "App" }}
           >
-            {/* <Element id="Announcement Bar" is={AnnouncementBarRender} /> */}
+            {/* <Element id="Navigation Bar" is={NavigationBar} /> */}
+            <Element id="Footer Section" is={FooterSectionRender} />
           </Element>
         </Frame>
       </div>

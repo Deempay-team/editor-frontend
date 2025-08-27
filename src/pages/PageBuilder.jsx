@@ -26,6 +26,10 @@ import {
   NavbarContent,
   NavigationBar,
 } from "../component/craft/ui-blocks/NavigationBar";
+import {
+  FooterContent,
+  FooterSectionRender,
+} from "../component/craft/ui-blocks/footer-section/FooterSectionRender";
 import { useSection } from "../Context/SectionContext";
 import { motion, AnimatePresence } from "framer-motion";
 import EditorTopBar from "@/component/craft/EditorTopBar";
@@ -45,6 +49,11 @@ import { TextX } from "../component/craft/user/TextX";
 import { Logo } from "@/component/craft/ui-blocks/Logo";
 import { MenuItems } from "@/component/craft/ui-blocks/MenuItems";
 import { IconButtons } from "@/component/craft/ui-blocks/IconButtons";
+import { Menu } from "lucide-react";
+import { SocialIcons } from "@/component/craft/ui-blocks/SocialIcons";
+import { FooterSectionRender_2 } from "@/component/craft/ui-blocks/footer-section/FooterSectionRender_2";
+import { Copyright } from "@/component/craft/user/Copyright";
+import { Container_2 } from "@/component/craft/user/Container_2";
 // import { Text } from "@/component/editor/selectors";
 
 export default function PageBuilder() {
@@ -79,14 +88,21 @@ export default function PageBuilder() {
           NavigationBar,
           Grid,
           HeroSectionRender,
+          HeroContent,
           HeroSectionSettings,
           ButtonX,
           TextX,
-          HeroContent,
           Logo,
           MenuItems,
           IconButtons,
           NavbarContent,
+          FooterSectionRender,
+          FooterSectionRender_2,
+          FooterContent,
+          Menu,
+          SocialIcons,
+          Copyright,
+          Container_2,
         }}
         onRender={RenderNode}
       >
@@ -94,8 +110,6 @@ export default function PageBuilder() {
           <div className="flex flex-col h-screen bg-[#f2f2f2]">
             {/* Top Bar */}
             <EditorTopBar zoom={zoom} setZoom={setZoom} />
-
-         
 
             {/* Main Content Area */}
             <div className={`flex flex-1 justify-between overflow-hidden`}>

@@ -23,6 +23,7 @@ import { Container } from "../user/Container";
 import { Button } from "../user/Button";
 import { ButtonX } from "../user/ButtonX";
 import { Image } from "../user/Image";
+import { Copyright as CopyrightElement } from "../user/Copyright";
 
 import CancelIcon from "@/assets/icons/CancelIcon";
 import { Grid } from "../user/Grid";
@@ -32,6 +33,7 @@ import { Button as ShardButton } from "@/components/ui/button";
 import { AnnouncementBar } from "../ui-blocks/AnnouncementBar/AnnouncementBarRender.jsx";
 import { Card } from "../user/Card";
 import { NavigationBar } from "../ui-blocks/NavigationBar";
+import { Copyright } from "lucide-react";
 // import { Text } from "@/component/editor/selectors";
 
 const ElementContent = ({ showRightSidebar, setShowRightSidebar }) => {
@@ -117,6 +119,16 @@ const ElementContent = ({ showRightSidebar, setShowRightSidebar }) => {
               >
                 <div className="w-full h-10 flex items-center justify-start  text-gray-500 hover:bg-gray-100 text-sm font-normal">
                   Video
+                </div>
+              </TabsTrigger>
+
+              <TabsTrigger
+                value="tab8"
+                className="cursor-pointer data-[state=active]:bg-[#E9E9E9] data-[state=active]:text-[#464646] data-[state=active]:shadow-none py-2 rounded-none"
+                asChild
+              >
+                <div className="w-full h-10 flex items-center justify-start  text-gray-500 hover:bg-gray-100 text-sm font-normal">
+                  Copyright
                 </div>
               </TabsTrigger>
             </TabsList>
@@ -227,6 +239,16 @@ const ElementContent = ({ showRightSidebar, setShowRightSidebar }) => {
               >
                 <ButtonIcon className="w-5 h-5 mb-1 stroke-current" />
                 <p className="text-[13px] font-normal ">Button </p>
+              </button>
+            </TabsContent>
+
+            <TabsContent value="tab8">
+              <button
+                className="group bg-gray-100 text-gray-600 rounded-sm h-20 flex flex-col items-center justify-center hover:bg-gray-200  w-full text-center cursor-pointer"
+                ref={(ref) => connectors.create(ref, <CopyrightElement />)}
+              >
+                <Copyright className="w-5 h-5 mb-1 stroke-current" />
+                <p className="text-[13px] font-normal ">Copyright </p>
               </button>
             </TabsContent>
           </ScrollArea>
