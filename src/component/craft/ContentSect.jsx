@@ -59,7 +59,7 @@ function ContentSectionSect() {
             custom={{ displayName: "App" }}
           >
             {/* <Element id="Navigation Bar" is={NavigationBar} /> */}
-            <Element id="Footer Section" is={FooterSectionRender} />
+{/*             <Element id="Footer Section" is={FooterSectionRender} /> */}
           </Element>
         </Frame>
       </div>
