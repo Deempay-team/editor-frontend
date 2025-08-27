@@ -42,7 +42,6 @@ const EditorTopBar = ({ zoom, setZoom }) => {
   const { isPreview, setIsPreview } = usePreview();
   const { isSection, setIsSection } = useSection();
 
-
   // inside your component
   const { actions, canUndo, canRedo, query } = useEditor((state, query) => ({
     canUndo: query.history.canUndo(),
@@ -162,8 +161,6 @@ const EditorTopBar = ({ zoom, setZoom }) => {
     actions.setOptions((options) => (options.enabled = checked));
     //console.log(checked);
   }, [checked]);
-
-
 
   return (
     <div

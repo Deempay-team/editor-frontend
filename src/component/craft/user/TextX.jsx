@@ -5,10 +5,17 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useTheme } from "@/Context/ThemeContext"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useTheme } from "@/Context/ThemeContext";
 
-export const TextX = ({ text,
+export const TextX = ({
+  text,
   fontSize,
   fontSizeMobile,
   textAlign,
@@ -21,8 +28,13 @@ export const TextX = ({ text,
   charSpacing,
   margin,
   padding,
-  width, }) => {
-  const { connectors: { connect, drag }, hasSelectedNode, actions: { setProp } } = useNode((state) => ({
+  width,
+}) => {
+  const {
+    connectors: { connect, drag },
+    hasSelectedNode,
+    actions: { setProp },
+  } = useNode((state) => ({
     hasSelectedNode: state.events.selected,
   }));
 
@@ -55,7 +67,6 @@ export const TextX = ({ text,
         `}
       </style> */}
 
-
       {/* 
       make sure you change the classname to fit the component classname,
       also each component should have a unique classname so that we will not have a conflict 
@@ -86,15 +97,17 @@ export const TextX = ({ text,
         onClick={() => setEditable(true)}
         className="responsive-textX"
         style={{
-          '--font-size': `${fontSize}px`,
-          '--font-size-mobile': fontSizeMobile ? `${fontSizeMobile}px` : undefined,
-          '--text-align': textAlign,
-          '--text-align-mobile': textAlignMobile || undefined,
-          '--font-weight': fontWeight,
-          '--font-weight-mobile': fontWeightMobile || undefined,
+          "--font-size": `${fontSize}px`,
+          "--font-size-mobile": fontSizeMobile
+            ? `${fontSizeMobile}px`
+            : undefined,
+          "--text-align": textAlign,
+          "--text-align-mobile": textAlignMobile || undefined,
+          "--font-weight": fontWeight,
+          "--font-weight-mobile": fontWeightMobile || undefined,
           "--font-family": theme.font.heading.family,
           "--color": color || theme.colors.primary.hex,
-          '--color-mobile': colorMobile || undefined,
+          "--color-mobile": colorMobile || undefined,
           lineHeight,
           letterSpacing: `${charSpacing}px`,
           margin: `${margin}px`,
@@ -148,7 +161,9 @@ export const TextXSettings = () => {
             min={10}
             max={50}
             step={1}
-            onValueChange={(value) => setProp((props) => (props.fontSize = value[0]))}
+            onValueChange={(value) =>
+              setProp((props) => (props.fontSize = value[0]))
+            }
           />
           <Label>Font Size (Mobile)</Label>
           <Slider
@@ -166,7 +181,9 @@ export const TextXSettings = () => {
         <div className="space-y-2">
           <Label>Text Align (Desktop)</Label>
           <Select
-            onValueChange={(value) => setProp((props) => (props.textAlign = value))}
+            onValueChange={(value) =>
+              setProp((props) => (props.textAlign = value))
+            }
             defaultValue={props.textAlign}
           >
             <SelectTrigger className="w-full">
@@ -201,7 +218,9 @@ export const TextXSettings = () => {
         <div className="space-y-2">
           <Label>Font Weight (Desktop)</Label>
           <Select
-            onValueChange={(value) => setProp((props) => (props.fontWeight = value))}
+            onValueChange={(value) =>
+              setProp((props) => (props.fontWeight = value))
+            }
             defaultValue={props.fontWeight}
           >
             <SelectTrigger className="w-full">
@@ -243,14 +262,18 @@ export const TextXSettings = () => {
             <Input
               type="color"
               value={props.color || theme.colors.primary.hex}
-              onChange={(e) => setProp((props) => (props.color = e.target.value))}
+              onChange={(e) =>
+                setProp((props) => (props.color = e.target.value))
+              }
             />
           </div>
           <div className="space-y-2">
             <Label>Text Color (Mobile)</Label>
             <Input
               type="color"
-              value={props.colorMobile || props.color || theme.colors.primary.hex}
+              value={
+                props.colorMobile || props.color || theme.colors.primary.hex
+              }
               onChange={(e) =>
                 setProp((props) => (props.colorMobile = e.target.value))
               }
@@ -265,7 +288,9 @@ export const TextXSettings = () => {
           min={1}
           max={3}
           step={0.1}
-          onValueChange={(value) => setProp((props) => (props.lineHeight = value[0]))}
+          onValueChange={(value) =>
+            setProp((props) => (props.lineHeight = value[0]))
+          }
         />
 
         <Label>Character Spacing</Label>
@@ -274,7 +299,9 @@ export const TextXSettings = () => {
           min={0}
           max={10}
           step={0.5}
-          onValueChange={(value) => setProp((props) => (props.charSpacing = value[0]))}
+          onValueChange={(value) =>
+            setProp((props) => (props.charSpacing = value[0]))
+          }
         />
 
         <Label>Margin</Label>
@@ -283,7 +310,9 @@ export const TextXSettings = () => {
           min={0}
           max={50}
           step={1}
-          onValueChange={(value) => setProp((props) => (props.margin = value[0]))}
+          onValueChange={(value) =>
+            setProp((props) => (props.margin = value[0]))
+          }
         />
 
         <Label>Padding</Label>
@@ -292,7 +321,9 @@ export const TextXSettings = () => {
           min={0}
           max={50}
           step={1}
-          onValueChange={(value) => setProp((props) => (props.padding = value[0]))}
+          onValueChange={(value) =>
+            setProp((props) => (props.padding = value[0]))
+          }
         />
 
         <Label>Width</Label>
@@ -301,13 +332,14 @@ export const TextXSettings = () => {
           min={0}
           max={100}
           step={1}
-          onValueChange={(value) => setProp((props) => (props.width = value[0]))}
+          onValueChange={(value) =>
+            setProp((props) => (props.width = value[0]))
+          }
         />
       </CardContent>
     </Card>
   );
 };
-
 
 TextX.craft = {
   props: {
@@ -330,4 +362,3 @@ TextX.craft = {
     settings: TextXSettings,
   },
 };
-
