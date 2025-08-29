@@ -1,17 +1,23 @@
 import React from "react";
 import { useNode } from "@craftjs/core";
 import { TextSettings } from "@/component/craft/user/Text/TextSettings.jsx";
+import { useViewport } from "@/Context/ViewportContext";
 
 export const Text = ({
   text,
   link,
   font,
-  fontSize,
+  fontSizeDesktop,
+  fontSizeMobile,
   fontWeight,
   charSpacing,
   case: textCase,
   color,
+  widthDesktop = 100,
+  widthMobile = 100,
 }) => {
+  const { isDesktop } = useViewport(); // your custom hook
+
   const {
     connectors: { connect, drag },
   } = useNode();
@@ -31,6 +37,8 @@ export const Text = ({
     return textCase === "Uppercase" ? "uppercase" : "none";
   };
 
+  const fontSize = isDesktop ? fontSizeDesktop : fontSizeMobile;
+
   return (
     <>
       <style>
@@ -43,6 +51,7 @@ export const Text = ({
             letter-spacing: var(--letter-spacing, 0px);
             text-transform: var(--text-transform, none);
             color: var(--color, #000000);
+            
           }
         `}
       </style>
@@ -59,6 +68,7 @@ export const Text = ({
           "--letter-spacing": getLetterSpacing(),
           "--text-transform": getTextTransform(),
           "--color": color,
+          width: isDesktop ? `${widthDesktop}%` : `${widthMobile}%`,
         }}
         dangerouslySetInnerHTML={{ __html: text }}
       />
@@ -71,11 +81,14 @@ Text.craft = {
     text: <p>Special Announcement! Check out our new features!</p>,
     link: "",
     font: "Heading",
-    fontSize: 16,
+    fontSizeDesktop: 16,
+    fontSizeMobile: 14,
     fontWeight: "400",
     charSpacing: "Normal",
     case: "Default",
     color: "#000000",
+    widthDesktop: 100,
+    widthMobile: 100,
   },
   related: {
     settings: TextSettings,

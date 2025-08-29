@@ -7,7 +7,7 @@ import { useViewport } from "../../Context/ViewportContext";
 import { FooterSectionRender_2 } from "./ui-blocks/footer-section/FooterSectionRender_2";
 import { NavigationBar } from "./ui-blocks/NavigationBar";
 import { Copyright } from "./user/Copyright";
-import { FooterSectionRender } from "./ui-blocks/footer-section/FooterSectionRender";
+import { NewsLetterRender } from "./ui-blocks/Newsletter/NewsLetterRender";
 
 function ContentSectionSect() {
   const { viewport } = useViewport();
@@ -59,7 +59,7 @@ function ContentSectionSect() {
             custom={{ displayName: "App" }}
           >
             {/* <Element id="Navigation Bar" is={NavigationBar} /> */}
-{/*             <Element id="Footer Section" is={FooterSectionRender} /> */}
+            {/* <Element id="Footer Section" is={NewsLetterRender} /> */}
           </Element>
         </Frame>
       </div>

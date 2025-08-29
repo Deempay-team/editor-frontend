@@ -41,6 +41,7 @@ export function SliderControl({
             min={min}
             max={max}
             step={step}
+            className="cursor-pointer"
             onValueChange={(val) => updateGap(val[0])}
           />
         </div>

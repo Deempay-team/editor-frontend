@@ -201,7 +201,7 @@ export const HeroSectionRender = () => {
           is={Text}
           id="heroHeading"
           text="Browse our latest products"
-          fontSize={32}
+          fontSizeDesktop={32}
           fontWeight="700"
           canvas={false}
         />

@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEditor, useNode } from "@craftjs/core";
 import { Button as ShadButton } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
-import { HexColorPicker as ColorPicker } from "react-colorful";
+import { HexColorPicker as ColorPicker2 } from "react-colorful";
 import {
   Select,
   SelectContent,
@@ -20,6 +20,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import PropTypes from "prop-types";
+import { CustomColorPicker } from "@/components/color-picker/CustomColorPicker";
+import ColorPicker from "@/components/ui/ColorPicker";
 
 const BREAKPOINT = 640;
 
@@ -48,6 +50,7 @@ export const Button = ({
   borderMobile,
   alignment,
   alignmentMobile,
+  textColor = "#000000",
 }) => {
   const {
     connectors: { connect, drag },
@@ -127,6 +130,7 @@ export const Button = ({
             textDecoration,
             fontStyle,
             width: alignment === "fill" ? "100%" : "auto",
+            color: textColor,
           }}
           aria-label={children}
         >
@@ -150,6 +154,8 @@ export const Button = ({
 };
 
 export const ButtonSettings = () => {
+  const [open, setOpen] = useState(false);
+
   const {
     actions: { setProp },
     props,
@@ -234,7 +240,7 @@ export const ButtonSettings = () => {
             </Select>
 
             <Label>Background Color</Label>
-            <ColorPicker
+            <ColorPicker2
               value={props.backgroundColor}
               onChange={(value) =>
                 setProp((props) => (props.backgroundColor = value))
@@ -352,7 +358,7 @@ export const ButtonSettings = () => {
             </Select>
 
             <Label>Background Color</Label>
-            <ColorPicker
+            <ColorPicker2
               value={props.backgroundColorMobile || props.backgroundColor}
               onChange={(value) =>
                 setProp((props) => (props.backgroundColorMobile = value))
@@ -419,6 +425,12 @@ export const ButtonSettings = () => {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+
+      <ColorPicker
+        label="Text Color"
+        value={props.textColor}
+        onChange={(val) => setProp((p) => (p.textColor = val))}
+      />
 
       <Label>Line Height</Label>
       <Slider
@@ -492,6 +504,7 @@ Button.craft = {
     borderMobile: null,
     alignment: "left",
     alignmentMobile: null,
+    textColor: "#000000",
   },
   related: {
     settings: ButtonSettings,

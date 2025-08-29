@@ -83,7 +83,7 @@ export const AnnouncementBarRender = () => {
           is={Text}
           id="announcementText"
           text="Special Announcement! Check out our new features!"
-          fontSize={14}
+          fontSizeDesktop={14}
           fontWeight={"400"}
           color={"#ffffff"}
           textAlign={props?.textAlign}

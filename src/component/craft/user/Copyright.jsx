@@ -4,7 +4,7 @@ import { useNode, Element } from "@craftjs/core";
 import { cn } from "@/lib/utils";
 import { TextX } from "./TextX";
 import ColorPicker from "@/components/ui/ColorPicker";
-import { SliderControl } from "../ui-blocks/HeroSection/SliderControl";
+import { SliderControl } from "../ui-blocks/SliderControl";
 import { useViewport } from "@/Context/ViewportContext";
 import { Container_2 } from "./Container_2";
 

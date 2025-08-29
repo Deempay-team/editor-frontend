@@ -5,7 +5,7 @@ import { Logo } from "../Logo";
 import { Text } from "../../user/Text";
 import { SocialIcons } from "../SocialIcons";
 import { useViewport } from "@/Context/ViewportContext";
-import { SliderControl } from "../HeroSection/SliderControl";
+import { SliderControl } from "../SliderControl";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import ColorPicker from "@/components/ui/ColorPicker";
@@ -86,7 +86,7 @@ export const FooterSectionRender = () => {
             is={Text}
             id="footer-aboutus-text"
             text="We bring comfort to your doorsteps."
-            fontSize={16}
+            fontSizeDesktop={16}
             color={"#000000"}
             canvas={false}
           />
@@ -102,7 +102,7 @@ export const FooterSectionRender = () => {
             is={Text}
             id="Information"
             text="Information"
-            fontSize={18}
+            fontSizeDesktop={18}
             fontWeight={600}
             color={"#000000"}
             canvas={false}
@@ -111,7 +111,7 @@ export const FooterSectionRender = () => {
             is={Text}
             id="Home"
             text="Home"
-            fontSize={16}
+            fontSizeDesktop={16}
             color={"#000000"}
             canvas={false}
           />
@@ -119,7 +119,7 @@ export const FooterSectionRender = () => {
             is={Text}
             id="Products"
             text="Products"
-            fontSize={16}
+            fontSizeDesktop={16}
             color={"#000000"}
             canvas={false}
           />
@@ -128,7 +128,7 @@ export const FooterSectionRender = () => {
             is={Text}
             id="Contact"
             text="Contact"
-            fontSize={16}
+            fontSizeDesktop={16}
             color={"#000000"}
             canvas={false}
           />
@@ -137,23 +137,10 @@ export const FooterSectionRender = () => {
             is={Text}
             id="About"
             text="About Us"
-            fontSize={16}
+            fontSizeDesktop={16}
             color={"#000000"}
             canvas={false}
           />
-
-          {/* <Link href="/">
-            <span className="text-black text-base cursor-pointer">Home</span>
-          </Link>
-          <Link href="/products">
-            <span className="text-black text-base cursor-pointer">Product</span>
-          </Link>
-          <Link href="/contacts">
-            <span className="text-black text-base cursor-pointer">Contact</span>
-          </Link>
-          <Link href="/about">
-            <span className="text-black text-base cursor-pointer">About</span>
-          </Link> */}
         </Element>
 
         {/* Terms */}
@@ -166,7 +153,7 @@ export const FooterSectionRender = () => {
             is={Text}
             id="Terms"
             text="Terms"
-            fontSize={18}
+            fontSizeDesktop={18}
             fontWeight={600}
             color={"#000000"}
             canvas={false}
@@ -175,7 +162,7 @@ export const FooterSectionRender = () => {
             is={Text}
             id="Shipping-Delivery"
             text="Shipping & Delivery"
-            fontSize={16}
+            fontSizeDesktop={16}
             color={"#000000"}
             canvas={false}
           />
@@ -183,7 +170,7 @@ export const FooterSectionRender = () => {
             is={Text}
             id="Return-Refund-Policy"
             text="Return & Refund Policy"
-            fontSize={16}
+            fontSizeDesktop={16}
             color={"#000000"}
             canvas={false}
           />
@@ -192,7 +179,7 @@ export const FooterSectionRender = () => {
             is={Text}
             id="Terms"
             text="Terms & Conditions"
-            fontSize={16}
+            fontSizeDesktop={16}
             color={"#000000"}
             canvas={false}
           />
@@ -217,7 +204,7 @@ export const FooterSectionRender = () => {
             is={Text}
             id="Get-in-Touch"
             text="Get in Touch"
-            fontSize={18}
+            fontSizeDesktop={18}
             fontWeight={600}
             color={"#000000"}
             canvas={false}
@@ -244,27 +231,6 @@ export const FooterSectionRender = () => {
 
       {/* Bottom Note */}
       <Element id="Footer Section" is={Copyright} />
-      {/* <Element
-        is="div"
-        id="copyright-Content"
-        canvas
-        ref={(ref) => connect(drag(ref))}
-        className=" flex items-center mt-6 mb-10 px-4 text-center md:text-left md:px-10"
-      >
-        <Element
-          is={Text}
-          id="copyright-text"
-          text={cn(
-            "© ",
-            year,
-            " My Brand. All rights reserved. Powered by Storecra"
-          )}
-          fontSize={16}
-          color={"#000000"}
-          width={100}
-          canvas={false}
-        />
-      </Element> */}
     </Element>
   );
 };
