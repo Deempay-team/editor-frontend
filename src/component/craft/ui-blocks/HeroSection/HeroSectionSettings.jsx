@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { SliderControl } from "./SliderControl";
+import { SliderControl } from "../SliderControl";
 import { useViewport } from "@/Context/ViewportContext";
 import { ChevronDownIcon } from "lucide-react";
 import { cn } from "@/lib/utils";

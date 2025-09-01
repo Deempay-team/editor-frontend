@@ -3,6 +3,7 @@ import NavbarThumbnail_1 from "./navbar-thumbnail.PNG";
 import AnnouncementBarThumbnail_1 from "./anouncementbar-thumbnail.PNG";
 import FooterThumbnail_1 from "./Footer-1.PNG";
 import FooterThumbnail_2 from "./Footer-2.PNG";
+import NewsletterThumbnail from "./Newsletter.PNG";
 
 export {
   heroSectionThumbnail_1,
@@ -10,4 +11,5 @@ export {
   AnnouncementBarThumbnail_1,
   FooterThumbnail_1,
   FooterThumbnail_2,
+  NewsletterThumbnail,
 };

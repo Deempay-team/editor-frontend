@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/select";
 import { TextEditor } from "@/components/text-editor/TextEditor.js";
 import React from "react";
+import { SliderControl } from "../../ui-blocks/SliderControl";
+import { useViewport } from "@/Context/ViewportContext";
 
 const Section = ({ title, children }) => (
   <div className="space-y-3 border-b border-gray-200 pb-4">
@@ -19,6 +21,8 @@ const Section = ({ title, children }) => (
 );
 
 export const TextSettings = () => {
+  const { isDesktop } = useViewport();
+
   const {
     actions: { setProp },
     props,
@@ -57,36 +61,28 @@ export const TextSettings = () => {
           </SelectContent>
         </Select>
 
-        <Label>Size</Label>
-        <Select
-          onValueChange={(value) =>
-            setProp((props) => (props.fontSize = parseInt(value)))
+        <SliderControl
+          value={isDesktop ? props.fontSizeDesktop : props.fontSizeMobile}
+          label="Size"
+          onChange={(val) =>
+            setProp((p) =>
+              isDesktop ? (p.fontSizeDesktop = val) : (p.fontSizeMobile = val)
+            )
           }
-          defaultValue={props.fontSize?.toString() || "16"}
-        >
-          <SelectTrigger className="w-full">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="10">10px</SelectItem>
-            <SelectItem value="12">12px</SelectItem>
-            <SelectItem value="14">14px</SelectItem>
-            <SelectItem value="16">16px</SelectItem>
-            <SelectItem value="18">18px</SelectItem>
-            <SelectItem value="20">20px</SelectItem>
-            <SelectItem value="24">24px</SelectItem>
-            <SelectItem value="32">32px</SelectItem>
-            <SelectItem value="40">40px</SelectItem>
-            <SelectItem value="48">48px</SelectItem>
-            <SelectItem value="56">56px</SelectItem>
-            <SelectItem value="72">72px</SelectItem>
-            <SelectItem value="78">78px</SelectItem>
-            <SelectItem value="88">88px</SelectItem>
-            <SelectItem value="120">120px</SelectItem>
-            <SelectItem value="152">152px</SelectItem>
-            <SelectItem value="184">184px</SelectItem>
-          </SelectContent>
-        </Select>
+        />
+
+        <SliderControl
+          value={isDesktop ? props.widthDesktop : props.widthMobile}
+          min={10}
+          max={100}
+          step={10}
+          label="Width"
+          onChange={(val) =>
+            setProp((p) =>
+              isDesktop ? (p.widthDesktop = val) : (p.widthMobile = val)
+            )
+          }
+        />
 
         <Label>Weight</Label>
         <Select

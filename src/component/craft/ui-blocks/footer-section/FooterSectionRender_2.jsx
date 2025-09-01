@@ -64,7 +64,7 @@ export const FooterSectionRender_2 = () => {
             is={Text}
             id="Information"
             text="Information"
-            fontSize={18}
+            fontSizeDesktop={18}
             fontWeight={600}
             color={"#000000"}
             canvas={false}
@@ -73,7 +73,7 @@ export const FooterSectionRender_2 = () => {
             is={Text}
             id="Home"
             text="Home"
-            fontSize={16}
+            fontSizeDesktop={16}
             color={"#000000"}
             canvas={false}
           />
@@ -81,7 +81,7 @@ export const FooterSectionRender_2 = () => {
             is={Text}
             id="Products"
             text="Products"
-            fontSize={16}
+            fontSizeDesktop={16}
             color={"#000000"}
             canvas={false}
           />
@@ -90,7 +90,7 @@ export const FooterSectionRender_2 = () => {
             is={Text}
             id="Contact"
             text="Contact"
-            fontSize={16}
+            fontSizeDesktop={16}
             color={"#000000"}
             canvas={false}
           />
@@ -99,23 +99,10 @@ export const FooterSectionRender_2 = () => {
             is={Text}
             id="About"
             text="About Us"
-            fontSize={16}
+            fontSizeDesktop={16}
             color={"#000000"}
             canvas={false}
           />
-
-          {/* <Link href="/">
-            <span className="text-black text-base cursor-pointer">Home</span>
-          </Link>
-          <Link href="/products">
-            <span className="text-black text-base cursor-pointer">Product</span>
-          </Link>
-          <Link href="/contacts">
-            <span className="text-black text-base cursor-pointer">Contact</span>
-          </Link>
-          <Link href="/about">
-            <span className="text-black text-base cursor-pointer">About</span>
-          </Link> */}
         </Element>
 
         {/* Terms */}
@@ -128,7 +115,7 @@ export const FooterSectionRender_2 = () => {
             is={Text}
             id="Terms"
             text="Terms"
-            fontSize={18}
+            fontSizeDesktop={18}
             fontWeight={600}
             color={"#000000"}
             canvas={false}
@@ -137,7 +124,7 @@ export const FooterSectionRender_2 = () => {
             is={Text}
             id="Shipping-Delivery"
             text="Shipping & Delivery"
-            fontSize={16}
+            fontSizeDesktop={16}
             color={"#000000"}
             canvas={false}
           />
@@ -145,7 +132,7 @@ export const FooterSectionRender_2 = () => {
             is={Text}
             id="Return-Refund-Policy"
             text="Return & Refund Policy"
-            fontSize={16}
+            fontSizeDesktop={16}
             color={"#000000"}
             canvas={false}
           />
@@ -154,7 +141,7 @@ export const FooterSectionRender_2 = () => {
             is={Text}
             id="Terms"
             text="Terms & Conditions"
-            fontSize={16}
+            fontSizeDesktop={16}
             color={"#000000"}
             canvas={false}
           />
@@ -179,7 +166,7 @@ export const FooterSectionRender_2 = () => {
             is={Text}
             id="Get-in-Touch"
             text="Get in Touch"
-            fontSize={18}
+            fontSizeDesktop={18}
             fontWeight={600}
             color={"#000000"}
             canvas={false}

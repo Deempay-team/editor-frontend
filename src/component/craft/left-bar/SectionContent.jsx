@@ -9,6 +9,7 @@ import FormSection from "@/section/FormSection";
 import LayoutSection from "@/section/LayoutSection";
 import StorytellingSection from "@/section/StorytellingSection";
 import AnnouncementBar from "@/section/AnnouncementBar.jsx";
+import Newsletter from "@/section/Newsletter.jsx";
 
 const SectionContent = ({ showRightSidebar }) => {
   const [activeTab, setActiveTab] = useState("Announcement");
@@ -18,6 +19,7 @@ const SectionContent = ({ showRightSidebar }) => {
     "Header",
     "Hero",
     "Footer",
+    "Newsletter",
     "Productions",
     "Collections",
     "Form",
@@ -36,6 +38,8 @@ const SectionContent = ({ showRightSidebar }) => {
         return <HeroSection />;
       case "Footer":
         return <FooterSection />;
+      case "Newsletter":
+        return <Newsletter />;
       case "Productions":
         return <ProductionsSection />;
       case "Collections":

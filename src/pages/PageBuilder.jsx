@@ -54,6 +54,12 @@ import { SocialIcons } from "@/component/craft/ui-blocks/SocialIcons";
 import { FooterSectionRender_2 } from "@/component/craft/ui-blocks/footer-section/FooterSectionRender_2";
 import { Copyright } from "@/component/craft/user/Copyright";
 import { Container_2 } from "@/component/craft/user/Container_2";
+import {
+  NewsLetterContainer,
+  NewsLetterContainer_2,
+  NewsLetterRender,
+} from "@/component/craft/ui-blocks/Newsletter/NewsLetterRender";
+import { InputField } from "@/component/craft/user/InputField";
 // import { Text } from "@/component/editor/selectors";
 
 export default function PageBuilder() {
@@ -103,6 +109,10 @@ export default function PageBuilder() {
           SocialIcons,
           Copyright,
           Container_2,
+          NewsLetterRender,
+          NewsLetterContainer,
+          NewsLetterContainer_2,
+          InputField,
         }}
         onRender={RenderNode}
       >
