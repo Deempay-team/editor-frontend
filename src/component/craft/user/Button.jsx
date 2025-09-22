@@ -23,11 +23,11 @@ import PropTypes from "prop-types";
 import { CustomColorPicker } from "@/components/color-picker/CustomColorPicker";
 import ColorPicker from "@/components/ui/ColorPicker";
 
-const BREAKPOINT = 640;
+const BREAKPOINT = 768; // Tailwind's md breakpoint
 
 export const Button = ({
   size,
-  variant,
+  variant = "contained", // contained | outline | ghost
   children = "Click me",
   link,
   openInNewTab,
@@ -40,23 +40,50 @@ export const Button = ({
   textAlignMobile,
   textDecoration,
   fontStyle,
-  backgroundColor,
-  backgroundColorMobile,
+  backgroundColor, // 👈 default
   padding,
   paddingMobile,
-  borderRadius,
+  borderRadius = 5,
   borderRadiusMobile,
-  border,
-  borderMobile,
   alignment,
   alignmentMobile,
-  textColor = "#000000",
+  textColor,
+  disabled,
+  height,
+  heightMobile,
 }) => {
   const {
     connectors: { connect, drag },
-    actions: { setProp },
   } = useNode();
   const isEditor = useEditor((state) => state.options.enabled);
+
+  // ---- 🎨 Variant-specific styles ----
+  const variantStyles = {
+    contained: {
+      backgroundColor,
+      color: textColor,
+      border: "none",
+    },
+    outline: {
+      backgroundColor: "transparent",
+      color: textColor || backgroundColor,
+      border: `1px solid ${backgroundColor}`,
+    },
+    ghost: {
+      backgroundColor: "transparent",
+      color: textColor || backgroundColor,
+      border: "none",
+    },
+    text: {
+      backgroundColor: "transparent",
+      color: textColor || backgroundColor,
+      border: "none",
+      outline: "none",
+      boxShadow: "none", // 👈 just in case shadows sneak in
+    },
+  };
+
+  const activeVariant = variantStyles[variant] || variantStyles.contained;
 
   const buttonElement = (
     <>
@@ -66,12 +93,19 @@ export const Button = ({
             font-size: var(--font-size, 16px);
             font-weight: var(--font-weight, normal);
             text-align: var(--text-align, center);
-            background-color: var(--background-color, #007bff);
             padding: var(--padding, 10px);
+            height: var(--height, auto);
             border-radius: var(--border-radius, 5px);
-            border: var(--border, none);
-            display: block;
             margin: var(--margin, 0);
+            pointer-events: var(--pointer-events, auto);
+            line-height: var(--line-height, normal);
+            text-decoration: var(--text-decoration, none);
+            font-style: var(--font-style, normal);
+            transition: all 0.2s ease-in-out;
+          }
+
+          .responsive-button.ghost:hover {
+            background-color: ${backgroundColor}1A; /* 👈 10% opacity */
           }
 
           @media (max-width: ${BREAKPOINT}px) {
@@ -79,72 +113,74 @@ export const Button = ({
               font-size: var(--font-size-mobile, var(--font-size));
               font-weight: var(--font-weight-mobile, var(--font-weight));
               text-align: var(--text-align-mobile, var(--text-align));
-              background-color: var(--background-color-mobile, var(--background-color));
               padding: var(--padding-mobile, var(--padding));
               border-radius: var(--border-radius-mobile, var(--border-radius));
-              border: var(--border-mobile, var(--border));
               margin: var(--margin-mobile, var(--margin));
+              height: var(--heightMobile, var(--height));
             }
           }
         `}
       </style>
-      <div ref={(ref) => connect(drag(ref))}>
-        <ShadButton
-          size={size}
-          variant={variant}
-          className="responsive-button cursor-pointer"
-          style={{
-            "--font-size": `${fontSize}px`,
-            "--font-size-mobile": fontSizeMobile
-              ? `${fontSizeMobile}px`
-              : undefined,
-            "--font-weight": fontWeight,
-            "--font-weight-mobile": fontWeightMobile || undefined,
-            "--text-align": textAlign,
-            "--text-align-mobile": textAlignMobile || undefined,
-            "--background-color": backgroundColor,
-            "--background-color-mobile": backgroundColorMobile || undefined,
-            "--padding": `${padding}px`,
-            "--padding-mobile": paddingMobile
-              ? `${paddingMobile}px`
-              : undefined,
-            "--border-radius": `${borderRadius}px`,
-            "--border-radius-mobile": borderRadiusMobile
-              ? `${borderRadiusMobile}px`
-              : undefined,
-            "--border": border,
-            "--border-mobile": borderMobile || undefined,
-            "--margin":
-              alignment === "center"
-                ? "0 auto"
-                : alignment === "right"
-                ? "0 0 0 auto"
-                : "0",
-            "--margin-mobile":
-              alignmentMobile === "center"
-                ? "0 auto"
-                : alignmentMobile === "right"
-                ? "0 0 0 auto"
-                : "0",
-            lineHeight: `${lineHeight}px`,
-            textDecoration,
-            fontStyle,
-            width: alignment === "fill" ? "100%" : "auto",
-            color: textColor,
-          }}
-          aria-label={children}
-        >
-          {children}
-        </ShadButton>
-      </div>
+
+      <ShadButton
+        size={size}
+        disabled={disabled}
+        className={`responsive-button ${variant} cursor-pointer ${
+          disabled ? "opacity-70 pointer-events-none" : "hover:opacity-90"
+        }`}
+        style={{
+          // responsive typography
+          "--font-size": `${fontSize}px`,
+          "--font-size-mobile": fontSizeMobile
+            ? `${fontSizeMobile}px`
+            : undefined,
+          "--font-weight": fontWeight,
+          "--font-weight-mobile": fontWeightMobile || undefined,
+          "--text-align": textAlign,
+          "--text-align-mobile": textAlignMobile || undefined,
+
+          "--padding": `${padding}px`,
+          "--padding-mobile": paddingMobile ? `${paddingMobile}px` : undefined,
+          "--border-radius": `${borderRadius}px`,
+          "--border-radius-mobile": borderRadiusMobile
+            ? `${borderRadiusMobile}px`
+            : undefined,
+          "--margin":
+            alignment === "center"
+              ? "0 auto"
+              : alignment === "right"
+              ? "0 0 0 auto"
+              : "0",
+          "--margin-mobile":
+            alignmentMobile === "center"
+              ? "0 auto"
+              : alignmentMobile === "right"
+              ? "0 0 0 auto"
+              : "0",
+          "--height": height ? `${height}px` : "auto",
+          "--heightMobile": heightMobile ? `${heightMobile}px` : undefined,
+          "--line-height": `${lineHeight}px`,
+          "--text-decoration": textDecoration,
+          "--font-style": fontStyle,
+
+          width: alignment === "fill" ? "100%" : "auto",
+
+          // variant-driven overrides
+          ...activeVariant,
+        }}
+        aria-label={children}
+        ref={(ref) => connect(drag(ref))}
+      >
+        {children}
+      </ShadButton>
     </>
   );
 
   return link && !isEditor ? (
     <a
-      ref={(ref) => connect(drag(ref))}
       href={link}
       target={openInNewTab ? "_blank" : "_self"}
+      ref={(ref) => connect(drag(ref))}
     >
       {buttonElement}
     </a>
@@ -187,6 +223,23 @@ export const ButtonSettings = () => {
           }
         />
       </div>
+
+      {/* 👇 Variant selection */}
+      <Label>Variant</Label>
+      <Select
+        onValueChange={(value) => setProp((props) => (props.variant = value))}
+        defaultValue={props.variant}
+      >
+        <SelectTrigger className={"w-full"}>
+          <SelectValue placeholder="Contained" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="contained">Contained</SelectItem>
+          <SelectItem value="outline">Outline</SelectItem>
+          <SelectItem value="ghost">Ghost</SelectItem>
+          <SelectItem value="text">Text</SelectItem>
+        </SelectContent>
+      </Select>
 
       <Accordion type="single" collapsible>
         <AccordionItem value="desktop">
@@ -494,7 +547,7 @@ Button.craft = {
     textAlignMobile: null,
     textDecoration: "none",
     fontStyle: "normal",
-    backgroundColor: "#007bff",
+    backgroundColor: null,
     backgroundColorMobile: null,
     padding: 10,
     paddingMobile: null,
@@ -504,7 +557,10 @@ Button.craft = {
     borderMobile: null,
     alignment: "left",
     alignmentMobile: null,
-    textColor: "#000000",
+    textColor: null,
+    disabled: false,
+    height: null,
+    heightMobile: null,
   },
   related: {
     settings: ButtonSettings,
@@ -513,7 +569,7 @@ Button.craft = {
 
 Button.propTypes = {
   size: PropTypes.oneOf(["small", "medium", "large"]),
-  variant: PropTypes.oneOf(["contained", "outlined", "text"]),
+  variant: PropTypes.oneOf(["contained", "outlined", "ghost", "text"]),
   children: PropTypes.string,
   link: PropTypes.string,
   openInNewTab: PropTypes.bool,
@@ -536,4 +592,6 @@ Button.propTypes = {
   borderMobile: PropTypes.string,
   alignment: PropTypes.oneOf(["left", "center", "right", "fill"]),
   alignmentMobile: PropTypes.oneOf(["left", "center", "right", "fill"]),
+  disabled: PropTypes.bool,
+  height: PropTypes.number,
 };

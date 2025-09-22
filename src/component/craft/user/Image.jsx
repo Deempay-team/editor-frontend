@@ -8,7 +8,6 @@
 // import { HexColorPicker as ColorPicker } from "react-colorful";
 // import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-
 // export const Image = ({ src, alt, width, height, borderRadius, alignment, fit, position, aspectRatio, link }) => {
 //   const {
 //     connectors: { connect, drag },
@@ -16,7 +15,7 @@
 
 //   // <a href={link} target="_blank" rel="noopener noreferrer"> href={link || "#"}
 //   return (
-//     <a  target="_blank" rel="noopener noreferrer"> 
+//     <a  target="_blank" rel="noopener noreferrer">
 //       <img
 //         ref={(ref) => connect(drag(ref))}
 //         src={src}
@@ -126,7 +125,6 @@
 //             <SelectItem value="bottom center">Bottom Center</SelectItem>
 //             <SelectItem value="bottom right">Bottom Right</SelectItem>
 
-
 //           </SelectContent>
 //         </Select>
 
@@ -158,8 +156,6 @@
 //   },
 // };
 
-
-
 import React from "react";
 import { useNode } from "@craftjs/core";
 import { Card, CardContent } from "@/components/ui/card";
@@ -180,6 +176,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import PropTypes from "prop-types";
+import { cn } from "@/lib/utils";
 
 const BREAKPOINT = 640;
 
@@ -201,6 +198,7 @@ export const Image = ({
   aspectRatio,
   link,
   openInNewTab,
+  className,
 }) => {
   const {
     connectors: { connect, drag },
@@ -237,15 +235,21 @@ export const Image = ({
         ref={(ref) => connect(drag(ref))}
         src={src}
         alt={alt}
-        className="responsive-image"
+        className={cn("responsive-image", className)}
         style={{
           "--width": alignment === "fill" ? "100%" : `${width}px`,
           "--width-mobile":
-            alignmentMobile === "fill" ? "100%" : widthMobile ? `${widthMobile}px` : undefined,
+            alignmentMobile === "fill"
+              ? "100%"
+              : widthMobile
+              ? `${widthMobile}px`
+              : undefined,
           "--height": `${height}px`,
           "--height-mobile": heightMobile ? `${heightMobile}px` : undefined,
           "--border-radius": `${borderRadius}px`,
-          "--border-radius-mobile": borderRadiusMobile ? `${borderRadiusMobile}px` : undefined,
+          "--border-radius-mobile": borderRadiusMobile
+            ? `${borderRadiusMobile}px`
+            : undefined,
           "--fit": fit,
           "--fit-mobile": fitMobile || undefined,
           "--position": position,
@@ -316,7 +320,9 @@ export const ImageSettings = () => {
           <input
             type="checkbox"
             checked={props.openInNewTab}
-            onChange={(e) => setProp((props) => (props.openInNewTab = e.target.checked))}
+            onChange={(e) =>
+              setProp((props) => (props.openInNewTab = e.target.checked))
+            }
           />
         </div>
 
@@ -330,7 +336,9 @@ export const ImageSettings = () => {
                 min={50}
                 max={800}
                 step={10}
-                onValueChange={(value) => setProp((props) => (props.width = value[0]))}
+                onValueChange={(value) =>
+                  setProp((props) => (props.width = value[0]))
+                }
               />
 
               <Label>Height</Label>
@@ -339,7 +347,9 @@ export const ImageSettings = () => {
                 min={50}
                 max={800}
                 step={10}
-                onValueChange={(value) => setProp((props) => (props.height = value[0]))}
+                onValueChange={(value) =>
+                  setProp((props) => (props.height = value[0]))
+                }
               />
 
               <Label>Border Radius</Label>
@@ -348,12 +358,16 @@ export const ImageSettings = () => {
                 min={0}
                 max={100}
                 step={1}
-                onValueChange={(value) => setProp((props) => (props.borderRadius = value[0]))}
+                onValueChange={(value) =>
+                  setProp((props) => (props.borderRadius = value[0]))
+                }
               />
 
               <Label>Alignment</Label>
               <Select
-                onValueChange={(value) => setProp((props) => (props.alignment = value))}
+                onValueChange={(value) =>
+                  setProp((props) => (props.alignment = value))
+                }
                 defaultValue={props.alignment}
               >
                 <SelectTrigger>
@@ -369,7 +383,9 @@ export const ImageSettings = () => {
 
               <Label>Image Fit</Label>
               <Select
-                onValueChange={(value) => setProp((props) => (props.fit = value))}
+                onValueChange={(value) =>
+                  setProp((props) => (props.fit = value))
+                }
                 defaultValue={props.fit}
               >
                 <SelectTrigger>
@@ -385,7 +401,9 @@ export const ImageSettings = () => {
 
               <Label>Image Position</Label>
               <Select
-                onValueChange={(value) => setProp((props) => (props.position = value))}
+                onValueChange={(value) =>
+                  setProp((props) => (props.position = value))
+                }
                 defaultValue={props.position}
               >
                 <SelectTrigger>
@@ -444,7 +462,9 @@ export const ImageSettings = () => {
 
               <Label>Alignment</Label>
               <Select
-                onValueChange={(value) => setProp((props) => (props.alignmentMobile = value))}
+                onValueChange={(value) =>
+                  setProp((props) => (props.alignmentMobile = value))
+                }
                 defaultValue={props.alignmentMobile || props.alignment}
               >
                 <SelectTrigger>
@@ -460,7 +480,9 @@ export const ImageSettings = () => {
 
               <Label>Image Fit</Label>
               <Select
-                onValueChange={(value) => setProp((props) => (props.fitMobile = value))}
+                onValueChange={(value) =>
+                  setProp((props) => (props.fitMobile = value))
+                }
                 defaultValue={props.fitMobile || props.fit}
               >
                 <SelectTrigger>
@@ -476,7 +498,9 @@ export const ImageSettings = () => {
 
               <Label>Image Position</Label>
               <Select
-                onValueChange={(value) => setProp((props) => (props.positionMobile = value))}
+                onValueChange={(value) =>
+                  setProp((props) => (props.positionMobile = value))
+                }
                 defaultValue={props.positionMobile || props.position}
               >
                 <SelectTrigger>
@@ -504,7 +528,9 @@ export const ImageSettings = () => {
           min={0.5}
           max={2}
           step={0.01}
-          onValueChange={(value) => setProp((props) => (props.aspectRatio = value[0]))}
+          onValueChange={(value) =>
+            setProp((props) => (props.aspectRatio = value[0]))
+          }
         />
       </CardContent>
     </Card>

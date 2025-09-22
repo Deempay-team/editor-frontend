@@ -15,7 +15,7 @@ const Section = ({ title, children, className }) => (
   </div>
 );
 
-export const NewsletterSettings = () => {
+export const ProductCollectionSettings = () => {
   const { isDesktop } = useViewport();
   const [open, setOpen] = useState(false);
 
@@ -49,7 +49,7 @@ export const NewsletterSettings = () => {
       </div>
 
       <Section title="Layout" className=" border-b border-gray-200 pb-5">
-        <SliderControl
+        {/* <SliderControl
           value={isDesktop ? props.desktopHeight : props.mobileHeight}
           label="Height"
           min={50}
@@ -59,7 +59,7 @@ export const NewsletterSettings = () => {
               isDesktop ? (p.desktopHeight = val) : (p.mobileHeight = val)
             )
           }
-        />
+        /> */}
 
         {/* Desktop Padding Y */}
         <SliderControl

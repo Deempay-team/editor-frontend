@@ -4,7 +4,7 @@ const ViewportContext = createContext();
 
 export const ViewportProvider = ({ children }) => {
   const [viewport, setViewport] = useState("desktop"); // "desktop" | "mobile"
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(null);
 
   useEffect(() => {
     const checkSize = () => {
@@ -35,7 +35,6 @@ export const ViewportProvider = ({ children }) => {
 //   }
 //   return context;
 // };
-
 
 export const useViewport = () => {
   const context = useContext(ViewportContext);
