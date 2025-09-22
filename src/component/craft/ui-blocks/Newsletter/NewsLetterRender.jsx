@@ -87,7 +87,7 @@ export const NewsLetterContainer_2 = ({
   children,
   background = "#ffffff",
   backgroundType = "color",
-  backgroundSrc = "", // image or video src
+  backgroundSrc = "", // `image` or video src
   mobilePaddingX = 16,
   desktopPaddingX = 16,
   mobilePaddingY = 0,

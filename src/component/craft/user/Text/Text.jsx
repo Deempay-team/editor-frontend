@@ -2,6 +2,7 @@ import React from "react";
 import { useNode } from "@craftjs/core";
 import { TextSettings } from "@/component/craft/user/Text/TextSettings.jsx";
 import { useViewport } from "@/Context/ViewportContext";
+import { cn } from "@/lib/utils";
 
 export const Text = ({
   text,
@@ -13,8 +14,9 @@ export const Text = ({
   charSpacing,
   case: textCase,
   color,
-  widthDesktop = 100,
-  widthMobile = 100,
+  widthDesktop,
+  widthMobile,
+  className,
 }) => {
   const { isDesktop } = useViewport(); // your custom hook
 
@@ -34,7 +36,11 @@ export const Text = ({
   };
 
   const getTextTransform = () => {
-    return textCase === "Uppercase" ? "uppercase" : "none";
+    return textCase === "Uppercase"
+      ? "uppercase"
+      : textCase === "capitalize"
+      ? "capitalize"
+      : "none";
   };
 
   const fontSize = isDesktop ? fontSizeDesktop : fontSizeMobile;
@@ -57,7 +63,7 @@ export const Text = ({
       </style>
       <div
         ref={(ref) => connect(drag(ref))}
-        className="responsive-text"
+        className={cn("responsive-text", className)}
         style={{
           "--font":
             font === "Heading"
@@ -68,7 +74,13 @@ export const Text = ({
           "--letter-spacing": getLetterSpacing(),
           "--text-transform": getTextTransform(),
           "--color": color,
-          width: isDesktop ? `${widthDesktop}%` : `${widthMobile}%`,
+          width: isDesktop
+            ? widthDesktop
+              ? `${widthDesktop}%`
+              : "auto"
+            : widthMobile
+            ? `${widthMobile}%`
+            : "auto",
         }}
         dangerouslySetInnerHTML={{ __html: text }}
       />
@@ -87,8 +99,8 @@ Text.craft = {
     charSpacing: "Normal",
     case: "Default",
     color: "#000000",
-    widthDesktop: 100,
-    widthMobile: 100,
+    widthDesktop: "auto",
+    widthMobile: "auto",
   },
   related: {
     settings: TextSettings,

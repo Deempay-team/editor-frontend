@@ -9,7 +9,7 @@ import EditorSideBar from "../component/craft/EditorSideBar";
 import EditorRightBar from "../component/craft/EditorRightBar";
 
 import { Button } from "../component/craft/user/Button";
-import { Image } from "../component/craft/user/Image";
+// import { Image } from "../component/craft/user/Image";
 import { Column } from "../component/craft/user/TwoColumn";
 import { Container } from "../component/craft/user/Container";
 import { Card, CardTop, CardBottom } from "../component/craft/user/Card";
@@ -49,7 +49,7 @@ import { TextX } from "../component/craft/user/TextX";
 import { Logo } from "@/component/craft/ui-blocks/Logo";
 import { MenuItems } from "@/component/craft/ui-blocks/MenuItems";
 import { IconButtons } from "@/component/craft/ui-blocks/IconButtons";
-import { Menu } from "lucide-react";
+import { Menu, ChevronLeft, ChevronRight } from "lucide-react";
 import { SocialIcons } from "@/component/craft/ui-blocks/SocialIcons";
 import { FooterSectionRender_2 } from "@/component/craft/ui-blocks/footer-section/FooterSectionRender_2";
 import { Copyright } from "@/component/craft/user/Copyright";
@@ -60,7 +60,18 @@ import {
   NewsLetterRender,
 } from "@/component/craft/ui-blocks/Newsletter/NewsLetterRender";
 import { InputField } from "@/component/craft/user/InputField";
-// import { Text } from "@/component/editor/selectors";
+import {
+  ProductCollectionContainer,
+  ProductCollectionRender,
+} from "@/component/craft/ui-blocks/ProductCollection/ProductCollectionRender";
+import Image from "next/image";
+import { ProductCard } from "@/component/craft/ui-blocks/ProductCard/ProductCard";
+import { Image as ImageElement } from "@/component/craft/user/Image";
+import Link from "next/link";
+import { SpacerRender } from "@/component/craft/ui-blocks/SpacerRender";
+import { Star } from "@/assets/icons";
+import { StarIcon } from "@/component/craft/ui-blocks/StarIcon";
+import { Button as ShadButton } from "@/components/ui/button";
 
 export default function PageBuilder() {
   const { fonts } = useTheme();
@@ -113,6 +124,17 @@ export default function PageBuilder() {
           NewsLetterContainer,
           NewsLetterContainer_2,
           InputField,
+          ProductCollectionRender,
+          ProductCollectionContainer,
+          ChevronLeft,
+          ChevronRight,
+          ProductCard,
+          ImageElement,
+          Link,
+          SpacerRender,
+          Star,
+          StarIcon,
+          ShadButton,
         }}
         onRender={RenderNode}
       >
