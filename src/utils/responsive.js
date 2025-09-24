@@ -20,10 +20,10 @@ export function getResponsiveProp({
 // Responsive functions for fontSize, fontWeight, paddingX, paddingY etc.
 export function getResponsivePropSize(isDesktop, propSize, propSizeMobile) {
   if (isDesktop) {
-    return propSize ? `${propSize}px` : null;
+    return propSize ? propSize : undefined;
   }
   if (propSizeMobile) {
-    return `${propSizeMobile}px`;
+    return propSizeMobile;
   }
-  return propSize ? `${propSize}px` : null;
+  return propSize ? propSize : undefined;
 }

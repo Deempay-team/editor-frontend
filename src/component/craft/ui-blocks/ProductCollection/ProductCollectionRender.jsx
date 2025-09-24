@@ -87,7 +87,7 @@ ProductCollectionContainer.craft = {
 };
 
 export const ProductCollectionRender = () => {
-  const { isDesktop } = useViewport();
+  // const { isDesktop } = useViewport();
 
   // ✅ Always call hooks, even if isDesktop is null
   const {
@@ -137,6 +137,7 @@ export const ProductCollectionRender = () => {
             is={Button}
             id="NewsletterButton"
             variant="text"
+            link={"/products/detail/"}
             children="See all"
             lineHeight={20}
             padding={14}
@@ -189,7 +190,7 @@ export const ProductCollectionRender = () => {
                     ) : (
                       <Link
                         href="/products/detail"
-                        className="relative aspect-square bg-white"
+                        className="relative bg-white"
                       >
                         {/* clickable in runtime */}
                         <Element

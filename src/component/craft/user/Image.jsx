@@ -234,7 +234,7 @@ export const ImageSettings = () => {
             label="Border Radius"
             stack={true}
             min={0}
-            max={100}
+            max={1000}
             step={1}
             onChange={(value) =>
               setProp((props) => (props.borderRadius = value))

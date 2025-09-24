@@ -25,6 +25,7 @@ import ColorPicker from "@/components/ui/ColorPicker";
 import { getResponsiveProp, getResponsivePropSize } from "@/utils/responsive";
 import { useViewport } from "@/Context/ViewportContext";
 import { SliderControl } from "../ui-blocks/SliderControl";
+import Link from "next/link";
 
 const BREAKPOINT = 768; // Tailwind's md breakpoint
 
@@ -116,6 +117,7 @@ export const Button = ({
     paddingY,
     paddingYMobile
   );
+  console.log("isEditor", isEditor);
 
   const activeVariant = variantStyles[variant] || variantStyles.contained;
 
@@ -130,8 +132,8 @@ export const Button = ({
             pointer-events: var(--pointer-events, auto);
             line-height: var(--line-height, normal);
             text-decoration: var(--text-decoration, none);
-            font-style: var(--font-style, normal);
-            transition: all 0.2s ease-in-out;
+            // font-style: var(--font-style, normal);
+            // transition: all 0.2s ease-in-out;
           }
 
           .responsive-button.ghost:hover {
@@ -156,14 +158,14 @@ export const Button = ({
         }`}
         style={{
           // responsive typography
-          fontSize: resolvedFontSize,
+          fontSize: `${resolvedFontSize}px`,
           fontWeight: resolvedFontWeight,
           "--text-align": textAlign,
           "--text-align-mobile": textAlignMobile || undefined,
-          paddingLeft: resolvedPaddingX,
-          paddingRight: resolvedPaddingX,
-          paddingTop: resolvedPaddingY,
-          paddingBottom: resolvedPaddingY,
+          paddingLeft: `${resolvedPaddingX}px`,
+          paddingRight: `${resolvedPaddingX}px`,
+          paddingTop: `${resolvedPaddingY}px`,
+          paddingBottom: `${resolvedPaddingY}px`,
           "--border-radius": `${borderRadius}px`,
           "--border-radius-mobile": borderRadiusMobile
             ? `${borderRadiusMobile}px`
@@ -197,13 +199,13 @@ export const Button = ({
   );
 
   return link && !isEditor ? (
-    <a
+    <Link
       href={link}
       target={openInNewTab ? "_blank" : "_self"}
       ref={(ref) => connect(drag(ref))}
     >
       {buttonElement}
-    </a>
+    </Link>
   ) : (
     <div ref={(ref) => connect(drag(ref))}>{buttonElement}</div>
   );
@@ -224,13 +226,13 @@ export const ButtonSettings = () => {
     <div className="space-y-4">
       <Label>Button Text</Label>
       <Input
-        value={props.children}
+        value={props.children ?? ""}
         onChange={(e) => setProp((props) => (props.children = e.target.value))}
       />
 
       <Label>Link</Label>
       <Input
-        value={props.link}
+        value={props.link ?? ""}
         onChange={(e) => setProp((props) => (props.link = e.target.value))}
       />
 
@@ -263,268 +265,187 @@ export const ButtonSettings = () => {
       </Select>
 
       <ColorPicker
-        label="Button Color"
-        value={props.backgroundColor}
+        label="Background Color"
+        value={props.backgroundColor ?? ""}
         onChange={(val) => setProp((p) => (p.backgroundColor = val))}
       />
 
       <ColorPicker
         label="Text Color"
-        value={props.textColor}
+        value={props.textColor ?? ""}
         onChange={(val) => setProp((p) => (p.textColor = val))}
       />
 
-      <Accordion type="single" collapsible>
-        <AccordionItem value="desktop">
-          <AccordionTrigger className="flex items-center justify-between w-full pb-3">
-            <span>Desktop Settings</span>
-          </AccordionTrigger>
-          <AccordionContent className="space-y-4">
+      <div className="space-y-4">
+        {/* <div className="space-y-2">
+          <Label>Width Mode</Label>
+          <Select
+            onValueChange={(value) =>
+              setProp((props) =>
+                isDesktop
+                  ? (props.widthMode = value)
+                  : (props.widthModeMobile = value)
+              )
+            }
+            defaultValue={props.widthMode}
+          >
+            <SelectTrigger className={"w-full"}>
+              <SelectValue placeholder="Auto (default)" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="auto">Auto (default)</SelectItem>
+              <SelectItem value="full">100% (fill container)</SelectItem>
+              <SelectItem value="custom">Custom (px)</SelectItem>
+            </SelectContent>
+          </Select>
+
+          {(props.widthMode === "custom" ||
+            props.widthModeMobile === "custom") && (
             <SliderControl
-              value={isDesktop ? props.fontSize : props.fontSizeMobile}
-              label="Font Size"
-              min={10}
-              max={100}
-              step={1}
+              value={isDesktop ? props.width : props.widthMobile}
+              label="Custom width"
+              min={50}
+              max={800}
+              stack={true}
               onChange={(val) =>
                 setProp((props) =>
-                  isDesktop
-                    ? (props.fontSize = val)
-                    : (props.fontSizeMobile = val)
+                  isDesktop ? (props.width = val) : (props.widthMobile = val)
                 )
               }
             />
+          )}
+        </div> */}
 
-            <Label>Font Weight</Label>
-            <Select
-              onValueChange={(value) =>
-                setProp((props) => (props.fontWeight = value))
-              }
-              defaultValue={props.fontWeight}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Normal" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="lighter">Lighter</SelectItem>
-                <SelectItem value="normal">Normal</SelectItem>
-                <SelectItem value="bold">Bold</SelectItem>
-              </SelectContent>
-            </Select>
+        <SliderControl
+          value={isDesktop ? props.height : props.heightMobile}
+          label="Height"
+          min={0}
+          max={100}
+          stack={true}
+          onChange={(val) =>
+            setProp((props) =>
+              isDesktop ? (props.height = val) : (props.heightMobile = val)
+            )
+          }
+        />
+        {/* Font Size */}
+        <SliderControl
+          value={isDesktop ? props.fontSize : props.fontSizeMobile}
+          label="Font Size"
+          min={10}
+          max={100}
+          step={1}
+          stack={true}
+          onChange={(val) =>
+            setProp((props) =>
+              isDesktop ? (props.fontSize = val) : (props.fontSizeMobile = val)
+            )
+          }
+        />
+        {/* Font Weight */}
+        <Label>Font Weight</Label>
+        <Select
+          onValueChange={(value) =>
+            setProp((props) => (props.fontWeight = value))
+          }
+          defaultValue={props.fontWeight}
+        >
+          <SelectTrigger className={"w-full"}>
+            <SelectValue placeholder="Normal" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={300}>Lighter</SelectItem>
+            <SelectItem value={400}>Normal</SelectItem>
+            <SelectItem value={500}>Medium</SelectItem>
+            <SelectItem value={600}>Semi Bold</SelectItem>
+            <SelectItem value={700}>Bold</SelectItem>
+          </SelectContent>
+        </Select>
+        {/* Text Align */}
+        <Label>Text Align</Label>
+        <Select
+          onValueChange={(value) =>
+            setProp((props) => (props.textAlign = value))
+          }
+          defaultValue={props.textAlign}
+        >
+          <SelectTrigger className={"w-full"}>
+            <SelectValue placeholder="Center" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="left">Left</SelectItem>
+            <SelectItem value="center">Center</SelectItem>
+            <SelectItem value="right">Right</SelectItem>
+          </SelectContent>
+        </Select>
+        {/* Padding Horizontal */}
+        <SliderControl
+          value={isDesktop ? props.paddingX : props.paddingXMobile}
+          label="Padding Horizontal"
+          stack={true}
+          min={0}
+          max={50}
+          step={1}
+          onChange={(val) =>
+            setProp((props) =>
+              isDesktop ? (props.paddingX = val) : (props.paddingXMobile = val)
+            )
+          }
+        />
+        {/* Padding Vertical */}
+        <SliderControl
+          value={isDesktop ? props.paddingY : props.paddingYMobile}
+          label="Padding Vertical"
+          stack={true}
+          min={0}
+          max={50}
+          step={1}
+          onChange={(val) =>
+            setProp((props) =>
+              isDesktop ? (props.paddingY = val) : (props.paddingYMobile = val)
+            )
+          }
+        />
 
-            <Label>Text Align</Label>
-            <Select
-              onValueChange={(value) =>
-                setProp((props) => (props.textAlign = value))
-              }
-              defaultValue={props.textAlign}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Center" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="left">Left</SelectItem>
-                <SelectItem value="center">Center</SelectItem>
-                <SelectItem value="right">Right</SelectItem>
-              </SelectContent>
-            </Select>
+        {/* Border Radius */}
+        <SliderControl
+          value={props.borderRadius}
+          label="Border Radius"
+          stack={true}
+          min={0}
+          max={500}
+          step={1}
+          onChange={(val) => setProp((props) => (props.borderRadius = val))}
+        />
 
-            <Label>Background Color</Label>
-            <ColorPicker2
-              value={props.backgroundColor}
-              onChange={(value) =>
-                setProp((props) => (props.backgroundColor = value))
-              }
-            />
+        <Label>Alignment</Label>
+        <Select
+          onValueChange={(value) =>
+            setProp((props) => (props.alignment = value))
+          }
+          defaultValue={props.alignment}
+        >
+          <SelectTrigger className={"w-full"}>
+            <SelectValue placeholder="Left" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="left">Left</SelectItem>
+            <SelectItem value="center">Center</SelectItem>
+            <SelectItem value="right">Right</SelectItem>
+            <SelectItem value="fill">Fill Width</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
-            <Label>Padding</Label>
-            <Slider
-              defaultValue={[props.padding]}
-              min={0}
-              max={50}
-              step={1}
-              onValueChange={(value) =>
-                setProp((props) => (props.padding = value[0]))
-              }
-            />
-
-            <Label>Border Radius</Label>
-            <Slider
-              defaultValue={[props.borderRadius]}
-              min={0}
-              max={50}
-              step={1}
-              onValueChange={(value) =>
-                setProp((props) => (props.borderRadius = value[0]))
-              }
-            />
-
-            <Label>Border</Label>
-            <Select
-              onValueChange={(value) =>
-                setProp((props) => (props.border = value))
-              }
-              defaultValue={props.border}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="None" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="none">None</SelectItem>
-                <SelectItem value="1px solid #000">Solid</SelectItem>
-                <SelectItem value="1px dotted #000">Dotted</SelectItem>
-                <SelectItem value="1px dashed #000">Dashed</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Label>Alignment</Label>
-            <Select
-              onValueChange={(value) =>
-                setProp((props) => (props.alignment = value))
-              }
-              defaultValue={props.alignment}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Left" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="left">Left</SelectItem>
-                <SelectItem value="center">Center</SelectItem>
-                <SelectItem value="right">Right</SelectItem>
-                <SelectItem value="fill">Fill Width</SelectItem>
-              </SelectContent>
-            </Select>
-          </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem value="mobile">
-          <AccordionTrigger className="flex items-center justify-between w-full pt-3">
-            <span>Mobile Settings</span>
-          </AccordionTrigger>
-          <AccordionContent className="space-y-4">
-            <Label>Font Size</Label>
-            <Slider
-              defaultValue={[props.fontSizeMobile || props.fontSize]}
-              min={10}
-              max={50}
-              step={1}
-              onValueChange={(value) =>
-                setProp((props) => (props.fontSizeMobile = value[0]))
-              }
-            />
-
-            <Label>Font Weight</Label>
-            <Select
-              onValueChange={(value) =>
-                setProp((props) => (props.fontWeightMobile = value))
-              }
-              defaultValue={props.fontWeightMobile || props.fontWeight}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Normal" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="lighter">Lighter</SelectItem>
-                <SelectItem value="normal">Normal</SelectItem>
-                <SelectItem value="bold">Bold</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Label>Text Align</Label>
-            <Select
-              onValueChange={(value) =>
-                setProp((props) => (props.textAlignMobile = value))
-              }
-              defaultValue={props.textAlignMobile || props.textAlign}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Center" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="left">Left</SelectItem>
-                <SelectItem value="center">Center</SelectItem>
-                <SelectItem value="right">Right</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Label>Background Color</Label>
-            <ColorPicker2
-              value={props.backgroundColorMobile || props.backgroundColor}
-              onChange={(value) =>
-                setProp((props) => (props.backgroundColorMobile = value))
-              }
-            />
-
-            <Label>Padding</Label>
-            <Slider
-              defaultValue={[props.paddingMobile || props.padding]}
-              min={0}
-              max={50}
-              step={1}
-              onValueChange={(value) =>
-                setProp((props) => (props.paddingMobile = value[0]))
-              }
-            />
-
-            <Label>Border Radius</Label>
-            <Slider
-              defaultValue={[props.borderRadiusMobile || props.borderRadius]}
-              min={0}
-              max={50}
-              step={1}
-              onValueChange={(value) =>
-                setProp((props) => (props.borderRadiusMobile = value[0]))
-              }
-            />
-
-            <Label>Border</Label>
-            <Select
-              onValueChange={(value) =>
-                setProp((props) => (props.borderMobile = value))
-              }
-              defaultValue={props.borderMobile || props.border}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="None" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="none">None</SelectItem>
-                <SelectItem value="1px solid #000">Solid</SelectItem>
-                <SelectItem value="1px dotted #000">Dotted</SelectItem>
-                <SelectItem value="1px dashed #000">Dashed</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Label>Alignment</Label>
-            <Select
-              onValueChange={(value) =>
-                setProp((props) => (props.alignmentMobile = value))
-              }
-              defaultValue={props.alignmentMobile || props.alignment}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Left" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="left">Left</SelectItem>
-                <SelectItem value="center">Center</SelectItem>
-                <SelectItem value="right">Right</SelectItem>
-                <SelectItem value="fill">Fill Width</SelectItem>
-              </SelectContent>
-            </Select>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-
-      <Label>Line Height</Label>
-      <Slider
-        defaultValue={[props.lineHeight]}
+      {/* Line Height */}
+      <SliderControl
+        value={props.lineHeight}
+        label="Line Height"
         min={10}
         max={50}
         step={1}
-        onValueChange={(value) =>
-          setProp((props) => (props.lineHeight = value[0]))
-        }
+        stack={true}
+        onChange={(val) => setProp((props) => (props.lineHeight = val))}
       />
 
       {/* <Label>Text Decoration</Label>
@@ -571,13 +492,13 @@ Button.craft = {
     openInNewTab: false,
     fontSize: 16,
     fontSizeMobile: null,
-    fontWeight: "normal",
+    fontWeight: 400,
     fontWeightMobile: null,
     lineHeight: 20,
     textAlign: "center",
     textAlignMobile: null,
-    textDecoration: "none",
-    fontStyle: "normal",
+    // textDecoration: "none",
+    // fontStyle: "normal",
     backgroundColor: null,
     backgroundColorMobile: null,
     paddingX: 10,
@@ -608,8 +529,8 @@ Button.propTypes = {
   openInNewTab: PropTypes.bool,
   fontSize: PropTypes.number,
   fontSizeMobile: PropTypes.number,
-  fontWeight: PropTypes.oneOf(["lighter", "normal", "bold"]),
-  fontWeightMobile: PropTypes.oneOf(["lighter", "normal", "bold"]),
+  fontWeight: PropTypes.number,
+  fontWeightMobile: PropTypes.number,
   lineHeight: PropTypes.number,
   textAlign: PropTypes.oneOf(["left", "center", "right"]),
   textAlignMobile: PropTypes.oneOf(["left", "center", "right"]),
