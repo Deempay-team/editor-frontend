@@ -117,7 +117,6 @@ export const Button = ({
     paddingY,
     paddingYMobile
   );
-  console.log("isEditor", isEditor);
 
   const activeVariant = variantStyles[variant] || variantStyles.contained;
 
