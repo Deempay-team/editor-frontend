@@ -16,7 +16,7 @@ export const ProductCard = ({
   desktopWidth = 260,
   mobileWidth = 180,
   height = 330,
-  heightMobile = 300,
+  heightMobile = 290,
   borderRadius = 4,
 }) => {
   const { isDesktop } = useViewport();
@@ -123,7 +123,7 @@ ProductCard.craft = {
     borderRadius: 4,
     desktopWidth: 260,
     mobileWidth: 180,
-    height: 415,
+    height: 425,
     heightMobile: 370,
   },
   // rules: {

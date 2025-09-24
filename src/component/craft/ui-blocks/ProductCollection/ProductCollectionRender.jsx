@@ -88,7 +88,6 @@ ProductCollectionContainer.craft = {
 
 export const ProductCollectionRender = () => {
   const { isDesktop } = useViewport();
-  console.log("isDesktop", isDesktop);
 
   // ✅ Always call hooks, even if isDesktop is null
   const {
@@ -98,10 +97,6 @@ export const ProductCollectionRender = () => {
   const { enabled } = useEditor((state) => ({
     enabled: state.options.enabled,
   }));
-
-  if (isDesktop === null) {
-    return null;
-  }
 
   return (
     <Element
@@ -184,9 +179,9 @@ export const ProductCollectionRender = () => {
                           src="/img/product1.webp"
                           alt="Product Image"
                           width={309}
-                          widthMobile={117}
+                          widthMobile={200}
                           height={250}
-                          heightMobile={100}
+                          heightMobile={180}
                           borderRadius={6}
                           canvas={false}
                         />
@@ -203,9 +198,10 @@ export const ProductCollectionRender = () => {
                           src="/img/product1.webp"
                           alt="Product Image"
                           width={309}
-                          widthMobile={117}
-                          height={347}
-                          heightMobile={131}
+                          widthMobile={200}
+                          height={250}
+                          heightMobile={180}
+                          borderRadius={6}
                           canvas={false}
                         />
                       </Link>
@@ -274,13 +270,8 @@ export const ProductCollectionRender = () => {
 
                     {/* Price */}
                     <div
-                      className="flex flex-col items-start gap-2 "
-                      style={{
-                        display: "flex",
-                        flexDirection: isDesktop ? "row" : "column",
-                        alignItems: isDesktop ? "center" : "flex-start",
-                        gap: "2px",
-                      }}
+                      className="flex flex-col items-start gap-2 group-hover:opacity-0
+                        transition-opacity duration-300"
                     >
                       <Element
                         is={Text}
@@ -373,14 +364,17 @@ export const ProductCollectionRender = () => {
                         is={Button}
                         id="Add-to-cart-btn"
                         children="Add to cart"
-                        padding={10}
+                        paddingX={10}
+                        paddingY={10}
                         backgroundColor="#FF4D00"
                         textColor="#ffffff"
                         fontSize={16}
                         fontWeight={600}
+                        fontWeightMobile={300}
                         borderRadius={4}
                         disabled={false}
                         height={40}
+                        heightMobile={35}
                         canvas={false}
                       />
                       <Link
@@ -394,9 +388,13 @@ export const ProductCollectionRender = () => {
                           children="See Details"
                           fontSize={16}
                           fontWeight={600}
+                          fontWeightMobile={300}
                           backgroundColor="#FF4D00"
+                          paddingX={10}
+                          paddingY={10}
                           borderRadius={4}
                           height={40}
+                          heightMobile={35}
                           canvas={false}
                         />
                       </Link>

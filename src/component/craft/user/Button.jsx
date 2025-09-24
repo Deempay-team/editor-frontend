@@ -22,12 +22,15 @@ import {
 import PropTypes from "prop-types";
 import { CustomColorPicker } from "@/components/color-picker/CustomColorPicker";
 import ColorPicker from "@/components/ui/ColorPicker";
+import { getResponsiveProp, getResponsivePropSize } from "@/utils/responsive";
+import { useViewport } from "@/Context/ViewportContext";
+import { SliderControl } from "../ui-blocks/SliderControl";
 
 const BREAKPOINT = 768; // Tailwind's md breakpoint
 
 export const Button = ({
   size,
-  variant = "contained", // contained | outline | ghost
+  variant = "contained", // contained | outline | ghost / text
   children = "Click me",
   link,
   openInNewTab,
@@ -38,11 +41,11 @@ export const Button = ({
   lineHeight,
   textAlign,
   textAlignMobile,
-  textDecoration,
-  fontStyle,
   backgroundColor, // 👈 default
-  padding,
-  paddingMobile,
+  paddingX,
+  paddingXMobile,
+  paddingY,
+  paddingYMobile,
   borderRadius = 5,
   borderRadiusMobile,
   alignment,
@@ -52,6 +55,7 @@ export const Button = ({
   height,
   heightMobile,
 }) => {
+  const { isDesktop } = useViewport();
   const {
     connectors: { connect, drag },
   } = useNode();
@@ -83,6 +87,36 @@ export const Button = ({
     },
   };
 
+  const resolvedHeight = getResponsiveProp({
+    isDesktop,
+    propSize: height,
+    propSizeMobile: heightMobile,
+  });
+
+  const resolvedFontSize = getResponsivePropSize(
+    isDesktop,
+    fontSize,
+    fontSizeMobile
+  );
+
+  const resolvedFontWeight = getResponsivePropSize(
+    isDesktop,
+    fontWeight,
+    fontWeightMobile
+  );
+
+  const resolvedPaddingX = getResponsivePropSize(
+    isDesktop,
+    paddingX,
+    paddingXMobile
+  );
+
+  const resolvedPaddingY = getResponsivePropSize(
+    isDesktop,
+    paddingY,
+    paddingYMobile
+  );
+
   const activeVariant = variantStyles[variant] || variantStyles.contained;
 
   const buttonElement = (
@@ -90,11 +124,7 @@ export const Button = ({
       <style>
         {`
           .responsive-button {
-            font-size: var(--font-size, 16px);
-            font-weight: var(--font-weight, normal);
             text-align: var(--text-align, center);
-            padding: var(--padding, 10px);
-            height: var(--height, auto);
             border-radius: var(--border-radius, 5px);
             margin: var(--margin, 0);
             pointer-events: var(--pointer-events, auto);
@@ -110,13 +140,9 @@ export const Button = ({
 
           @media (max-width: ${BREAKPOINT}px) {
             .responsive-button {
-              font-size: var(--font-size-mobile, var(--font-size));
-              font-weight: var(--font-weight-mobile, var(--font-weight));
               text-align: var(--text-align-mobile, var(--text-align));
-              padding: var(--padding-mobile, var(--padding));
               border-radius: var(--border-radius-mobile, var(--border-radius));
               margin: var(--margin-mobile, var(--margin));
-              height: var(--heightMobile, var(--height));
             }
           }
         `}
@@ -130,17 +156,14 @@ export const Button = ({
         }`}
         style={{
           // responsive typography
-          "--font-size": `${fontSize}px`,
-          "--font-size-mobile": fontSizeMobile
-            ? `${fontSizeMobile}px`
-            : undefined,
-          "--font-weight": fontWeight,
-          "--font-weight-mobile": fontWeightMobile || undefined,
+          fontSize: resolvedFontSize,
+          fontWeight: resolvedFontWeight,
           "--text-align": textAlign,
           "--text-align-mobile": textAlignMobile || undefined,
-
-          "--padding": `${padding}px`,
-          "--padding-mobile": paddingMobile ? `${paddingMobile}px` : undefined,
+          paddingLeft: resolvedPaddingX,
+          paddingRight: resolvedPaddingX,
+          paddingTop: resolvedPaddingY,
+          paddingBottom: resolvedPaddingY,
           "--border-radius": `${borderRadius}px`,
           "--border-radius-mobile": borderRadiusMobile
             ? `${borderRadiusMobile}px`
@@ -157,14 +180,11 @@ export const Button = ({
               : alignmentMobile === "right"
               ? "0 0 0 auto"
               : "0",
-          "--height": height ? `${height}px` : "auto",
-          "--heightMobile": heightMobile ? `${heightMobile}px` : undefined,
           "--line-height": `${lineHeight}px`,
-          "--text-decoration": textDecoration,
-          "--font-style": fontStyle,
-
+          // "--text-decoration": textDecoration,
+          // "--font-style": fontStyle,
+          height: resolvedHeight,
           width: alignment === "fill" ? "100%" : "auto",
-
           // variant-driven overrides
           ...activeVariant,
         }}
@@ -190,7 +210,8 @@ export const Button = ({
 };
 
 export const ButtonSettings = () => {
-  const [open, setOpen] = useState(false);
+  const { isDesktop } = useViewport();
+  // const [open, setOpen] = useState(false);
 
   const {
     actions: { setProp },
@@ -241,20 +262,36 @@ export const ButtonSettings = () => {
         </SelectContent>
       </Select>
 
+      <ColorPicker
+        label="Button Color"
+        value={props.backgroundColor}
+        onChange={(val) => setProp((p) => (p.backgroundColor = val))}
+      />
+
+      <ColorPicker
+        label="Text Color"
+        value={props.textColor}
+        onChange={(val) => setProp((p) => (p.textColor = val))}
+      />
+
       <Accordion type="single" collapsible>
         <AccordionItem value="desktop">
           <AccordionTrigger className="flex items-center justify-between w-full pb-3">
             <span>Desktop Settings</span>
           </AccordionTrigger>
           <AccordionContent className="space-y-4">
-            <Label>Font Size</Label>
-            <Slider
-              defaultValue={[props.fontSize]}
+            <SliderControl
+              value={isDesktop ? props.fontSize : props.fontSizeMobile}
+              label="Font Size"
               min={10}
-              max={50}
+              max={100}
               step={1}
-              onValueChange={(value) =>
-                setProp((props) => (props.fontSize = value[0]))
+              onChange={(val) =>
+                setProp((props) =>
+                  isDesktop
+                    ? (props.fontSize = val)
+                    : (props.fontSizeMobile = val)
+                )
               }
             />
 
@@ -479,12 +516,6 @@ export const ButtonSettings = () => {
         </AccordionItem>
       </Accordion>
 
-      <ColorPicker
-        label="Text Color"
-        value={props.textColor}
-        onChange={(val) => setProp((p) => (p.textColor = val))}
-      />
-
       <Label>Line Height</Label>
       <Slider
         defaultValue={[props.lineHeight]}
@@ -496,7 +527,7 @@ export const ButtonSettings = () => {
         }
       />
 
-      <Label>Text Decoration</Label>
+      {/* <Label>Text Decoration</Label>
       <Select
         onValueChange={(value) =>
           setProp((props) => (props.textDecoration = value))
@@ -511,9 +542,9 @@ export const ButtonSettings = () => {
           <SelectItem value="underline">Underline</SelectItem>
           <SelectItem value="line-through">Line Through</SelectItem>
         </SelectContent>
-      </Select>
+      </Select> */}
 
-      <Label>Font Style</Label>
+      {/* <Label>Font Style</Label>
       <Select
         onValueChange={(value) => setProp((props) => (props.fontStyle = value))}
         defaultValue={props.fontStyle}
@@ -525,7 +556,7 @@ export const ButtonSettings = () => {
           <SelectItem value="normal">Normal</SelectItem>
           <SelectItem value="italic">Italic</SelectItem>
         </SelectContent>
-      </Select>
+      </Select> */}
     </div>
   );
 };
@@ -549,8 +580,10 @@ Button.craft = {
     fontStyle: "normal",
     backgroundColor: null,
     backgroundColorMobile: null,
-    padding: 10,
-    paddingMobile: null,
+    paddingX: 10,
+    paddingXMobile: null,
+    paddingY: 10,
+    paddingYMobile: null,
     borderRadius: 5,
     borderRadiusMobile: null,
     border: "none",
