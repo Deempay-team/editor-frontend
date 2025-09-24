@@ -37,7 +37,7 @@ export function SliderControl({
         {/* Slider */}
         <div className="flex-1">
           <Slider
-            value={[value]}
+            value={[value ?? 0]}
             min={min}
             max={max}
             step={step}
@@ -51,7 +51,7 @@ export function SliderControl({
           <Input
             type="number"
             className="pr-5 h-8 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-            value={value}
+            value={value ?? 0}
             onChange={(e) => updateGap(Number(e.target.value))}
           />
           <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-500">

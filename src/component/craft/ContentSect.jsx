@@ -59,7 +59,7 @@ function ContentSectionSect() {
             canvas
             custom={{ displayName: "App" }}
           >
-            {/* <Element id="Footer Section" is={ProductCollectionRender} /> */}
+            <Element id="Footer Section" is={ProductCollectionRender} />
           </Element>
         </Frame>
       </div>
