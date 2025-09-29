@@ -1,11 +1,5 @@
 import React, { useState } from "react";
 import { useEditor, useNode } from "@craftjs/core";
-import { Button as ShadButton } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
-import { HexColorPicker as ColorPicker2 } from "react-colorful";
 import {
   Select,
   SelectContent,
@@ -13,19 +7,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Button as ShadButton } from "@/components/ui/button";
 import PropTypes from "prop-types";
-import { CustomColorPicker } from "@/components/color-picker/CustomColorPicker";
-import ColorPicker from "@/components/ui/ColorPicker";
-import { getResponsiveProp, getResponsivePropSize } from "@/utils/responsive";
-import { useViewport } from "@/Context/ViewportContext";
 import { SliderControl } from "../ui-blocks/SliderControl";
 import Link from "next/link";
+import {getResponsiveProp, getResponsivePropSize} from "../../../utils/responsive.js";
+import {useViewport} from "../../../Context/ViewportContext.jsx";
+import {Label} from "../../../components/ui/label.jsx";
+import {Input} from "../../../components/ui/input.jsx";
+import ColorPicker from "../../../components/ui/ColorPicker.jsx";
 
 const BREAKPOINT = 768; // Tailwind's md breakpoint
 

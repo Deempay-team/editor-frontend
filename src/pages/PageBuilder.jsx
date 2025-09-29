@@ -72,6 +72,12 @@ import { SpacerRender } from "@/component/craft/ui-blocks/SpacerRender";
 import { Star } from "@/assets/icons";
 import { StarIcon } from "@/component/craft/ui-blocks/StarIcon";
 import { Button as ShadButton } from "@/components/ui/button";
+import {ProductDetailsRender} from "../component/craft/ui-blocks/ProductDetails/ProductDetailsRender.jsx";
+import {TagIcon} from "../component/craft/ui-blocks/TagIcon.jsx";
+import {PillsTag} from "../component/craft/ui-blocks/PillsTag.jsx";
+import {QuantitySelector} from "../component/craft/ui-blocks/QuantitySelector.jsx";
+import {IncreaseButton} from "../component/craft/ui-blocks/IncreaseButton.jsx";
+import {DecreaseButton} from "../component/craft/ui-blocks/DecreaseButton.jsx";
 
 export default function PageBuilder() {
   const { fonts } = useTheme();
@@ -135,6 +141,14 @@ export default function PageBuilder() {
           Star,
           StarIcon,
           ShadButton,
+            ProductDetailsRender,
+            TagIcon,
+            PillsTag,
+            QuantitySelector,
+            IncreaseButton,
+            DecreaseButton,
+
+
         }}
         onRender={RenderNode}
       >
