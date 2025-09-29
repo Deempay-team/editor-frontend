@@ -10,6 +10,7 @@ import LayoutSection from "@/section/LayoutSection";
 import StorytellingSection from "@/section/StorytellingSection";
 import AnnouncementBar from "@/section/AnnouncementBar.jsx";
 import Newsletter from "@/section/Newsletter.jsx";
+import ProductDetailsSection from "../../../section/ProductDetailsSection.jsx";
 
 const SectionContent = ({ showRightSidebar }) => {
   const [activeTab, setActiveTab] = useState("Announcement");
@@ -47,7 +48,7 @@ const SectionContent = ({ showRightSidebar }) => {
       case "Form":
         return <FormSection />;
       case "Product Details":
-        return <ProductDetailsCard />;
+        return <ProductDetailsSection/>;
       case "Layout":
         return <LayoutSection />;
       case "Storytelling":

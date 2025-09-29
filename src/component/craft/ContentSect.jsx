@@ -9,6 +9,7 @@ import { NavigationBar } from "./ui-blocks/NavigationBar";
 import { Copyright } from "./user/Copyright";
 import { NewsLetterRender } from "./ui-blocks/Newsletter/NewsLetterRender";
 import { ProductCollectionRender } from "./ui-blocks/ProductCollection/ProductCollectionRender";
+import {ProductDetailsRender} from "./ui-blocks/ProductDetails/ProductDetailsRender.jsx";
 
 function ContentSectionSect() {
   const { viewport } = useViewport();
@@ -59,7 +60,11 @@ function ContentSectionSect() {
             canvas
             custom={{ displayName: "App" }}
           >
-            {/* <Element id="Footer Section" is={ProductCollectionRender} /> */}
+              <Element id="Fo" is={NavigationBar} />
+
+             {/*<Element id="Footer Section" is={ProductCollectionRender} />*/}
+             {/*  <Element id="Ft" is={ProductDetailsRender} />*/}
+
           </Element>
         </Frame>
       </div>
