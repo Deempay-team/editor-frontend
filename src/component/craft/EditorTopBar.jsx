@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import Skeleton from "react-loading-skeleton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -26,141 +28,112 @@ import { useEditor } from "@craftjs/core";
 import { useViewport } from "../../Context/ViewportContext";
 import { usePreview } from "../../Context/PreviewContext";
 import { useSection } from "../../Context/SectionContext";
-import { pasteNodeTree } from "@/utils/craftUtils";
+// import { pasteNodeTree } from "@/utils/craftUtils";
+import { ShopContext } from "@/Context/ShopContext";
+import {
+  compress,
+  decompress,
+  // getFromLocalStorage,
+  // setToLocalStorage,
+} from "@/utils/storage";
 
-// Helper function to safely access localStorage
-const getFromLocalStorage = (key, defaultValue = null) => {};
-
-// Helper function to safely set localStorage
-const setToLocalStorage = (key, value) => {};
+// import { PageLoader } from "../PageLoader";
 
 const EditorTopBar = ({ zoom, setZoom }) => {
-  //   const [page, setPage] = useState("home");
-  const [checked, setChecked] = useState(true);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams.toString());
   const { viewport, setViewport } = useViewport();
-  const [isClient, setIsClient] = useState(false);
   const { isPreview, setIsPreview } = usePreview();
   const { isSection, setIsSection } = useSection();
+  const { currentPage, setCurrentPage, pages, setPages, setPageProgress } =
+    useContext(ShopContext);
+  const [isClient, setIsClient] = useState(false);
 
-  // inside your component
   const { actions, canUndo, canRedo, query } = useEditor((state, query) => ({
     canUndo: query.history.canUndo(),
     canRedo: query.history.canRedo(),
   }));
 
-  //   const emptyPageJson = JSON.stringify({
-  //     ROOT: {
-  //       type: {
-  //         resolvedName: "Container",
-  //       },
-  //       isCanvas: true,
-  //       props: {
-  //         background: "#ffffff",
-  //         paddingX: 10,
-  //         paddingY: 10,
-  //         width: "100%",
-  //         height: "auto",
-  //         flexDirection: "column",
-  //         fillSpace: false,
-  //         alignItems: "flex-start",
-  //         justifyContent: "flex-start",
-  //         margin: { top: 0, right: 0, bottom: 0, left: 0 },
-  //       },
-  //       displayName: "Container",
-  //       custom: {},
-  //       hidden: false,
-  //       nodes: [],
-  //       linkedNodes: {},
-  //     },
-  //   });
-
-  // const json = query.serialize();
-  // //   console.log("json", json);
-
-  // const savedPages = JSON.parse(localStorage.getItem("pages"));
-  // const [pages, setPages] = useState(
-  //   savedPages || {
-  //     home: json,
-  //     about: json,
-  //     contact: json,
-  //   }
-  // );
-
-  const defaultPages = {
-    home: null,
-    about: null,
-    contact: null,
-  };
-
-  const [pages, setPages] = useState(defaultPages);
-  const [currentPage, setCurrentPage] = useState("home");
-
   useEffect(() => {
     setIsClient(true);
-
-    // Get the current serialized state
-    const json = query?.serialize();
-
-    // Load saved pages from localStorage or use current state as default
-    const savedPages = getFromLocalStorage("pages");
-    if (savedPages) {
-      setPages(savedPages);
-    } else {
-      // Initialize with current state for all pages
-      const initialPages = {
-        home: json,
-        about: json,
-        contact: json,
-      };
-      setPages(initialPages);
-    }
   }, []);
 
   const switchPage = (newPage) => {
-    const pageJson = pages[newPage];
-
-    if (!pageJson) return;
-
     try {
       const currentJson = query.serialize();
-      setPages((prev) => ({
-        ...prev,
-        [currentPage]: currentJson,
-      }));
+      const compressed = compress(currentJson);
+      // console.log("currentJson", currentJson);
+      // console.log("Compressed", compressed);
 
-      actions.deserialize(pageJson);
-      setCurrentPage(newPage);
+      // Save current page
+      setPages((prev) => ({ ...prev, [currentPage]: compressed }));
+
+      // Start staged loader
+      setPageProgress(10);
+      // Fake progressive load to ~80%
+      const step1 = setTimeout(() => setPageProgress(40), 150);
+      const step2 = setTimeout(() => setPageProgress(70), 300);
+      const step3 = setTimeout(() => setPageProgress(80), 600);
+
+      // 👇 Trickling interval (80 → 95) if it's slow
+      let trickle;
+      const startTrickle = () => {
+        trickle = setInterval(() => {
+          setPageProgress((prev) => {
+            if (prev < 95) return prev + 1; // creep slowly
+            return prev;
+          });
+        }, 300); // every 300ms increase by 1%
+      };
+
+      // Switch after staged steps have run
+      setTimeout(() => {
+        try {
+          startTrickle();
+
+          const pageJson = pages[newPage];
+          if (pageJson) {
+            const json = decompress(pageJson);
+            if (json) {
+              actions.deserialize(json);
+              // window.location.reload(); // reload page
+
+              // ✅ preserve pathname and update query param
+              if (newPage === "home") {
+                router.push(pathname);
+              } else {
+                // add your custom previewPath
+                params.set("previewPath", `/${newPage}`);
+                // push the new url, encoding automatically
+                router.push(`${pathname}?${params.toString()}`);
+              }
+            }
+          } else {
+            actions.deserialize(currentJson); // fallback
+          }
+
+          setCurrentPage(newPage);
+
+          // Finalize loader
+          setPageProgress(99.9);
+          setTimeout(() => setPageProgress(0), 400);
+        } catch (err) {
+          console.error("Failed to switch page:", err);
+          setPageProgress(0);
+        } finally {
+          clearTimeout(step1);
+          clearTimeout(step2);
+          clearTimeout(step3);
+          if (trickle) clearInterval(trickle);
+        }
+      }, 700); // let staged run before switching
     } catch (err) {
       console.error("Failed to switch page:", err);
+      setPageProgress(0);
     }
   };
-
-  // // Save all pages to localStorage
-  // localStorage.setItem("pages", JSON.stringify(pages));
-
-  // Save pages to localStorage whenever pages state changes (only on client)
-  useEffect(() => {
-    if (isClient && pages) {
-      setToLocalStorage("pages", pages);
-    }
-  }, [pages, isClient]);
-
-  // Load pages from localStorage on app load
-  //   const savedPages = JSON.parse(localStorage.getItem("pages"));
-  //   setPages(savedPages);
-
-  //   const { actions, query, enabled } = useEditor((state) => ({
-  //     enabled: state.options.enabled,
-  //   }));
-
-  // function handleChange() {
-  //   setChecked(!checked);
-  // }
-
-  useEffect(() => {
-    actions.setOptions((options) => (options.enabled = checked));
-    //console.log(checked);
-  }, [checked]);
 
   return (
     <div
@@ -184,33 +157,47 @@ const EditorTopBar = ({ zoom, setZoom }) => {
         </Tooltip>
 
         <div className="flex items-center gap-4 min-w-0 flex-1 ml-8 text_12_light text-[#464646]">
-          <Select value={currentPage} onValueChange={switchPage}>
-            <SelectTrigger className="max-w-[130px] bg-[#F6F6F6] rounded-[8px] border-none">
-              <p className="text_12_400 text-[#464646]">Page:</p>
-              <p className="text_12_400 text-[#464646] capitalize truncate">
-                {currentPage}
-              </p>
-              {/* <SelectValue placeholder="Page" className="truncate" /> */}
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="home">Home</SelectItem>
-              <SelectItem value="about">About</SelectItem>
-              <SelectItem value="contact">Contact</SelectItem>
-            </SelectContent>
-          </Select>
+          {!isClient ? (
+            <div className="text_12_400 text-[#464646] mr-12">
+              <Skeleton width={80} height={15} />
+            </div>
+          ) : (
+            <Select value={currentPage} onValueChange={switchPage}>
+              <SelectTrigger className="max-w-[130px] bg-[#F6F6F6] rounded-[8px] border-none">
+                <>
+                  <p className="text_12_400 text-[#464646]">Page:</p>
+                  <p className="text_12_400 text-[#464646] capitalize truncate">
+                    {currentPage}
+                  </p>
+                </>
+                {/* <SelectValue placeholder="Page" className="truncate" /> */}
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="home">Home</SelectItem>
+                <SelectItem value="product">Product</SelectItem>
+                <SelectItem value="cart">Cart</SelectItem>
+                <SelectItem value="checkout">Checkout</SelectItem>
+              </SelectContent>
+            </Select>
+          )}
 
           {/* <Select value={currentPage} onValueChange={switchPage}>
             <SelectItem value="home">Home</SelectItem>
             <SelectItem value="about">About</SelectItem>
             <SelectItem value="contact">Contact</SelectItem>
           </Select> */}
-
-          <Input
-            readOnly
-            value={`https://www.tadra.com/${currentPage}`}
-            className="max-w-[200px] md:max-w-[200px] lg:max-w-[300px] xl:max-w-[550px]  bg-[#F6F6F6] rounded-[8px] border-none
+          {!isClient ? (
+            <div className="text_12_400 text-[#464646]">
+              <Skeleton width={300} height={15} />
+            </div>
+          ) : (
+            <Input
+              readOnly
+              value={`https://www.tadra.com/${currentPage}`}
+              className="max-w-[200px] md:max-w-[200px] lg:max-w-[300px] xl:max-w-[550px]  bg-[#F6F6F6] rounded-[8px] border-none
              flex-1"
-          />
+            />
+          )}
         </div>
       </div>
 
@@ -218,25 +205,31 @@ const EditorTopBar = ({ zoom, setZoom }) => {
       <div className="flex gap-4 flex-shrink-0">
         <div className="flex items-center gap-4 text_12_light text-[#464646]">
           {/* Zoom Selector */}
-          <Select
-            value={zoom}
-            onValueChange={viewport === "desktop" ? setZoom : null}
-          >
-            <SelectTrigger className="w-[85px] bg-[#F6F6F6] rounded-[8px] border-none text_12_light text-[#464646] cursor-pointer">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {["50%", "100%"].map((value) => (
-                <SelectItem
-                  key={value}
-                  value={value}
-                  className="text_12_light text-[#464646]"
-                >
-                  {value}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {!isClient ? (
+            <div className="text_12_400 text-[#464646]">
+              <Skeleton width={80} height={15} />
+            </div>
+          ) : (
+            <Select
+              value={zoom}
+              onValueChange={viewport === "desktop" ? setZoom : null}
+            >
+              <SelectTrigger className="w-[85px] bg-[#F6F6F6] rounded-[8px] border-none text_12_light text-[#464646] cursor-pointer">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {["50%", "100%"].map((value) => (
+                  <SelectItem
+                    key={value}
+                    value={value}
+                    className="text_12_light text-[#464646]"
+                  >
+                    {value}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
 
           {/* Zooming Button */}
           {/* <Button
@@ -387,7 +380,13 @@ const EditorTopBar = ({ zoom, setZoom }) => {
             <TooltipTrigger asChild>
               <Button
                 variant="ghost"
-                onClick={() => setIsSection(false)}
+                onClick={() => {
+                  const currentJson = query.serialize();
+                  const compressed = compress(currentJson);
+                  console.log("Compressed", compressed);
+                  setIsSection(false);
+                  // pasteNodeTree(query, copiedNodeTree)
+                }}
                 className={`text_12_light w-[81px] bg-primary text-primary-foreground rounded-[8px] border-none cursor-pointer hover:bg-primary/70
              hover:text-primary-foreground transition-colors duration-300 ${
                isSection ? "" : "hidden"
@@ -400,6 +399,7 @@ const EditorTopBar = ({ zoom, setZoom }) => {
           </Tooltip>
         </div>
       </div>
+      {/* <PageLoader progress={pageProgress} /> */}
     </div>
   );
 };

@@ -1,8 +1,13 @@
-// // src/app/ClientProviders.jsx
-// "use client";
+// src/components/ClientProviders.jsx
+"use client";
 
-// // import ShopContextProvider from "../Context/ShopContext";
+import ShopContextProvider from "../Context/ShopContext";
 
-// export default function ClientProviders({ children }) {
-//   return <>{/* <ShopContextProvider>{children}</ShopContextProvider> */}</>;
-// }
+export default function ClientProviders({ children }) {
+  return (
+    <>
+      {" "}
+      <ShopContextProvider>{children}</ShopContextProvider>{" "}
+    </>
+  );
+}

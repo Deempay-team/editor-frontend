@@ -7,9 +7,12 @@ export const ViewportProvider = ({ children }) => {
   const [isDesktop, setIsDesktop] = useState(null);
 
   useEffect(() => {
+    if (typeof window === "undefined") return; // inside useEffect
+
     const checkSize = () => {
       // Both Craft.js preview AND window width must indicate desktop
-      setIsDesktop(viewport === "desktop" && window.innerWidth >= 768);
+      const matchesDesktop = viewport === "desktop" && window.innerWidth >= 768;
+      setIsDesktop(matchesDesktop);
     };
 
     checkSize(); // Run immediately on mount & preview change
@@ -40,7 +43,7 @@ export const useViewport = () => {
   const context = useContext(ViewportContext);
   if (!context) {
     // Safe defaults if no provider wraps this component
-    return { viewport: "desktop", setViewport: () => {} };
+    return { viewport: "desktop", setViewport: () => {}, isDesktop: true };
   }
   return context;
 };
