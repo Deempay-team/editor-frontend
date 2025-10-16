@@ -5,6 +5,7 @@ import FooterThumbnail_1 from "./Footer-1.PNG";
 import FooterThumbnail_2 from "./Footer-2.PNG";
 import NewsletterThumbnail from "./Newsletter.PNG";
 import Product_img from "./img.png";
+import ProductDetails from "./ProductDetails.png";
 
 export {
   heroSectionThumbnail_1,
@@ -14,4 +15,5 @@ export {
   FooterThumbnail_2,
   NewsletterThumbnail,
   Product_img,
+  ProductDetails,
 };

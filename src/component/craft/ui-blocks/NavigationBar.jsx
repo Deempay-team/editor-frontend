@@ -1,224 +1,289 @@
-import React, { useState } from "react";
-import { useNode, Element } from "@craftjs/core";
-import { Card, CardContent } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
-import { Menu } from "lucide-react";
-import { Logo } from "./Logo";
-import { MenuItems } from "./MenuItems";
-import { IconButtons } from "./IconButtons";
-import { useViewport } from "@/Context/ViewportContext.jsx";
-import { cn } from "@/lib/utils.js";
-import { Switch } from "@/components/ui/switch";
-// import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ColorPicker from "@/components/ui/ColorPicker.jsx";
+'use client';
 
-export const NavbarContent = ({
-  children,
-  backgroundColor,
-  paddingY,
-  paddingX,
-  logoPosition,
-  showBorder,
-  gap = 16,
-}) => {
-  const {
-    connectors: { connect, drag },
-  } = useNode();
+import React, {useEffect, useState, useRef} from 'react';
+import {Element, useNode} from '@craftjs/core';
+import {useViewport} from '../../../Context/ViewportContext.jsx';
+import {Label} from "../../../components/ui/label.jsx";
+import {Input} from "../../../components/ui/input.jsx";
+import ColorPicker from "../../../components/ui/ColorPicker.jsx";
+import {Slider} from "../../../components/ui/slider.jsx";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../../../components/ui/select.jsx";
+import {MenuItems} from "./MenuItems.jsx";
+import {Logo} from "./Logo.jsx";
+import {Container_2} from "../user/Container_2.jsx";
+import {IconButtons} from "./IconButtons.jsx";
+import {Switch} from "../../../components/ui/switch.jsx";
+import {Card, CardContent} from "../../../components/ui/card.jsx";
 
-  return (
-    <div
-      ref={(ref) => connect(drag(ref))}
-      className={cn(
-        "max-w-7xl mx-auto flex items-center justify-between relative",
-        showBorder && "border-b"
-      )}
-      style={{
-        backgroundColor,
-        padding: `${paddingY}px ${paddingX}px`,
-        gap: `${gap}px`,
-      }}
-    >
-      {children}
-    </div>
-  );
-};
+export default function Header({
+                                   showBorder = true,
+                                   backgroundColor = '',
+                                   paddingX = 12,
+                                   paddingY = 16,
+                                   paddingXMobile = 12,
+                                   gap = 12,
+                                   stickyBehavior = 'always'
+                               }) {
+    const {connectors: {connect, drag}} = useNode();
+    const {viewport} = useViewport();
+    const [searchActive, setSearchActive] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+    const [hideOnScroll, setHideOnScroll] = useState(false);
+    const lastScrollY = useRef(0);
 
-export const NavigationBar = () => {
-  const {
-    connectors: { connect, drag },
-  } = useNode();
+    useEffect(() => {
+        const craftRenderer = document.querySelector('.craftjs-renderer');
+        if (!craftRenderer) return;
 
-  const { viewport } = useViewport();
-  const isMobile = viewport === "mobile";
-  const [menuOpen, setMenuOpen] = useState(false);
+        const handleScroll = () => {
+            const currentScrollY = craftRenderer.scrollTop;
 
-  return (
-    <Element
-      is="div"
-      id="Hero-Content-1"
-      canvas
-      ref={(ref) => connect(drag(ref))}
-      className={cn("w-full relative ")}
-    >
-      <Element
-        id="Navbar-Content"
-        is={NavbarContent}
-        canvas
-        custom={{
-          displayName: "Navigation Bar",
-        }}
-      >
-        {isMobile && (
-          <button onClick={() => setMenuOpen(!menuOpen)} className="mr-2">
-            <Menu className="w-6 h-6" />
-          </button>
-        )}
+            setScrolled(currentScrollY > 10);
 
-        <Element is={Logo} id="logo_area" />
-        {!isMobile && <Element id="menu_area" is={MenuItems} />}
-        <Element id="icons_area" is={IconButtons} />
+            if (stickyBehavior === 'onScrollUp') {
+                if (currentScrollY > 100) {
+                    if (currentScrollY > lastScrollY.current) {
+                        setHideOnScroll(true);
+                    }
+                    else if (currentScrollY < lastScrollY.current) {
+                        setHideOnScroll(false);
+                    }
+                } else {
+                    setHideOnScroll(false);
+                }
+            }
 
-        {isMobile && menuOpen && (
-          <div className="mt-4 flex flex-col space-y-3 border-t pt-3">
-            <Element id="mobile_menu_area" is={MenuItems} />
-          </div>
-        )}
-      </Element>
-    </Element>
-  );
-};
+            lastScrollY.current = currentScrollY;
+        };
+
+        craftRenderer.addEventListener('scroll', handleScroll, {passive: true});
+        return () => craftRenderer.removeEventListener('scroll', handleScroll);
+    }, [stickyBehavior]);
+
+    const getHeaderStyle = () => {
+        const horizontalPadding = viewport === 'mobile' ? paddingXMobile : paddingX;
+        const baseStyle = {
+            backgroundColor: backgroundColor,
+            padding: `${paddingY}px ${horizontalPadding}px`,
+            borderBottom: showBorder ? '1px solid #e5e7eb' : 'none',
+            width: '100%',
+            height: '80px',
+            zIndex: 50,
+        };
+
+        if (stickyBehavior === 'none') {
+            return {
+                ...baseStyle,
+                position: 'relative',
+            };
+        }
+
+        return {
+            ...baseStyle,
+            position: 'sticky',
+            top: 0,
+            transition: stickyBehavior === 'onScrollUp' ? 'transform 0.3s ease-in-out' : 'none',
+            transform: hideOnScroll ? 'translateY(-100%)' : 'translateY(0)',
+        };
+    };
+
+    return (
+        <header
+            ref={(ref) => ref && connect(drag(ref))}
+            className={`flex items-center justify-between`}
+            style={getHeaderStyle()}
+        >
+            <div className="flex items-center"
+                 style={{gap: `${gap}px ${viewport === 'mobile' ? paddingXMobile : '12px'}`}}>
+                {viewport === 'mobile' && (
+                    <Element id="menuitecontainer" is={Container_2} canvas>
+                        <Element id="menuite" is={MenuItems} canvas/>
+                    </Element>
+                )}
+
+
+                <Element id="lg" is={Container_2} canvas>
+                    <Element id="log" is={Logo} canvas/>
+                </Element>
+
+            </div>
+
+            {viewport === 'desktop' && !searchActive && (
+                <Element id="menuitcontainer" is={Container_2} canvas>
+                    <Element id="menuit" is={MenuItems} canvas/>
+                </Element>
+            )}
+
+            <div className="flex items-center" style={{gap: `${gap}px`}}>
+                <Element id="iconscontainer" is={Container_2} canvas>
+                    <Element id="icons" is={IconButtons} canvas onSearchActiveChange={setSearchActive}/>
+                </Element>
+            </div>
+        </header>
+    );
+}
 
 export const NavigationBarSettings = () => {
-  const {
-    actions: { setProp },
-    props,
-  } = useNode((node) => ({
-    props: node.data.props,
-  }));
+    const {
+        actions: {setProp},
+        props,
+    } = useNode((node) => ({
+        props: node.data.props,
+    }));
 
-  return (
-    <Card>
-      <CardContent className="space-y-6 mt-4">
-        <div className="space-y-4 p-3 rounded-md border bg-gray-50">
-          <div className="flex items-center justify-between">
-            <Label>Show Bottom Border</Label>
-            <Switch
-              checked={props.showBorder}
-              onCheckedChange={(v) => setProp((p) => (p.showBorder = v))}
-            />
-          </div>
-          <Label>Background Color</Label>
-          <ColorPicker
-            label="Background Color"
-            value={props.backgroundColor}
-            onChange={(val) => setProp((p) => (p.backgroundColor = val))}
-          />
-        </div>
-        <div className="space-y-4 p-3 rounded-md border bg-gray-50">
-          <Label className="block mb-2 font-medium">Padding</Label>
-          <div className="space-y-2">
-            <Label>Horizontal</Label>
-            <div className="flex items-center gap-2">
-              <Slider
-                defaultValue={[props.paddingX]}
-                min={0}
-                max={50}
-                step={1}
-                onValueChange={(v) => setProp((p) => (p.paddingX = v[0]))}
-              />
-              <Input
-                type="number"
-                min={0}
-                max={50}
-                className="w-20 h-8 text-right"
-                value={props.paddingX}
-                onChange={(e) =>
-                  setProp((p) => (p.paddingX = parseInt(e.target.value)))
-                }
-              />
-              <span className="text-sm text-gray-500">px</span>
-            </div>
-          </div>
+    return (
+        <Card>
+            <CardContent className="space-y-6 mt-4">
+                <div className="space-y-4 p-3 rounded-md border bg-gray-50">
+                    <div className="flex items-center justify-between">
+                        <Label>Show Bottom Border</Label>
+                        <Switch
+                            checked={props.showBorder}
+                            onCheckedChange={(v) => setProp((p) => (p.showBorder = v))}
+                        />
+                    </div>
+                    <ColorPicker
+                        label="Background Color"
+                        value={props.backgroundColor}
+                        onChange={(val) => setProp((p) => (p.backgroundColor = val))}
+                    />
+                </div>
 
-          <div className="space-y-2">
-            <Label>Vertical</Label>
-            <div className="flex items-center gap-2">
-              <Slider
-                defaultValue={[props.paddingY]}
-                min={0}
-                max={50}
-                step={1}
-                onValueChange={(v) => setProp((p) => (p.paddingY = v[0]))}
-              />
-              <Input
-                type="number"
-                min={0}
-                max={50}
-                className="w-20 h-8 text-right"
-                value={props.paddingY}
-                onChange={(e) =>
-                  setProp((p) => (p.paddingY = parseInt(e.target.value)))
-                }
-              />
-              <span className="text-sm text-gray-500">px</span>
-            </div>
-          </div>
+                <div className="space-y-4 p-3 rounded-md border bg-gray-50">
+                    <Label className="block mb-2 font-medium">Sticky Behavior</Label>
+                    <Select
+                        value={props.stickyBehavior}
+                        onValueChange={(val) => setProp((p) => (p.stickyBehavior = val))}
+                    >
+                        <SelectTrigger>
+                            <SelectValue/>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="none">Not Sticky</SelectItem>
+                            <SelectItem value="always">Always Sticky</SelectItem>
+                            <SelectItem value="onScrollUp">Show on Scroll Up</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <p className="text-xs text-gray-500 mt-1">
+                        {props.stickyBehavior === 'none' && 'Header scrolls normally with content'}
+                        {props.stickyBehavior === 'always' && 'Header stays fixed at top'}
+                        {props.stickyBehavior === 'onScrollUp' && 'Header hides on scroll down, shows on scroll up'}
+                    </p>
+                </div>
 
-          <div className="space-y-2">
-            <Label>Gap</Label>
-            <div className="flex items-center gap-2">
-              <Slider
-                defaultValue={[props.gap]}
-                min={0}
-                max={50}
-                step={1}
-                onValueChange={(v) => setProp((p) => (p.gap = v[0]))}
-              />
-              <Input
-                type="number"
-                min={0}
-                max={50}
-                className="w-20 h-8 text-right"
-                value={props.gap}
-                onChange={(e) =>
-                  setProp((p) => (p.gap = parseInt(e.target.value)))
-                }
-              />
-              <span className="text-sm text-gray-500">px</span>
-            </div>
-          </div>
-        </div>
+                <div className="space-y-4 p-3 rounded-md border bg-gray-50">
+                    <Label className="block mb-2 font-medium">Spacing</Label>
 
-        {/* <div className="space-y-4 p-3 rounded-md border bg-gray-50">
-          <Label className="block mb-2 font-medium">Logo Position</Label>
-          <Tabs
-            value={props.logoPosition}
-            onValueChange={(val) => setProp((p) => (p.logoPosition = val))}
-          >
-            <TabsList className="w-full grid grid-cols-3">
-              <TabsTrigger value="left">Left</TabsTrigger>
-              <TabsTrigger value="center">Center</TabsTrigger>
-              <TabsTrigger value="right">Right</TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div> */}
-      </CardContent>
-    </Card>
-  );
+                    <div className="space-y-2">
+                        <Label>Horizontal Padding</Label>
+                        <div className="flex items-center gap-2">
+                            <Slider
+                                value={[props.paddingX]}
+                                min={0}
+                                max={100}
+                                step={4}
+                                onValueChange={(v) => setProp((p) => (p.paddingX = v[0]))}
+                            />
+                            <Input
+                                type="number"
+                                min={0}
+                                max={100}
+                                className="w-20 h-8 text-right"
+                                value={props.paddingX}
+                                onChange={(e) => setProp((p) => (p.paddingX = parseInt(e.target.value) || 0))}
+                            />
+                            <span className="text-sm text-gray-500">px</span>
+                        </div>
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label>Mobile Horizontal Padding</Label>
+                        <div className="flex items-center gap-2">
+                            <Slider
+                                value={[props.paddingXMobile]}
+                                min={0}
+                                max={100}
+                                step={4}
+                                onValueChange={(v) => setProp((p) => (p.paddingXMobile = v[0]))}
+                            />
+                            <Input
+                                type="number"
+                                min={0}
+                                max={100}
+                                className="w-20 h-8 text-right"
+                                value={props.paddingXMobile}
+                                onChange={(e) => setProp((p) => (p.paddingXMobile = parseInt(e.target.value) || 0))}
+                            />
+                            <span className="text-sm text-gray-500">px</span>
+                        </div>
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label>Vertical Padding</Label>
+                        <div className="flex items-center gap-2">
+                            <Slider
+                                value={[props.paddingY]}
+                                min={0}
+                                max={50}
+                                step={2}
+                                onValueChange={(v) => setProp((p) => (p.paddingY = v[0]))}
+                            />
+                            <Input
+                                type="number"
+                                min={0}
+                                max={50}
+                                className="w-20 h-8 text-right"
+                                value={props.paddingY}
+                                onChange={(e) => setProp((p) => (p.paddingY = parseInt(e.target.value) || 0))}
+                            />
+                            <span className="text-sm text-gray-500">px</span>
+                        </div>
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label>Element Gap</Label>
+                        <div className="flex items-center gap-2">
+                            <Slider
+                                value={[props.gap]}
+                                min={0}
+                                max={50}
+                                step={2}
+                                onValueChange={(v) => setProp((p) => (p.gap = v[0]))}
+                            />
+                            <Input
+                                type="number"
+                                min={0}
+                                max={50}
+                                className="w-20 h-8 text-right"
+                                value={props.gap}
+                                onChange={(e) => setProp((p) => (p.gap = parseInt(e.target.value) || 0))}
+                            />
+                            <span className="text-sm text-gray-500">px</span>
+                        </div>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+    );
 };
 
-NavbarContent.craft = {
-  props: {
-    backgroundColor: "#ffffff",
-    paddingX: 20,
-    paddingY: 10,
-    logoPosition: "left",
-    showBorder: true,
-    gap: 16,
-  },
-  related: {
-    settings: NavigationBarSettings,
-  },
+Header.craft = {
+    displayName: 'NavigationBar',
+    props: {
+        showBorder: true,
+        backgroundColor: '',
+        paddingX: 48,
+        paddingXMobile: 12,
+        paddingY: 16,
+        gap: 12,
+        stickyBehavior: 'always',
+    },
+    related: {
+        settings: NavigationBarSettings,
+    },
+    rules: {
+        canDrag: () => true,
+        canMoveIn: () => true,
+        canMoveOut: () => true,
+    },
 };

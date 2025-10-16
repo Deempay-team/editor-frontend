@@ -127,7 +127,7 @@ export const HeroContent = ({
           gap: `${gap}px`,
         }}
         className={cn(
-          "flex transition-all duration-300 ease-in-out h-full w-full relative z-20  ", // <-- z-10 ensures it’s above the video
+          "flex transition-all duration-300 ease-in-out h-full w-full relative  ", // <-- z-10 ensures it’s above the video
           direction === "vertical" ? "flex-col" : "flex-row",
           alignment === "left" && "items-start text-left",
           alignment === "center" && "items-center text-center",

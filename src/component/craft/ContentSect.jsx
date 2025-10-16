@@ -105,4 +105,4 @@ function ContentSectionSect() {
   );
 }
 
-export { ContentSectionSect };
+export {ContentSectionSect};

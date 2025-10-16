@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/select";
 import PropTypes from "prop-types";
 import { cn } from "@/lib/utils";
-import { useViewport } from "@/Context/ViewportContext";
-import { getResponsiveProp } from "@/utils/responsive";
 import { SliderControl } from "../ui-blocks/SliderControl";
 import Link from "next/link";
+import {getResponsiveProp} from "../../../utils/responsive.js";
+import {useViewport} from "../../../Context/ViewportContext.jsx";
 
 const BREAKPOINT = 768; // Tailwind's md breakpoint
 
@@ -28,6 +28,8 @@ export const Image = ({
   widthModeMobile,
   height,
   heightMobile,
+  heightMode,
+  heightModeMobile,
   borderRadius,
   alignment,
   alignmentMobile,
@@ -47,7 +49,9 @@ export const Image = ({
 
   const resolvedHeight = getResponsiveProp({
     isDesktop,
+    propMode: heightMode,
     propSize: height,
+    propModeMobile: heightModeMobile,
     propSizeMobile: heightMobile,
   });
 
@@ -216,18 +220,44 @@ export const ImageSettings = () => {
             )}
           </div>
 
-          <SliderControl
-            value={isDesktop ? props.height : props.heightMobile}
-            label="Height"
-            min={50}
-            max={800}
-            stack={true}
-            onChange={(val) =>
-              setProp((props) =>
-                isDesktop ? (props.height = val) : (props.heightMobile = val)
-              )
-            }
-          />
+          <div className="space-y-2">
+            <Label>Height Mode</Label>
+            <Select
+              onValueChange={(value) =>
+                setProp((props) =>
+                  isDesktop
+                    ? (props.heightMode = value)
+                    : (props.heightModeMobile = value)
+                )
+              }
+              defaultValue={props.heightMode}
+            >
+              <SelectTrigger className={"w-full"}>
+                <SelectValue placeholder="Auto (default)" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="auto">Auto (default)</SelectItem>
+                <SelectItem value="full">100% (fill container)</SelectItem>
+                <SelectItem value="custom">Custom (px)</SelectItem>
+              </SelectContent>
+            </Select>
+
+            {(props.heightMode === "custom" ||
+              props.heightModeMobile === "custom") && (
+              <SliderControl
+                value={isDesktop ? props.height : props.heightMobile}
+                label="Custom height"
+                min={50}
+                max={800}
+                stack={true}
+                onChange={(val) =>
+                  setProp((props) =>
+                    isDesktop ? (props.height = val) : (props.heightMobile = val)
+                  )
+                }
+              />
+            )}
+          </div>
 
           <SliderControl
             value={props.borderRadius}
@@ -323,7 +353,9 @@ Image.craft = {
     widthMode: "custom", // "custom" | "auto" | "full"
     widthModeMobile: "custom",
     height: 150,
-    heightMobile: null,
+    heightMobile: 0,
+    heightMode: "custom",
+    heightModeMobile: "custom",
     borderRadius: 0,
     borderRadiusMobile: null,
     alignment: "left",
@@ -350,6 +382,8 @@ Image.propTypes = {
   widthModeMobile: PropTypes.oneOf(["custom", "auto", "full"]),
   height: PropTypes.number,
   heightMobile: PropTypes.number,
+  heightMode: PropTypes.oneOf(["custom", "auto", "full"]),
+  heightModeMobile: PropTypes.oneOf(["custom", "auto", "full"]),
   borderRadius: PropTypes.number,
   borderRadiusMobile: PropTypes.number,
   alignment: PropTypes.oneOf(["left", "center", "right", "fill"]),
