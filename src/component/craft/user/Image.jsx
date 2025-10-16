@@ -54,10 +54,7 @@ export const Image = ({
     propModeMobile: heightModeMobile,
     propSizeMobile: heightMobile,
   });
-console.log(resolvedHeight);
-console.log(height);
-console.log(heightMobile);
-console.log(heightMode);
+
   const resolvedWidth = getResponsiveProp({
     isDesktop,
     propMode: widthMode,

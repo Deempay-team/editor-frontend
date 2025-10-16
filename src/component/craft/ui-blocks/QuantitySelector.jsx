@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { IncreaseButton } from "./IncreaseButton";
 import { DecreaseButton } from "./DecreaseButton";
+import ColorPicker from "../../../components/ui/ColorPicker.jsx";
 
 export const QuantitySelector = ({
                                      initialQuantity = 1,
@@ -123,21 +124,17 @@ export const QuantitySelectorSettings = () => {
 
             {/* Text & Background */}
             <div className="space-y-2">
-                <Label className="text-sm font-medium">Text Color</Label>
-                <Input
-                    type="color"
+                <ColorPicker
+                    label="Text Color"
                     value={props.textColor}
-                    onChange={(e) => setProp((p) => (p.textColor = e.target.value))}
-                    className="h-8 w-full border rounded"
+                    onChange={(val) => setProp((p) => (p.textColor = val))}
                 />
             </div>
             <div className="space-y-2">
-                <Label className="text-sm font-medium">Background Color</Label>
-                <Input
-                    type="color"
+                <ColorPicker
+                    label="Background Color"
                     value={props.backgroundColor}
-                    onChange={(e) => setProp((p) => (p.backgroundColor = e.target.value))}
-                    className="h-8 w-full border rounded"
+                    onChange={(val) => setProp((p) => (p.backgroundColor = val))}
                 />
             </div>
 
@@ -155,21 +152,17 @@ export const QuantitySelectorSettings = () => {
             </div>
             {/* Button Styles */}
             <div className="space-y-2">
-                <Label className="text-sm font-medium">Button Text Color</Label>
-                <Input
-                    type="color"
+                <ColorPicker
+                    label="Button Text Color"
                     value={props.buttonColor}
-                    onChange={(e) => setProp((p) => (p.buttonColor = e.target.value))}
-                    className="h-8 w-full border rounded"
+                    onChange={(val) => setProp((p) => (p.buttonColor = val))}
                 />
             </div>
             <div className="space-y-2">
-                <Label className="text-sm font-medium">Button Background</Label>
-                <Input
-                    type="color"
+                <ColorPicker
+                    label="Button Background"
                     value={props.buttonBg}
-                    onChange={(e) => setProp((p) => (p.buttonBg = e.target.value))}
-                    className="h-8 w-full border rounded"
+                    onChange={(val) => setProp((p) => (p.buttonBg = val))}
                 />
             </div>
             <div className="space-y-2">

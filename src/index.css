@@ -227,3 +227,61 @@
     transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
   }
 }
+
+.craftjs-renderer::-webkit-scrollbar {
+    width: 8px;
+}
+
+.craftjs-renderer::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.craftjs-renderer::-webkit-scrollbar-thumb {
+    background-color: #c4c4c4;
+    border-radius: 10px;
+    border: 2px solid #f1f1f1;
+}
+
+.craftjs-renderer::-webkit-scrollbar-thumb:hover {
+    background-color: #a0a0a0;
+}
+
+.craftjs-renderer {
+    scrollbar-width: thin;
+    scrollbar-color: #c4c4c4 #f1f1f1;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #c5c5c5;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 8px;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.no-arrows::-webkit-outer-spin-button,
+.no-arrows::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.no-arrows {
+    -moz-appearance: textfield;
+}

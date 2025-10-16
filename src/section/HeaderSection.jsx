@@ -1,15 +1,15 @@
 import React from "react";
 import { useEditor } from "@craftjs/core";
-import { NavigationBar } from "@/component/craft/ui-blocks/NavigationBar.jsx";
 import { NavbarThumbnail_1 } from "@/assets/img";
 import Image from "next/image";
+import Header from "../component/craft/ui-blocks/NavigationBar.jsx";
 
 const HeaderSection = ({ text = "Header" }) => {
   const { connectors } = useEditor();
 
   return (
     <div
-      ref={(ref) => connectors.create(ref, <NavigationBar />)}
+      ref={(ref) => connectors.create(ref, <Header />)}
       className="overflow-hidden cursor-pointer"
     >
       <Image

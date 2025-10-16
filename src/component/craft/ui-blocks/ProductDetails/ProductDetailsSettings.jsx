@@ -5,6 +5,7 @@ import {Input} from "../../../../components/ui/input.jsx";
 import {Slider} from "../../../../components/ui/slider.jsx";
 import {Switch} from "../../../../components/ui/switch.jsx";
 import React from "react";
+import ColorPicker from "../../../../components/ui/ColorPicker.jsx";
 
 export const ProductDetailsSettings = () => {
 
@@ -155,104 +156,23 @@ export const ProductDetailsSettings = () => {
                 </div>
 
                 <div className="space-y-2">
-                    <Label className="text-sm font-medium">Thumbnail Border Color</Label>
-                    <Input
-                        type="color"
+                    <ColorPicker
+                        label="Thumbnail Border Color"
                         value={props.thumbnailBorderColor}
-                        onChange={(e) =>
-                            setProp((p) => (p.thumbnailBorderColor = e.target.value))
-                        }
-                        className="mt-1 h-8 w-full border rounded"
+                        onChange={(val) => setProp((p) => (p.thumbnailBorderColor = val))}
                     />
                 </div>
 
-                <div className="space-y-2">
-                    <Label className="text-sm font-medium">Active Thumbnail Border Color</Label>
-                    <Input
-                        type="color"
+                <div className="">
+                    <ColorPicker
+                        label="Active Thumbnail Border Color"
                         value={props.thumbnailActiveBorderColor}
-                        onChange={(e) =>
-                            setProp((p) => (p.thumbnailActiveBorderColor = e.target.value))
-                        }
-                        className="mt-1 h-8 w-full border rounded"
+                        onChange={(val) => setProp((p) => (p.thumbnailActiveBorderColor = val))}
                     />
                 </div>
             </Section>
 
             <Section title="Content">
-                <div className="space-y-2">
-                    <Label>Product Title</Label>
-                    <Input
-                        value={props.productTitle}
-                        onChange={(e) => setProp((p) => (p.productTitle = e.target.value))}
-                        placeholder="Enter product title"
-                    />
-                </div>
-
-                <div className="space-y-2">
-                    <Label>Price</Label>
-                    <Input
-                        value={props.price}
-                        onChange={(e) => setProp((p) => (p.price = e.target.value))}
-                        placeholder="Enter price"
-                    />
-                </div>
-
-                <div className="space-y-2">
-                    <Label>Original Price</Label>
-                    <Input
-                        value={props.originalPrice}
-                        onChange={(e) => setProp((p) => (p.originalPrice = e.target.value))}
-                        placeholder="Enter original price"
-                    />
-                </div>
-
-                <div className="space-y-2">
-                    <Label>Discount</Label>
-                    <Input
-                        value={props.discount}
-                        onChange={(e) => setProp((p) => (p.discount = e.target.value))}
-                        placeholder="Enter discount"
-                    />
-                </div>
-
-                <div className="space-y-2">
-                    <Label>Rating</Label>
-                    <Input
-                        type="number"
-                        step="0.1"
-                        min="0"
-                        max="5"
-                        value={props.rating}
-                        onChange={(e) =>
-                            setProp((p) => (p.rating = parseFloat(e.target.value)))
-                        }
-                        placeholder="Enter rating"
-                    />
-                </div>
-
-                <div className="space-y-2">
-                    <Label>Reviews Count</Label>
-                    <Input
-                        type="number"
-                        min="0"
-                        value={props.reviews}
-                        onChange={(e) =>
-                            setProp((p) => (p.reviews = parseInt(e.target.value)))
-                        }
-                        placeholder="Enter number of reviews"
-                    />
-                </div>
-
-                <div className="space-y-2">
-                    <Label>Description</Label>
-                    <Input
-                        value={props.description}
-                        onChange={(e) => setProp((p) => (p.description = e.target.value))}
-                        placeholder="Enter product description"
-                    />
-                </div>
-
                 <div className="space-y-2">
                     <Label>Product Images (comma separated URLs)</Label>
                     <Input
