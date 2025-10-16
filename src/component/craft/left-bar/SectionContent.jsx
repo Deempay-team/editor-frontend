@@ -82,8 +82,11 @@ const SectionContent = ({showRightSidebar}) => {
     if (showRightSidebar !== "section") return null;
 
     return (
-        <aside className="h-[calc(100vh-4.5em)] w-full flex border-gray-200 shadow-lg z-10">
-            <div className="w-[145px] bg-white overflow-auto">
+        <aside className="h-[calc(100vh-4.5em)] w-full flex border-gray-200 shadow-lg z-10" >
+            <div className="w-[145px] bg-white overflow-auto" style={{
+                scrollbarWidth: 'thin',
+                scrollbarColor: '#c5c5c5 transparent',
+            }}>
                 <div className="mb-5 border-b">
                     <p className="text-xs text-[#6B6B6B] font-medium mb-5 mt-5 ml-3">
                         Add Section

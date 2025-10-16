@@ -277,7 +277,9 @@ export function OrderRender({
         connectors: {connect, drag},
     } = useNode();
     const {viewport} = useViewport();
-    const isMobile = viewport === 'mobile' || viewport.width < 768;
+    const isMobile = viewport === 'mobile' || window.innerWidth < 768;
+    console.log('ViewPort width', viewport.width);
+    console.log("Inner width", window.innerWidth);
 
     if (!orders || orders.length === 0) {
         return <div>No orders available</div>;

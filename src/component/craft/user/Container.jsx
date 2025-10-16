@@ -1333,6 +1333,9 @@ export const Container = ({
     connectors: { connect, drag },
   } = useNode();
 
+  // Ensure margin has default values
+  const safeMargin = margin || { top: 0, right: 0, bottom: 0, left: 0 };
+
   return (
     <>
       <style>
@@ -1391,10 +1394,10 @@ export const Container = ({
           "--padding-y-mobile": paddingYMobile
             ? `${paddingYMobile}px`
             : undefined,
-          "--margin-top": `${margin?.top}px`,
-          "--margin-right": `${margin?.right}px`,
-          "--margin-bottom": `${margin?.bottom}px`,
-          "--margin-left": `${margin?.left}px`,
+          "--margin-top": `${safeMargin.top}px`,
+          "--margin-right": `${safeMargin.right}px`,
+          "--margin-bottom": `${safeMargin.bottom}px`,
+          "--margin-left": `${safeMargin.left}px`,
           "--margin-top-mobile": marginMobile
             ? `${marginMobile.top}px`
             : undefined,
@@ -1838,7 +1841,11 @@ export const ContainerSettings = () => {
   );
 };
 
+// Add displayName to the component
+Container.displayName = "Container";
+
 Container.craft = {
+  displayName: "Container",
   props: {
     background: "#ffffff",
     backgroundMobile: null,
