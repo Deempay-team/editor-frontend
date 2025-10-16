@@ -65,6 +65,14 @@ import {SpacerRender} from "@/component/craft/ui-blocks/SpacerRender";
 import {Star} from "@/assets/icons";
 import {StarIcon} from "@/component/craft/ui-blocks/StarIcon";
 import {Button as ShadButton} from "@/components/ui/button";
+import { PageLoader } from "@/component/PageLoader";
+import { ShopContext } from "@/Context/ShopContext";
+import {
+  ProductsPageContainer,
+  ProductsPageRender,
+} from "@/component/craft/ui-blocks/ProductsPage/ProductsPageRender";
+import { ProductCard2 } from "@/component/craft/ui-blocks/ProductCard/ProductCard-2";
+import { ScrollToTopButton } from "@/component/ScrollToTopButton";
 import {ProductDetailsRender} from "../component/craft/ui-blocks/ProductDetails/ProductDetailsRender.jsx";
 import {TagIcon} from "../component/craft/ui-blocks/TagIcon.jsx";
 import {PillsTag} from "../component/craft/ui-blocks/PillsTag.jsx";
@@ -88,6 +96,7 @@ import {ContactPageRender} from "../component/craft/ui-blocks/ContactPage/Contac
 
 export default function PageBuilder() {
     const {fonts} = useTheme();
+     const { pageProgress } = useContext(ShopContext);
 
     //load all fonts, after you change to build only default font, for the build
     useEffect(() => {
@@ -148,6 +157,10 @@ export default function PageBuilder() {
                     Star,
                     StarIcon,
                     ShadButton,
+                     ProductsPageRender,
+          ProductsPageContainer,
+          ProductCard2,
+          ScrollToTopButton,
                     ProductDetailsRender,
                     TagIcon,
                     PillsTag,
@@ -177,6 +190,7 @@ export default function PageBuilder() {
                     <div className="flex flex-col h-screen bg-[#f2f2f2]">
                         {/* Top Bar */}
                         <EditorTopBar zoom={zoom} setZoom={setZoom}/>
+                        <PageLoader progress={pageProgress} />
 
                         {/* Main Content Area */}
                         <div className={`flex flex-1 justify-between overflow-hidden`}>
