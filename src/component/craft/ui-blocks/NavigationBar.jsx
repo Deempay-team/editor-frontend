@@ -287,3 +287,6 @@ Header.craft = {
         canMoveOut: () => true,
     },
 };
+
+// Export alias for NavigationBar
+export const NavigationBar = Header;

@@ -6,6 +6,7 @@ import {Input} from '@/components/ui/input';
 import {Slider} from '@/components/ui/slider';
 import ColorPicker from '@/components/ui/ColorPicker';
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
+import {SliderControl} from "../SliderControl.jsx";
 
 export function CheckoutRenderSettings() {
     const {
@@ -23,112 +24,15 @@ export function CheckoutRenderSettings() {
                         <TabsTrigger value="layout">Layout</TabsTrigger>
                         <TabsTrigger value="style">Style</TabsTrigger>
                     </TabsList>
-                    <TabsContent value="general" className="space-y-4">
-                        <div className="space-y-2">
-                            <Label>Page Title</Label>
-                            <Input
-                                value={props.title}
-                                onChange={(e) => setProp((p) => (p.title = e.target.value))}
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label>Breadcrumb</Label>
-                            <Input
-                                value={props.breadcrumb}
-                                onChange={(e) => setProp((p) => (p.breadcrumb = e.target.value))}
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label>Confirm Order Link</Label>
-                            <Input
-                                value={props.confirmLink}
-                                onChange={(e) => setProp((p) => (p.confirmLink = e.target.value))}
-                            />
-                        </div>
-                        <ColorPicker
-                            label="Title Color"
-                            value={props.titleColor}
-                            onChange={(val) => setProp((p) => (p.titleColor = val))}
-                        />
-                        <ColorPicker
-                            label="Breadcrumb Color"
-                            value={props.breadcrumbColor}
-                            onChange={(val) => setProp((p) => (p.breadcrumbColor = val))}
-                        />
-                        <ColorPicker
-                            label="Overall Background Color"
-                            value={props.overallBgColor}
-                            onChange={(val) => setProp((p) => (p.overallBgColor = val))}
-                        />
-                    </TabsContent>
-                    <TabsContent value="layout" className="space-y-4">
-                        <div className="rounded-md border bg-gray-50 p-3">
-                        <div className="space-y-2 ">
-                            <Label>Container Padding</Label>
-                            <Slider
-                                value={[props.containerPadding]}
-                                min={0}
-                                max={100}
-                                step={4}
-                                onValueChange={(v) => setProp((p) => (p.containerPadding = v[0]))}
-                            />
-                            <span className="text-sm text-gray-500">{props.containerPadding}px</span>
-                        </div>
-                        <div className="space-y-2">
-                            <Label>Section Gap</Label>
-                            <Slider
-                                value={[props.sectionGap]}
-                                min={0}
-                                max={50}
-                                step={2}
-                                onValueChange={(v) => setProp((p) => (p.sectionGap = v[0]))}
-                            />
-                            <span className="text-sm text-gray-500">{props.sectionGap}px</span>
-                        </div>
-                        <div className="space-y-2">
-                            <Label>Section Padding</Label>
-                            <Slider
-                                value={[props.sectionPadding]}
-                                min={0}
-                                max={50}
-                                step={2}
-                                onValueChange={(v) => setProp((p) => (p.sectionPadding = v[0]))}
-                            />
-                            <span className="text-sm text-gray-500">{props.sectionPadding}px</span>
-                        </div>
-                        <div className="space-y-2">
-                            <Label>Section Border Radius</Label>
-                            <Slider
-                                value={[props.sectionBorderRadius]}
-                                min={0}
-                                max={50}
-                                step={2}
-                                onValueChange={(v) => setProp((p) => (p.sectionBorderRadius = v[0]))}
-                            />
-                            <span className="text-sm text-gray-500">{props.sectionBorderRadius}px</span>
-                        </div>
-                        <div className="space-y-2">
-                            <Label>Summary Width</Label>
-                            <Slider
-                                value={[props.summaryWidth]}
-                                min={300}
-                                max={700}
-                                step={10}
-                                onValueChange={(v) => setProp((p) => (p.summaryWidth = v[0]))}
-                            />
-                            <span className="text-sm text-gray-500">{props.summaryWidth}px</span>
-                        </div>
-                        <div className="space-y-2">
-                            <Label>Summary Border Radius</Label>
-                            <Slider
-                                value={[props.summaryBorderRadius]}
-                                min={0}
-                                max={50}
-                                step={2}
-                                onValueChange={(v) => setProp((p) => (p.summaryBorderRadius = v[0]))}
-                            />
-                            <span className="text-sm text-gray-500">{props.summaryBorderRadius}px</span>
-                        </div>
+                    <TabsContent value="layout" className="">
+                        <div className="rounded-md border bg-gray-50 p-3 space-y-3">
+                            <SliderControl label="Container Padding" value={props.containerPadding} onChange={(v) => setProp((p) => (p.containerPadding = v))} stack={true} />
+                            <SliderControl label="Section Gap" value={props.sectionGap} onChange={(v) => setProp((p) => (p.sectionGap = v))} stack={true} />
+                            <SliderControl label="Section Padding Y" value={props.sectionPaddingY} onChange={(v) => setProp((p) => (p.sectionPaddingY = v))} stack={true} />
+                            {/*<SliderControl label="Section Padding X" value={props.sectionPaddingX} onChange={(v) => setProp((p) => (p.sectionPaddingX = v))} stack={true} />*/}
+                            <SliderControl label="Section Border Radius" value={props.sectionBorderRadius} onChange={(v) => setProp((p) => (p.sectionBorderRadius = v))} stack={true} />
+                            <SliderControl label="Summary Width" value={props.summaryWidth} onChange={(v) => setProp((p) => (p.summaryWidth = v))} stack={true} />
+                            <SliderControl label="Summary Border Radius" value={props.summaryBorderRadius} onChange={(v) => setProp((p) => (p.summaryBorderRadius = v))} stack={true} />
                         </div>
                     </TabsContent>
                     <TabsContent value="style" className="space-y-4">

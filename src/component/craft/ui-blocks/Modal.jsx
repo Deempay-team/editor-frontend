@@ -117,7 +117,7 @@ export default function Modal({
                 aria-labelledby={title ? 'modal-title' : undefined}
             >
                 <div
-                    className={`bg-white rounded-sm shadow-lg w-full ${maxWidth} transform transition-all duration-300 ease-in-out pointer-events-auto ${
+                    className={`bg-white rounded-sm shadow-lg w-full ${maxWidth} transform transition-all duration-300 ease-in-out pointer-events-auto scrollbar-hide ${
                         isAnimating ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
                     } ${contentClassName}`}
                     style={{
@@ -125,8 +125,8 @@ export default function Modal({
                         overflowY: 'auto',
                         overflowX: 'hidden',
                         borderRadius: '0.5rem',
-                        scrollbarWidth: 'thin',
-                        scrollbarColor: '#c5c5c5 transparent',
+                        // scrollbarWidth: 'thin',
+                        // scrollbarColor: '#c5c5c5 transparent',
                     }}
                     onClick={handleModalClick}
                 >
