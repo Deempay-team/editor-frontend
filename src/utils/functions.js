@@ -9,3 +9,11 @@ export function getPercentageOff(salePrice, comparePrice) {
 
   return null; // or 0 or "N/A"
 }
+
+// Fetch all Craft JSON keys except "ROOT"
+export function getAllKeys(data) {
+  console.log("!data", !data);
+  console.log('typeof data !== "object"', typeof data !== "object");
+  if (!data || typeof data !== "object") return [];
+  return Object.keys(data).filter((key) => key !== "ROOT");
+}

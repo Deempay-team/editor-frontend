@@ -68,6 +68,7 @@
     "react-draft-wysiwyg": "^1.15.0",
     "react-frame-component": "^5.2.7",
     "react-hook-form": "^7.62.0",
+    "react-loading-skeleton": "^3.5.0",
     "sonner": "^2.0.1",
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.1.11",

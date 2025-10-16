@@ -161,7 +161,7 @@ export const ProductCollectionRender = () => {
               canvas
               className="flex space-x-3 md:space-x-4 w-max"
             >
-              {[1, 2, 3, 4, 5, 6, 7].map((_, index) => (
+              {[1, 2, 3].map((_, index) => (
                 <Element
                   key={index}
                   is={ProductCard}

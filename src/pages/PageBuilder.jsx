@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from "react";
-import {Editor} from "@craftjs/core";
+import React, { useState, useEffect, useContext } from "react";
+import { Editor } from "@craftjs/core";
 
 import {ContentSectionSect} from "../component/craft/ContentSect";
 import {loadGoogleFonts} from "@/utils/loadGoogleFonts";
