@@ -1354,7 +1354,6 @@ export const Container = ({
             flex: var(--fill-space, auto);
             align-items: var(--align-items, flex-start);
             justify-content: var(--justify-content, flex-start);
-            overflow: auto;
           }
 
           @media (max-width: ${BREAKPOINT}px) {
@@ -1372,7 +1371,6 @@ export const Container = ({
               flex: var(--fill-space-mobile, var(--fill-space));
               align-items: var(--align-items-mobile, var(--align-items));
               justify-content: var(--justify-content-mobile, var(--justify-content));
-              overflow: auto;
             }
           }
         `}
