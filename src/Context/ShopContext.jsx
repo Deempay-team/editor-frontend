@@ -26,7 +26,7 @@ const ShopContextProvider = (props) => {
   const [dialogData, setDialogData] = useState({});
   const [activeSection, setActiveSection] = useState("account-info");
   const [currentPage, setCurrentPage] = useState(() =>
-    getFromLocalStorageCurrentPage("currentPage", "home")
+    getFromLocalStorageCurrentPage("currentPage", "checkout")
   ); // default to home
   const [pageProgress, setPageProgress] = useState(0);
   const [pages, setPages] = useState(craftDefaultPages); // Default pages

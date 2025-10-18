@@ -97,6 +97,7 @@ export const ProductCollectionRender = () => {
   const { enabled } = useEditor((state) => ({
     enabled: state.options.enabled,
   }));
+  // console.log("enabled", enabled);
 
   return (
     <Element
@@ -360,7 +361,7 @@ export const ProductCollectionRender = () => {
 
                   {/* Action Buttons - Only visible on hover */}
                   <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="flex justify-center gap-2 md:justify-start">
+                    <div className="flex justify-center">
                       <Element
                         is={Button}
                         id="Add-to-cart-btn"
@@ -378,10 +379,7 @@ export const ProductCollectionRender = () => {
                         heightMobile={35}
                         canvas={false}
                       />
-                      <Link
-                        href={`/products/detail/`}
-                        className="hidden md:block"
-                      >
+                      <Link href={`/products/detail/`} className="hidden">
                         <Element
                           is={Button}
                           id="MyButton"

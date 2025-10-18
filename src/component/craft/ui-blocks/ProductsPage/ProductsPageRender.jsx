@@ -151,7 +151,6 @@ ProductsPageContainer.craft = {
 
 export const ProductsPageRender = () => {
   const { isDesktop } = useViewport();
-  console.log("isDesktop", isDesktop);
 
   //  Always call hooks, even if isDesktop is null
   const {
@@ -367,7 +366,7 @@ export const ProductsPageRender = () => {
 
             {/* Action Buttons - Only visible on hover */}
             <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div className="flex justify-center gap-2 md:justify-start">
+              <div className="flex justify-center gap-2">
                 <Element
                   is={Button}
                   id="Add-to-cart-btn"
@@ -385,7 +384,7 @@ export const ProductsPageRender = () => {
                   heightMobile={35}
                   canvas={false}
                 />
-                <Link href={`/products/detail/`} className="hidden md:block">
+                <Link href={`/products/detail/`} className="hidden">
                   <Element
                     is={Button}
                     id="MyButton"
