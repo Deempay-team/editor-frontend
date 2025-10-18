@@ -12,16 +12,10 @@ function App() {
   return (
     <>
       <div>
-        <ThemeProvider>
-          <SectionProvider>
-            <PreviewProvider>
-              <ClientProviders>
-                {/* <PageBuilder /> */}
-                {redirect("/store/deempay123/themes/12345678/editor")}
-              </ClientProviders>
-            </PreviewProvider>
-          </SectionProvider>
-        </ThemeProvider>
+        <ClientProviders>
+          {/* <PageBuilder /> */}
+          {redirect("/store/deempay123/themes/12345678/editor")}
+        </ClientProviders>
       </div>
     </>
   );

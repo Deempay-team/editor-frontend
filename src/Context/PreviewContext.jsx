@@ -27,7 +27,8 @@ export const usePreview = () => {
   const context = useContext(PreviewContext);
   if (!context) {
     // Safe fallback to avoid destructuring undefined
-    return { isPreview: false, setIsPreview: () => {} };
+    // return { isPreview: false, setIsPreview: () => {} };
+    throw new Error("usePreview must be used within a PreviewProvider");
   }
   return context;
 };

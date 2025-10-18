@@ -3,14 +3,17 @@ import React, { useContext, useEffect, useState } from "react";
 import { Frame, Element, useEditor } from "@craftjs/core";
 import cx from "classnames";
 
-import { Container } from "./user/Container";
+// import { Container } from "./user/Container";
 import { useViewport } from "../../Context/ViewportContext";
-import { NavigationBar } from "./ui-blocks/NavigationBar";
-import { FooterSectionRender } from "./ui-blocks/footer-section/FooterSectionRender";
+// import { NavigationBar } from "./ui-blocks/NavigationBar";
+// import { FooterSectionRender } from "./ui-blocks/footer-section/FooterSectionRender";
 import { ShopContext } from "@/Context/ShopContext";
 import { compress, decompress } from "@/utils/storage";
 import craftDefaultPages from "../../data/craftDefaultPages";
-import { ProductsPageRender } from "./ui-blocks/ProductsPage/ProductsPageRender";
+// import { ProductsPageRender } from "./ui-blocks/ProductsPage/ProductsPageRender";
+// import { ProductCollectionRender } from "./ui-blocks/ProductCollection/ProductCollectionRender";
+// import { NewsLetterRender } from "./ui-blocks/Newsletter/NewsLetterRender";
+// import { HeroSectionRender } from "./ui-blocks/HeroSection/HeroSectionRender";
 // import { getAllKeys } from "@/utils/functions";
 
 function ContentSectionSect() {
@@ -56,32 +59,34 @@ function ContentSectionSect() {
       }
     }
   }, [currentPage, isClient, pages]);
-  // console.log("frameData?.ROOT", frameData ? true : false);
+  // console.log("frameData", frameData);
 
   return (
-      <main className="viewport page-container bg-[#F6F6F6] flex justify-center pt-4 px-8 pb-25 min-h-screen"
-            style={{
-                height: "100vh",
-                overflow: "hidden",
-            }}>
+    <main
+      className="viewport page-container bg-[#F6F6F6] flex justify-center pt-4 px-8 pb-25 min-h-screen"
+      style={{
+        height: "100vh",
+        overflow: "hidden",
+      }}
+    >
       <div
-          className={cx([
-              "craftjs-renderer bg-white relative overflow-hidden",
-              {
-                  "bg-renderer-gray": enabled,
-              },
-          ])}
+        className={cx([
+          "craftjs-renderer bg-white relative overflow-hidden",
+          {
+            "bg-renderer-gray": enabled,
+          },
+        ])}
         ref={(ref) => {
           connectors.select(connectors.hover(ref), null);
         }}
         style={{
           width: getViewportWidth(),
-            boxSizing: "border-box",
-            overflowY: "auto",
+          boxSizing: "border-box",
+          overflowY: "auto",
         }}
       >
-        {/* {frameData && <Frame data={frameData} />} */}
-        <Frame>
+        {frameData && <Frame data={frameData} />}
+        {/* <Frame>
           <Element
             is={Container}
             id="main-frame"
@@ -96,13 +101,18 @@ function ContentSectionSect() {
             custom={{ displayName: "App" }}
           >
             <Element id="NavigationBar" is={NavigationBar} />
-            <Element id="ProductsPageRender" is={ProductsPageRender} />
+            <Element id="HeroSectionRender" is={HeroSectionRender} />
+            <Element
+              id="ProductCollectionRender"
+              is={ProductCollectionRender}
+            />
+            <Element id="NewsLetterRender" is={NewsLetterRender} />
             <Element id="FooterSectionRender" is={FooterSectionRender} />
           </Element>
-        </Frame>
+        </Frame> */}
       </div>
     </main>
   );
 }
 
-export {ContentSectionSect};
+export { ContentSectionSect };
